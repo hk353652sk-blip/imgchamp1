@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>imgChamp – Free AI Image Tools | Upscale, Face Restore, BG Remove, Compress</title>
+<meta name="description" content="imgChamp: 5 free AI image credits daily. Upscale images 8x, restore faces, remove backgrounds & compress. HD quality from $12/mo. No credit card needed.">
+<meta name="keywords" content="image upscaler free,AI image upscale,face restore online,background remover free,image compress,AI image tools online">
+<meta property="og:title" content="imgChamp – Free AI Image Tools">
+<meta property="og:description" content="5 free credits daily. Upscale 8x, restore faces, remove backgrounds & compress with AI.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://imgchamp.com">
+<link rel="canonical" href="https://imgchamp.com">
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#09090f;
+  --surface:#111118;
+  --card:#16161e;
+  --border:#22222e;
+  --border2:#2a2a38;
+  --accent:#6366f1;
+  --accent2:#8b5cf6;
+  --accent3:#06b6d4;
+  --glow:rgba(99,102,241,0.25);
+  --glow2:rgba(139,92,246,0.2);
+  --text:#f0f0ff;
+  --muted:#7070a0;
+  --muted2:#454560;
+  --success:#10b981;
+  --warning:#f59e0b;
+  --danger:#ef4444;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* BG Effects */
+.bg-mesh{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% -10%,rgba(99,102,241,0.12) 0%,transparent 55%),
+    radial-gradient(ellipse 60% 50% at 85% 60%,rgba(139,92,246,0.08) 0%,transparent 50%),
+    radial-gradient(ellipse 40% 30% at 50% 100%,rgba(6,182,212,0.06) 0%,transparent 50%)}
+.bg-grid{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(99,102,241,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,0.04) 1px,transparent 1px);
+  background-size:50px 50px}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:66px;
+  background:rgba(9,9,15,0.85);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);
+  box-shadow:0 1px 30px rgba(0,0,0,0.4)}
+.logo{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.45rem;
+  background:linear-gradient(135deg,#818cf8,#a78bfa,#22d3ee);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  letter-spacing:-0.5px;cursor:pointer;display:flex;align-items:center;gap:0.3rem}
+.logo-icon{width:28px;height:28px;background:linear-gradient(135deg,var(--accent),var(--accent2));
+  border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.9rem;
+  box-shadow:0 0 15px var(--glow);flex-shrink:0}
+.nav-r{display:flex;gap:.6rem;align-items:center}
+.nav-cr{display:flex;align-items:center;gap:.4rem;background:rgba(99,102,241,0.1);
+  border:1px solid rgba(99,102,241,0.2);border-radius:8px;padding:.33rem .8rem;
+  font-size:.78rem;font-weight:700;color:#818cf8}
+.btn-lo{background:transparent;border:1px solid var(--border2);color:var(--muted);
+  padding:.4rem .95rem;border-radius:8px;font-size:.82rem;cursor:pointer;
+  font-family:'Outfit',sans-serif;font-weight:500;transition:all .2s}
+.btn-lo:hover{border-color:var(--accent);color:var(--text)}
+.btn-su{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;
+  color:#fff;padding:.43rem 1.1rem;border-radius:8px;font-size:.82rem;cursor:pointer;
+  font-family:'Outfit',sans-serif;font-weight:600;transition:all .2s;
+  box-shadow:0 0 20px var(--glow)}
+.btn-su:hover{transform:translateY(-1px);box-shadow:0 0 30px var(--glow)}
+
+/* HERO */
+.hero{position:relative;z-index:1;text-align:center;padding:70px 5% 40px}
+.hero-badge{display:inline-flex;align-items:center;gap:.4rem;
+  background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.2);
+  border-radius:50px;padding:.28rem 1rem;font-size:.74rem;color:#818cf8;
+  font-weight:600;letter-spacing:.3px;margin-bottom:1.3rem;animation:fu .5s ease both}
+h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2rem,5.5vw,3.8rem);
+  font-weight:800;line-height:1.1;letter-spacing:-2px;margin-bottom:1rem;
+  animation:fu .5s .08s ease both}
+.hg{background:linear-gradient(135deg,#818cf8,#a78bfa 40%,#22d3ee);
+  background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  animation:shimmer 4s linear infinite}
+@keyframes shimmer{0%{background-position:0%}100%{background-position:200%}}
+.hero-p{color:var(--muted);font-size:1.05rem;max-width:520px;margin:0 auto 2rem;
+  line-height:1.7;animation:fu .5s .15s ease both}
+
+/* CREDIT STRIP */
+.cr-strip{display:inline-flex;align-items:center;gap:1.2rem;flex-wrap:wrap;
+  justify-content:center;background:var(--card);border:1px solid var(--border);
+  border-radius:14px;padding:.75rem 1.5rem;margin-bottom:2.5rem;
+  animation:fu .5s .2s ease both;box-shadow:0 4px 30px rgba(0,0,0,0.3)}
+.cr-item{display:flex;align-items:center;gap:.38rem;font-size:.8rem;color:var(--muted)}
+.cr-item b{color:var(--text)}
+.cr-div{width:1px;height:14px;background:var(--border2)}
+
+/* TABS */
+.tw{position:relative;z-index:1;max-width:840px;margin:0 auto;padding:0 4% 70px}
+.tn{display:grid;grid-template-columns:repeat(4,1fr);gap:.45rem;margin-bottom:1.2rem;
+  background:var(--card);border:1px solid var(--border);border-radius:18px;padding:.45rem;
+  box-shadow:0 4px 30px rgba(0,0,0,0.3);animation:fu .5s .25s ease both}
+.tb{display:flex;flex-direction:column;align-items:center;gap:.25rem;padding:.68rem .3rem;
+  border-radius:12px;border:1px solid transparent;background:transparent;color:var(--muted);
+  cursor:pointer;font-family:'Outfit',sans-serif;font-size:.7rem;font-weight:600;
+  transition:all .25s;letter-spacing:.2px}
+.ti{font-size:1.3rem;transition:transform .25s}
+.tb:hover{color:var(--text);background:rgba(99,102,241,0.06)}
+.tb:hover .ti{transform:scale(1.12)}
+.tb.active{background:rgba(99,102,241,0.1);color:#818cf8;border-color:rgba(99,102,241,0.2);
+  box-shadow:0 0 20px rgba(99,102,241,0.1)}
+
+/* TOOL CARD */
+.tc{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:2rem;
+  box-shadow:0 8px 50px rgba(0,0,0,0.4),0 0 0 1px rgba(255,255,255,0.02);
+  animation:fu .5s .3s ease both}
+.panel{display:none}.panel.active{display:block}
+
+/* TOOL HEAD */
+.th{display:flex;align-items:center;gap:.8rem;margin-bottom:1.4rem;
+  padding-bottom:1.2rem;border-bottom:1px solid var(--border)}
+.thi{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;
+  justify-content:center;font-size:1.4rem;flex-shrink:0}
+.ic0{background:linear-gradient(135deg,rgba(99,102,241,0.2),rgba(139,92,246,0.2));
+  box-shadow:0 0 20px rgba(99,102,241,0.15)}
+.ic1{background:linear-gradient(135deg,rgba(245,158,11,0.2),rgba(251,191,36,0.2));
+  box-shadow:0 0 20px rgba(245,158,11,0.15)}
+.ic2{background:linear-gradient(135deg,rgba(16,185,129,0.2),rgba(5,150,105,0.2));
+  box-shadow:0 0 20px rgba(16,185,129,0.15)}
+.ic3{background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(167,139,250,0.2));
+  box-shadow:0 0 20px rgba(139,92,246,0.15)}
+.th h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:700;margin-bottom:.2rem}
+.th p{font-size:.77rem;color:var(--muted);line-height:1.5}
+.bf{display:inline-flex;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.25);
+  border-radius:5px;padding:.1rem .45rem;font-size:.66rem;color:#34d399;font-weight:700;margin-left:.35rem}
+.bp{display:inline-flex;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);
+  border-radius:5px;padding:.1rem .45rem;font-size:.66rem;color:#818cf8;font-weight:700}
+
+/* DROPZONE */
+.dz{border:2px dashed var(--border2);border-radius:16px;padding:2.5rem 1.5rem;
+  text-align:center;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,rgba(99,102,241,0.02),rgba(139,92,246,0.02))}
+.dz:hover,.dz.drag-over{border-color:var(--accent);background:rgba(99,102,241,0.05);
+  box-shadow:0 0 30px rgba(99,102,241,0.08)}
+.dz input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.dz-ic{font-size:2.4rem;margin-bottom:.8rem;display:block;
+  filter:drop-shadow(0 0 12px rgba(99,102,241,0.3))}
+.dz-t{font-family:'Plus Jakarta Sans',sans-serif;font-size:.97rem;font-weight:700;margin-bottom:.3rem}
+.dz-s{font-size:.78rem;color:var(--muted);line-height:1.6}
+.dz-s b{color:#818cf8}
+.ob{display:inline-flex;align-items:center;gap:.4rem;margin-top:.9rem;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;
+  border-radius:10px;padding:.55rem 1.3rem;font-size:.8rem;font-weight:600;cursor:pointer;
+  font-family:'Outfit',sans-serif;transition:all .2s;box-shadow:0 0 20px var(--glow)}
+.ob:hover{transform:translateY(-1px);box-shadow:0 0 30px var(--glow)}
+
+/* CREDIT INFO */
+.ci{display:flex;align-items:center;justify-content:space-between;
+  background:var(--surface);border:1px solid var(--border);border-radius:12px;
+  padding:.7rem 1rem;margin-top:.9rem;flex-wrap:wrap;gap:.45rem}
+.ci-l{font-size:.77rem;color:var(--muted)}
+.ci-l b{color:var(--text);font-size:.86rem}
+.ci-r{display:flex;align-items:center;gap:.65rem}
+.cbt{width:85px;height:4px;background:var(--border2);border-radius:99px;overflow:hidden}
+.cbf{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s}
+.ul{font-size:.71rem;color:#818cf8;font-weight:700;cursor:pointer;background:none;
+  border:none;font-family:'Outfit',sans-serif;text-decoration:underline}
+
+/* ACTION BTN */
+.ab{width:100%;margin-top:1.2rem;padding:.9rem;font-size:.95rem;border-radius:14px;
+  border:none;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;
+  cursor:pointer;transition:all .2s;letter-spacing:.1px;position:relative;overflow:hidden}
+.ab::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.08),transparent);
+  transform:translateX(-100%);transition:transform .6s}
+.ab:hover::before{transform:translateX(100%)}
+.ab:hover{transform:translateY(-2px)}
+.ab0{background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 0 30px var(--glow)}
+.ab1{background:linear-gradient(135deg,#d97706,#f59e0b);box-shadow:0 0 25px rgba(245,158,11,0.3)}
+.ab2{background:linear-gradient(135deg,#059669,#10b981);box-shadow:0 0 25px rgba(16,185,129,0.25)}
+.ab3{background:linear-gradient(135deg,#7c3aed,#a78bfa);box-shadow:0 0 25px rgba(124,58,237,0.3)}
+
+/* PROCESSING */
+.proc{text-align:center;padding:2rem 1rem}
+.ps{font-size:2.5rem;display:inline-block;animation:spin 1.2s linear infinite;margin-bottom:.8rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+.pt{font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:700;margin-bottom:.35rem}
+.pp{color:var(--muted);font-size:.8rem;margin-bottom:1rem}
+.pgt{height:4px;background:var(--border2);border-radius:99px;overflow:hidden;max-width:260px;margin:0 auto}
+.pgf{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent3));border-radius:99px;transition:width .2s}
+
+/* RESULT */
+.rb{text-align:center;padding:1.5rem .5rem}
+.ri{font-size:2.5rem;margin-bottom:.6rem;display:block}
+.rt{font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:800;margin-bottom:.25rem}
+.rs{color:var(--muted);font-size:.78rem;margin-bottom:.9rem}
+.wn{font-size:.7rem;color:var(--warning);background:rgba(245,158,11,0.08);
+  border:1px solid rgba(245,158,11,0.15);border-radius:8px;padding:.38rem .7rem;
+  margin-bottom:.9rem;display:inline-block}
+.rbs{display:flex;gap:.55rem;justify-content:center;flex-wrap:wrap;margin-bottom:.7rem}
+.dlf{display:inline-flex;align-items:center;gap:.35rem;background:var(--surface);
+  border:1px solid var(--border2);color:var(--muted);padding:.6rem 1.1rem;border-radius:10px;
+  font-family:'Outfit',sans-serif;font-size:.79rem;font-weight:600;cursor:pointer;transition:all .2s}
+.dlf:hover{border-color:var(--text);color:var(--text)}
+.dlh{display:inline-flex;align-items:center;gap:.35rem;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#fff;
+  padding:.6rem 1.3rem;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:.79rem;font-weight:700;cursor:pointer;box-shadow:0 0 20px var(--glow);transition:all .2s}
+.dlh:hover{transform:translateY(-1px)}
+.rl{font-size:.76rem;color:var(--muted);cursor:pointer;border:none;background:none;
+  font-family:'Outfit',sans-serif;text-decoration:underline}
+
+/* FEATURES */
+.feat-s{position:relative;z-index:1;background:var(--surface);
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:55px 5%}
+.fi{max-width:1000px;margin:0 auto}
+.st{text-align:center;font-size:.7rem;font-weight:700;letter-spacing:2px;
+  color:#818cf8;text-transform:uppercase;margin-bottom:.5rem}
+.stit{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(1.4rem,3.5vw,2rem);
+  font-weight:800;text-align:center;letter-spacing:-1px;margin-bottom:2.5rem}
+.fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:.9rem}
+.fc{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.4rem;
+  transition:transform .25s,box-shadow .25s,border-color .25s}
+.fc:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,0.3);
+  border-color:rgba(99,102,241,0.3)}
+.fci{font-size:1.5rem;margin-bottom:.6rem;display:block}
+.fc h4{font-family:'Plus Jakarta Sans',sans-serif;font-size:.85rem;font-weight:700;margin-bottom:.25rem}
+.fc p{font-size:.75rem;color:var(--muted);line-height:1.6}
+
+/* PRICING */
+.ps-s{position:relative;z-index:1;padding:55px 5%;max-width:1060px;margin:0 auto}
+.pg{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1rem;margin-top:1rem}
+.pc{background:var(--card);border:1px solid var(--border);border-radius:20px;
+  padding:1.8rem 1.5rem;position:relative;transition:transform .25s,box-shadow .25s,border-color .25s}
+.pc:hover{transform:translateY(-5px);box-shadow:0 15px 40px rgba(0,0,0,0.4)}
+.pc.pop{border-color:rgba(99,102,241,0.4);box-shadow:0 0 40px rgba(99,102,241,0.1)}
+.popt{position:absolute;top:-11px;left:50%;transform:translateX(-50%);
+  background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;
+  font-size:.64rem;font-weight:700;padding:.2rem .8rem;border-radius:50px;white-space:nowrap}
+.pn{font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;
+  letter-spacing:1px;margin-bottom:.65rem}
+.pp2{font-family:'Plus Jakarta Sans',sans-serif;font-size:2.2rem;font-weight:800;
+  line-height:1;margin-bottom:.12rem}
+.pp2 sup{font-size:.9rem;font-weight:600}
+.pp2 sub{font-size:.78rem;font-weight:400;color:var(--muted)}
+.pcr{display:inline-flex;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);
+  border-radius:5px;padding:.12rem .48rem;font-size:.68rem;color:#818cf8;font-weight:700;margin-bottom:.7rem}
+.pd{font-size:.73rem;color:var(--muted);margin-bottom:1rem;padding-bottom:1rem;
+  border-bottom:1px solid var(--border);line-height:1.5}
+.pfl{list-style:none;margin-bottom:1.4rem}
+.pfl li{font-size:.75rem;color:var(--muted);padding:.28rem 0;display:flex;
+  align-items:flex-start;gap:.38rem;line-height:1.4}
+.pfl li::before{content:'✓';color:var(--success);font-weight:800;font-size:.7rem;
+  margin-top:.1rem;flex-shrink:0}
+.pfl li.no{color:var(--muted2)}.pfl li.no::before{content:'✕';color:var(--muted2)}
+.pb{width:100%;padding:.68rem;border-radius:12px;font-family:'Plus Jakarta Sans',sans-serif;
+  font-weight:700;font-size:.82rem;cursor:pointer;transition:all .2s;
+  border:1px solid var(--border2);background:transparent;color:var(--text)}
+.pb:hover{border-color:var(--accent);color:#818cf8}
+.pb.fill{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;
+  color:#fff;box-shadow:0 0 25px var(--glow)}
+.pb.fill:hover{transform:translateY(-1px)}
+
+/* HOW */
+.how{position:relative;z-index:1;padding:55px 5%;
+  background:var(--surface);border-top:1px solid var(--border)}
+.hwi{max-width:800px;margin:0 auto;text-align:center}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:.9rem;margin-top:1.8rem}
+.step{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.4rem 1rem;
+  transition:border-color .25s}
+.step:hover{border-color:rgba(99,102,241,0.3)}
+.sn{font-family:'Plus Jakarta Sans',sans-serif;font-size:2rem;font-weight:800;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.4rem}
+.step h4{font-family:'Plus Jakarta Sans',sans-serif;font-size:.83rem;font-weight:700;margin-bottom:.22rem}
+.step p{font-size:.72rem;color:var(--muted);line-height:1.5}
+
+/* PAGES */
+.pg-s{position:relative;z-index:1;max-width:740px;margin:0 auto;padding:50px 5%;display:none}
+.pg-s.show{display:block}
+.pg-s h2{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.6rem;font-weight:800;
+  margin-bottom:.6rem;letter-spacing:-.5px}
+.pg-s h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:.93rem;font-weight:700;
+  margin:1.2rem 0 .32rem;color:var(--text)}
+.pg-s p{font-size:.84rem;color:var(--muted);line-height:1.8;margin-bottom:.6rem}
+.pg-s ul{padding-left:1.1rem;margin-bottom:.7rem}
+.pg-s ul li{font-size:.82rem;color:var(--muted);line-height:1.8}
+.pg-date{font-size:.72rem;color:var(--muted2);margin-bottom:1rem}
+
+/* FOOTER */
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:2rem 5%;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;
+  background:var(--surface)}
+.fl{display:flex;gap:1.2rem;flex-wrap:wrap}
+.fl a{font-size:.75rem;color:var(--muted);text-decoration:none;transition:color .2s;cursor:pointer}
+.fl a:hover{color:#818cf8}
+footer p{font-size:.74rem;color:var(--muted2)}
+
+/* AUTH MODAL */
+.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);
+  backdrop-filter:blur(12px);z-index:999;align-items:center;justify-content:center;padding:1rem}
+.mo.show{display:flex}
+.md{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:2rem;
+  max-width:390px;width:100%;box-shadow:0 25px 70px rgba(0,0,0,0.6);animation:popIn .3s ease}
+@keyframes popIn{from{transform:scale(.93);opacity:0}to{transform:scale(1);opacity:1}}
+.ml{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.2rem;
+  background:linear-gradient(135deg,#818cf8,#a78bfa);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.7rem}
+.md h2{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.15rem;font-weight:800;margin-bottom:.22rem}
+.md-d{font-size:.78rem;color:var(--muted);margin-bottom:1.2rem;line-height:1.6}
+.sb{width:100%;display:flex;align-items:center;justify-content:center;gap:.55rem;
+  padding:.7rem;border-radius:10px;border:1px solid var(--border2);background:var(--surface);
+  color:var(--text);font-family:'Outfit',sans-serif;font-size:.85rem;font-weight:600;
+  cursor:pointer;transition:all .2s;margin-bottom:.5rem}
+.sb:hover{border-color:var(--border);background:var(--card)}
+.dv{display:flex;align-items:center;gap:.65rem;margin:.65rem 0;font-size:.7rem;color:var(--muted2)}
+.dv::before,.dv::after{content:'';flex:1;height:1px;background:var(--border)}
+.mi{width:100%;background:var(--surface);border:1px solid var(--border2);border-radius:10px;
+  color:var(--text);padding:.68rem .9rem;font-family:'Outfit',sans-serif;font-size:.85rem;
+  margin-bottom:.55rem;outline:none;transition:border-color .2s}
+.mi:focus{border-color:var(--accent)}
+.mi::placeholder{color:var(--muted2)}
+.mf{display:flex;gap:.5rem;margin-top:.38rem}
+.mc{background:transparent;border:1px solid var(--border2);color:var(--muted);border-radius:9px;
+  padding:.62rem .95rem;font-family:'Outfit',sans-serif;cursor:pointer;flex:1;transition:all .2s;font-size:.82rem}
+.mc:hover{border-color:var(--text);color:var(--text)}
+.ms{flex:2;padding:.65rem;border-radius:9px;border:none;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;
+  font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:.85rem;cursor:pointer;
+  box-shadow:0 0 20px var(--glow);transition:all .2s}
+.ms:hover{transform:translateY(-1px)}
+.sn2{font-size:.67rem;color:var(--muted2);text-align:center;margin-top:.65rem;line-height:1.5}
+
+/* UPGRADE MODAL */
+.uo{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);
+  backdrop-filter:blur(14px);z-index:1000;align-items:center;justify-content:center;padding:1rem}
+.uo.show{display:flex}
+.um{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:2rem;
+  max-width:520px;width:100%;box-shadow:0 30px 80px rgba(0,0,0,0.6);
+  animation:popIn .3s ease;max-height:90vh;overflow-y:auto}
+.um h2{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.2rem;font-weight:800;margin-bottom:.25rem}
+.um-s{font-size:.78rem;color:var(--muted);margin-bottom:1.3rem;line-height:1.5}
+.plcs{display:grid;grid-template-columns:repeat(2,1fr);gap:.65rem;margin-bottom:1.3rem}
+.plc{border:1px solid var(--border2);border-radius:16px;padding:1.1rem;cursor:pointer;
+  transition:all .25s;text-align:center;background:var(--surface);position:relative}
+.plc:hover{border-color:var(--accent);background:rgba(99,102,241,0.05)}
+.plc.chosen{border-color:var(--accent);background:rgba(99,102,241,0.08);
+  box-shadow:0 0 0 3px rgba(99,102,241,0.12)}
+.ck{display:none;position:absolute;top:8px;right:8px;width:18px;height:18px;
+  background:var(--accent);border-radius:50%;color:#fff;font-size:.58rem;
+  align-items:center;justify-content:center}
+.plc.chosen .ck{display:flex}
+.plc-n{font-size:.66rem;font-weight:700;color:var(--muted);text-transform:uppercase;
+  letter-spacing:.8px;margin-bottom:.35rem}
+.plc-p{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.65rem;font-weight:800;
+  color:var(--text);line-height:1}
+.plc-p sub{font-size:.72rem;font-weight:400;color:var(--muted)}
+.plc-cr{font-size:.68rem;color:#818cf8;font-weight:700;margin:.28rem 0}
+.plc-f{font-size:.7rem;color:var(--muted);line-height:1.7;margin-top:.35rem;text-align:left}
+.plc-f span{display:block}
+.plc-f span::before{content:'✓ ';color:var(--success);font-weight:700}
+.plc-hot{position:absolute;top:-9px;left:50%;transform:translateX(-50%);
+  background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;
+  font-size:.6rem;font-weight:700;padding:.16rem .62rem;border-radius:50px;white-space:nowrap}
+.pay-b{width:100%;padding:.88rem;border-radius:14px;border:none;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;
+  font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:.93rem;cursor:pointer;
+  box-shadow:0 0 30px var(--glow);transition:all .2s;margin-bottom:.55rem}
+.pay-b:hover{transform:translateY(-2px);box-shadow:0 0 40px var(--glow)}
+.skip-b{width:100%;background:transparent;border:1px solid var(--border2);color:var(--muted);
+  border-radius:12px;padding:.65rem;font-family:'Outfit',sans-serif;font-size:.82rem;cursor:pointer;transition:all .2s}
+.skip-b:hover{border-color:var(--muted);color:var(--text)}
+.trust{display:flex;align-items:center;justify-content:center;gap:.75rem;margin-top:.8rem;flex-wrap:wrap}
+.trust span{font-size:.66rem;color:var(--muted2)}
+
+/* TOAST */
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--card);
+  border:1px solid var(--border);color:var(--text);border-radius:14px;
+  padding:.85rem 1.2rem;font-size:.82rem;z-index:9999;
+  transform:translateY(80px);opacity:0;
+  transition:all .4s cubic-bezier(.34,1.56,.64,1);max-width:260px;
+  display:flex;align-items:center;gap:.45rem;
+  box-shadow:0 10px 40px rgba(0,0,0,0.4)}
+.toast.show{transform:translateY(0);opacity:1}
+
+@keyframes fu{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:560px){
+  .tb{font-size:.61rem;padding:.5rem .12rem}.ti{font-size:1.1rem}
+  nav .btn-lo,.nav-cr{display:none}
+  .tc{padding:1.2rem}.um{padding:1.4rem}
+  .plcs{grid-template-columns:1fr}
+  footer{flex-direction:column;text-align:center}
+  .cr-div{display:none}
+  h1{font-size:1.75rem}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-mesh"></div>
+<div class="bg-grid"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo" onclick="hidePage()">
+    <div class="logo-icon">🏆</div>
+    imgChamp
+  </div>
+  <div class="nav-r">
+    <div class="nav-cr">⚡ <span id="ncr">5</span> Credits</div>
+    <button class="btn-lo" onclick="showAuth('login')">Login</button>
+    <button class="btn-su" onclick="showAuth('signup')">Sign Up Free</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-badge">✦ 4 AI Tools · 1 Credit = 1 Image · Free to Start</div>
+  <h1>The Champion of<br><span class="hg">AI Image Tools</span></h1>
+  <p class="hero-p">Upscale 8×, restore faces, remove backgrounds & compress — all powered by AI. 5 free credits every day.</p>
+  <div class="cr-strip">
+    <div class="cr-item">⚡ <b>5 Free Credits</b> daily</div>
+    <div class="cr-div"></div>
+    <div class="cr-item">🔒 <b>Low quality</b> on free</div>
+    <div class="cr-div"></div>
+    <div class="cr-item">⭐ <b>HD + No watermark</b> on paid</div>
+    <div class="cr-div"></div>
+    <div class="cr-item">🚫 <b>No credit card</b> needed</div>
+  </div>
+</section>
+
+<!-- TOOL -->
+<div class="tw" id="tools">
+  <div class="tn">
+    <button class="tb active" onclick="switchTab(0)"><span class="ti">🔍</span>Upscale</button>
+    <button class="tb" onclick="switchTab(1)"><span class="ti">😊</span>Face Restore</button>
+    <button class="tb" onclick="switchTab(2)"><span class="ti">✂️</span>BG Remove</button>
+    <button class="tb" onclick="switchTab(3)"><span class="ti">📦</span>Compress</button>
+  </div>
+
+  <div class="tc">
+    <!-- UPSCALE -->
+    <div class="panel active" id="p0">
+      <div class="th"><div class="thi ic0">🔍</div>
+        <div><h3>AI Image Upscaler <span class="bf">1 Credit/Image</span></h3>
+        <p>Enhance images up to 8×. Free = low quality + watermark. <span class="bp">⭐ HD = Upgrade</span></p></div>
+      </div>
+      <div class="dz" id="dz0">
+        <input type="file" accept="image/*" onchange="onFile(0,this)">
+        <span class="dz-ic">🖼️</span>
+        <div class="dz-t">Drop your image here</div>
+        <div class="dz-s">PNG · JPG · WEBP · Max 10MB · <b>or</b></div>
+        <button class="ob" type="button" onclick="tFile(0)">📁 Open Gallery / Folder</button>
+      </div>
+      <div class="ci">
+        <div class="ci-l">Credits today: <b id="cd0">5 / 5</b></div>
+        <div class="ci-r"><div class="cbt"><div class="cbf" id="cb0" style="width:100%"></div></div>
+        <button class="ul" onclick="showUpgrade()">Get More ↗</button></div>
+      </div>
+      <button class="ab ab0" onclick="run(0)">🔍 Upscale Image — 1 Credit</button>
+    </div>
+
+    <!-- FACE RESTORE -->
+    <div class="panel" id="p1">
+      <div class="th"><div class="thi ic1">😊</div>
+        <div><h3>AI Face Restore <span class="bf">1 Credit/Image</span></h3>
+        <p>Restore old, blurry or damaged face photos. Free = low quality. <span class="bp">⭐ HD = Upgrade</span></p></div>
+      </div>
+      <div class="dz" id="dz1" style="border-color:rgba(245,158,11,0.25)">
+        <input type="file" accept="image/*" onchange="onFile(1,this)">
+        <span class="dz-ic">👤</span>
+        <div class="dz-t">Drop face photo here</div>
+        <div class="dz-s">Best with portrait photos · Max 10MB · <b>or</b></div>
+        <button class="ob" style="background:linear-gradient(135deg,#d97706,#f59e0b);box-shadow:0 0 20px rgba(245,158,11,0.3)" type="button" onclick="tFile(1)">📁 Open Gallery / Folder</button>
+      </div>
+      <div class="ci">
+        <div class="ci-l">Credits today: <b id="cd1">5 / 5</b></div>
+        <div class="ci-r"><div class="cbt"><div class="cbf" id="cb1" style="width:100%;background:linear-gradient(90deg,#d97706,#f59e0b)"></div></div>
+        <button class="ul" onclick="showUpgrade()">Get More ↗</button></div>
+      </div>
+      <button class="ab ab1" onclick="run(1)">😊 Restore Face — 1 Credit</button>
+    </div>
+
+    <!-- BG REMOVE -->
+    <div class="panel" id="p2">
+      <div class="th"><div class="thi ic2">✂️</div>
+        <div><h3>Background Remover <span class="bf">✅ Unlimited Free!</span></h3>
+        <p>Remove backgrounds instantly — unlimited & free! Low quality only. <span class="bp">⭐ HD = Upgrade</span></p></div>
+      </div>
+      <div class="dz" id="dz2" style="border-color:rgba(16,185,129,0.25)">
+        <input type="file" accept="image/*" onchange="onFile(2,this)">
+        <span class="dz-ic">🌅</span>
+        <div class="dz-t">Drop your image here</div>
+        <div class="dz-s">Products · Portraits · Objects · Max 15MB · <b>or</b></div>
+        <button class="ob" style="background:linear-gradient(135deg,#059669,#10b981);box-shadow:0 0 20px rgba(16,185,129,0.25)" type="button" onclick="tFile(2)">📁 Open Gallery / Folder</button>
+      </div>
+      <div class="ci" style="background:rgba(16,185,129,0.05);border-color:rgba(16,185,129,0.2)">
+        <div class="ci-l">✅ <b>Unlimited Free</b> — Low quality · <b style="color:#34d399">No credit needed!</b></div>
+        <div class="ci-r"><button class="ul" style="color:#10b981" onclick="showUpgrade()">Get HD ↗</button></div>
+      </div>
+      <button class="ab ab2" onclick="runBG()">✂️ Remove Background — Free! No Credit Needed</button>
+    </div>
+
+    <!-- COMPRESS -->
+    <div class="panel" id="p3">
+      <div class="th"><div class="thi ic3">📦</div>
+        <div><h3>Image Compressor <span class="bf">1 Credit/Image</span></h3>
+        <p>Reduce file size up to 90%. Free = medium quality. <span class="bp">⭐ Best quality = Upgrade</span></p></div>
+      </div>
+      <div class="dz" id="dz3" style="border-color:rgba(139,92,246,0.25)">
+        <input type="file" accept="image/*" multiple onchange="onFile(3,this)">
+        <span class="dz-ic">📦</span>
+        <div class="dz-t">Drop image(s) here</div>
+        <div class="dz-s">Multiple files OK · Max 20MB each · <b>or</b></div>
+        <button class="ob" style="background:linear-gradient(135deg,#7c3aed,#a78bfa);box-shadow:0 0 20px rgba(124,58,237,0.3)" type="button" onclick="tFile(3)">📁 Open Gallery / Folder</button>
+      </div>
+      <div class="ci">
+        <div class="ci-l">Credits today: <b id="cd3">5 / 5</b></div>
+        <div class="ci-r"><div class="cbt"><div class="cbf" id="cb3" style="width:100%;background:linear-gradient(90deg,#7c3aed,#a78bfa)"></div></div>
+        <button class="ul" onclick="showUpgrade()">Get More ↗</button></div>
+      </div>
+      <button class="ab ab3" onclick="run(3)">📦 Compress Image — 1 Credit</button>
+    </div>
+  </div>
+</div>
+
+<!-- HOW -->
+<section class="how" id="how">
+  <div class="hwi">
+    <div class="st">Simple Process</div>
+    <h2 class="stit">How imgChamp Works</h2>
+    <div class="steps">
+      <div class="step"><div class="sn">01</div><h4>Upload</h4><p>Drop or pick image from gallery on any device.</p></div>
+      <div class="step"><div class="sn">02</div><h4>Pick Tool</h4><p>Choose from 4 powerful AI tools.</p></div>
+      <div class="step"><div class="sn">03</div><h4>AI Works</h4><p>Your image is processed in seconds.</p></div>
+      <div class="step"><div class="sn">04</div><h4>Download</h4><p>Free = standard. Paid = HD, no watermark.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="feat-s" id="features">
+  <div class="fi">
+    <div class="st">Why imgChamp</div>
+    <h2 class="stit">Professional AI, Free to Try</h2>
+    <div class="fg">
+      <div class="fc"><span class="fci">⚡</span><h4>Credit System</h4><p>1 credit = 1 image. 5 free every day. Buy more anytime.</p></div>
+      <div class="fc"><span class="fci">🧠</span><h4>Real AI Models</h4><p>Real-ESRGAN, GFPGAN & REMBG. Industry-leading technology.</p></div>
+      <div class="fc"><span class="fci">🔒</span><h4>100% Private</h4><p>Images auto-deleted within 1 hour. Never stored permanently.</p></div>
+      <div class="fc"><span class="fci">📱</span><h4>Works Everywhere</h4><p>Phone, tablet or desktop. No app install needed.</p></div>
+      <div class="fc"><span class="fci">🌍</span><h4>Global Payments</h4><p>Card or PayPal from any country. Simple USD pricing.</p></div>
+      <div class="fc"><span class="fci">🛡️</span><h4>Anti-Spam</h4><p>IP detection ensures fair usage for all users.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="ps-s" id="pricing">
+  <div class="st">Pricing</div>
+  <h2 class="stit">Simple Credit-Based Pricing</h2>
+  <div class="pg">
+    <div class="pc">
+      <div class="pn">Free</div>
+      <div class="pp2"><sup>$</sup>0<sub>/mo</sub></div>
+      <div class="pcr">⚡ 5 Credits/Day</div>
+      <div class="pd">Try all tools free — forever</div>
+      <ul class="pfl">
+        <li>5 credits/day (upscale, restore, compress)</li>
+        <li>BG Remove — Unlimited! 🎉</li>
+        <li>Low quality output</li>
+        <li>imgChamp watermark</li>
+        <li class="no">HD downloads</li>
+        <li class="no">No watermark</li>
+        <li class="no">8× upscale</li>
+      </ul>
+      <button class="pb" onclick="showAuth('signup')">Start Free</button>
+    </div>
+    <div class="pc">
+      <div class="pn">Basic</div>
+      <div class="pp2"><sup>$</sup>15<sub>/mo</sub></div>
+      <div class="pcr">⚡ 100 Credits/Month</div>
+      <div class="pd">For casual users & creators</div>
+      <ul class="pfl">
+        <li>100 credits/month</li>
+        <li>HD quality downloads</li>
+        <li>BG Remove — Unlimited HD</li>
+        <li>2× & 4× upscale</li>
+        <li>No watermark</li>
+        <li class="no">8× upscale</li>
+        <li class="no">API access</li>
+      </ul>
+      <button class="pb" onclick="showUpgrade()">Get Basic</button>
+    </div>
+    <div class="pc pop">
+      <div class="popt">⭐ Most Popular</div>
+      <div class="pn">Pro</div>
+      <div class="pp2"><sup>$</sup>29<sub>/mo</sub></div>
+      <div class="pcr">⚡ 300 Credits/Month</div>
+      <div class="pd">For designers & professionals</div>
+      <ul class="pfl">
+        <li>300 credits/month</li>
+        <li>Full HD all tools</li>
+        <li>BG Remove — Unlimited HD</li>
+        <li>2×, 4× & 8× upscale</li>
+        <li>No watermark</li>
+        <li>Batch processing</li>
+        <li class="no">API access</li>
+      </ul>
+      <button class="pb fill" onclick="showUpgrade()">Get Pro</button>
+    </div>
+    <div class="pc">
+      <div class="pn">Business</div>
+      <div class="pp2"><sup>$</sup>79<sub>/mo</sub></div>
+      <div class="pcr">⚡ 1000 Credits/Month</div>
+      <div class="pd">For agencies & developers</div>
+      <ul class="pfl">
+        <li>1000 credits/month</li>
+        <li>Everything in Pro</li>
+        <li>BG Remove — Unlimited HD</li>
+        <li>Full API access</li>
+        <li>Priority processing</li>
+        <li>No watermark</li>
+        <li>Priority support</li>
+      </ul>
+      <button class="pb" onclick="showUpgrade()">Get Business</button>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<div class="pg-s" id="about-page">
+  <h2>About imgChamp</h2>
+  <p class="pg-date">imgchamp.com — AI Image Tools Platform</p>
+  <p>imgChamp is a free AI-powered image enhancement platform helping creators, photographers, designers and businesses transform images using state-of-the-art artificial intelligence — in seconds.</p>
+  <h3>Our Mission</h3>
+  <p>Professional image editing should be accessible to everyone. imgChamp removes the barrier of expensive software. Upload, process, download — that's it.</p>
+  <h3>Our Tools</h3>
+  <p>Four AI tools: Image Upscaler (Real-ESRGAN), Face Restore (GFPGAN), Background Remover (REMBG), and Image Compressor. All tools cost 1 credit per image. Free users get 5 credits daily.</p>
+  <h3>Contact</h3>
+  <p>📧 support@imgchamp.com</p>
+</div>
+
+<!-- PRIVACY -->
+<div class="pg-s" id="privacy-page">
+  <h2>Privacy Policy</h2>
+  <p class="pg-date">Last updated: April 2026</p>
+  <h3>1. Information We Collect</h3>
+  <p>We collect your email on signup. Images are auto-deleted within 1 hour. We never permanently store your images.</p>
+  <h3>2. IP Tracking & Anti-Spam</h3>
+  <p>We collect IP addresses to enforce free credit limits (5/day per device). Users bypassing limits via VPN or multiple accounts will be permanently banned.</p>
+  <h3>3. How We Use Your Data</h3>
+  <p>Your email is used only for account management and support. We never sell personal data.</p>
+  <h3>4. Cookies & Google AdSense</h3>
+  <p>We use essential cookies for login. Free users see ads via Google AdSense. Opt out at adssettings.google.com.</p>
+  <h3>5. Payments</h3>
+  <p>Payments via LemonSqueezy. We never store card information. All transactions are SSL encrypted.</p>
+  <h3>6. Your Rights</h3>
+  <p>Request data deletion: privacy@imgchamp.com. Processed within 30 days.</p>
+  <h3>7. Children's Privacy</h3>
+  <p>imgChamp is not for users under 13.</p>
+  <h3>Contact</h3>
+  <p>📧 privacy@imgchamp.com</p>
+</div>
+
+<!-- TERMS -->
+<div class="pg-s" id="terms-page">
+  <h2>Terms of Service</h2>
+  <p class="pg-date">Last updated: April 2026</p>
+  <h3>1. Acceptance</h3>
+  <p>By using imgchamp.com you agree to these Terms.</p>
+  <h3>2. Credit System</h3>
+  <p>Free accounts get 5 credits/day. Each image = 1 credit. Credits reset daily at midnight UTC.</p>
+  <h3>3. Anti-Abuse Policy</h3>
+  <p>Bypassing credit limits via VPN, multiple accounts or bots results in permanent ban without refund.</p>
+  <h3>4. Acceptable Use</h3>
+  <ul>
+    <li>No illegal, hateful or adult content</li>
+    <li>No bots without Business API plan</li>
+    <li>No reverse engineering of AI systems</li>
+    <li>No reselling of credits or accounts</li>
+  </ul>
+  <h3>5. Payments & Refunds</h3>
+  <p>Monthly billing. Cancel anytime. 7-day money-back guarantee for first-time subscribers.</p>
+  <h3>6. Image Ownership</h3>
+  <p>You own all uploaded images. Free downloads include imgChamp watermark. Paid = watermark-free.</p>
+  <h3>Contact</h3>
+  <p>📧 legal@imgchamp.com</p>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo" style="font-size:1.1rem" onclick="hidePage()">
+    <div class="logo-icon" style="width:22px;height:22px;font-size:.75rem">🏆</div>
+    imgChamp
+  </div>
+  <p>© 2026 imgchamp.com — All rights reserved</p>
+  <div class="fl">
+    <a onclick="showPage('about-page')">About</a>
+    <a onclick="showPage('privacy-page')">Privacy Policy</a>
+    <a onclick="showPage('terms-page')">Terms of Service</a>
+    <a href="mailto:support@imgchamp.com">Contact</a>
+    <a onclick="hidePage()">↑ Top</a>
+  </div>
+</footer>
+
+<!-- AUTH MODAL -->
+<div class="mo" id="am" onclick="if(event.target===this)closeAuth()">
+  <div class="md">
+    <div class="ml">imgChamp.com</div>
+    <h2 id="at">Create Free Account</h2>
+    <p class="md-d" id="ad">Get 5 free AI image credits every day. No card needed.</p>
+    <button class="sb" onclick="social('Google')">🇬 Continue with Google</button>
+    <button class="sb" onclick="social('Facebook')">📘 Continue with Facebook</button>
+    <div class="dv">or use email</div>
+    <input class="mi" type="email" placeholder="Email address">
+    <input class="mi" type="password" placeholder="Password" id="ap">
+    <div class="mf">
+      <button class="mc" onclick="closeAuth()">Cancel</button>
+      <button class="ms" id="ab2" onclick="authDone()">Create Account</button>
+    </div>
+    <p class="sn2" id="asp">🔒 IP tracked to prevent abuse. 5 credits/day per device. Multiple accounts = permanent ban.</p>
+  </div>
+</div>
+
+<!-- UPGRADE MODAL -->
+<div class="uo" id="um" onclick="if(event.target===this)closeUpgrade()">
+  <div class="um">
+    <div class="ml">imgChamp.com</div>
+    <h2>Choose Your Plan 🚀</h2>
+    <p class="um-s">1 credit = 1 image. Get HD quality, no watermark, more credits.</p>
+    <div class="plcs">
+      <div class="plc" onclick="selP(this,'starter')" id="ps1">
+        <div class="ck">✓</div>
+        <div class="plc-n">Starter</div>
+        <div class="plc-p">$12<sub>/mo</sub></div>
+        <div class="plc-cr">⚡ 60 Credits/Month</div>
+        <div class="plc-f"><span>HD quality</span><span>4× upscale</span><span>No watermark</span></div>
+      </div>
+      <div class="plc chosen" onclick="selP(this,'pro')" id="ps2">
+        <div class="plc-hot">⭐ Popular</div>
+        <div class="ck">✓</div>
+        <div class="plc-n">Pro</div>
+        <div class="plc-p">$25<sub>/mo</sub></div>
+        <div class="plc-cr">⚡ 200 Credits/Month</div>
+        <div class="plc-f"><span>Full HD all tools</span><span>8× upscale</span><span>No watermark</span><span>Batch processing</span></div>
+      </div>
+      <div class="plc" onclick="selP(this,'business')" id="ps3">
+        <div class="ck">✓</div>
+        <div class="plc-n">Business</div>
+        <div class="plc-p">$59<sub>/mo</sub></div>
+        <div class="plc-cr">⚡ 600 Credits/Month</div>
+        <div class="plc-f"><span>Everything in Pro</span><span>Full API access</span><span>Priority support</span></div>
+      </div>
+
+    </div>
+    <button class="pay-b" id="pb2" onclick="goPay()">🔒 Pay Securely — Card or PayPal</button>
+    <button class="skip-b" onclick="closeUpgrade()">Maybe Later — Keep Free Plan</button>
+    <div class="trust">
+      <span>🔒 SSL Secured</span>
+      <span>💳 All Cards OK</span>
+      <span>↩ 7-Day Refund</span>
+      <span>❌ Cancel Anytime</span>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span id="ti"></span><span id="tm"></span></div>
+
+<script>
+let credits=5,curTab=0,curPlan='pro';
+const MAX=5;
+const pPrices={starter:'$15/mo',pro:'$29/mo',business:'$79/mo'};
+const tN=['Upscaling image','Restoring face','Removing background','Compressing image'];
+const tD=['Image Upscaled! 🔍','Face Restored! 😊','Background Removed! ✂️','Image Compressed! 📦'];
+
+function runBG(){
+  const p=document.getElementById('p2');
+  p.innerHTML=`<div class="proc"><div class="ps">⚙️</div><div class="pt">Removing background...</div><div class="pp">AI is working — no credit used!</div><div class="pgt"><div class="pgf" id="pgf2"></div></div><p style="font-size:.7rem;color:var(--muted2);margin-top:.45rem" id="ppc2">0%</p></div>`;
+  let w=0;
+  const iv=setInterval(()=>{
+    w+=Math.random()*17+4;if(w>100)w=100;
+    const pf=document.getElementById('pgf2'),pc=document.getElementById('ppc2');
+    if(pf)pf.style.width=w+'%';if(pc)pc.textContent=Math.round(w)+'%';
+    if(w>=100){clearInterval(iv);setTimeout(()=>{
+      p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Background Removed! ✂️</div><div class="rs">Done! Free = low quality + watermark.</div><div class="wn">⚠️ Free = low quality output · <b style="cursor:pointer;color:#818cf8" onclick="showUpgrade()">Upgrade for Full HD →</b></div><div class="rbs"><button class="dlf" onclick="toast('💾','Downloading low quality...')">⬇ Free Download</button><button class="dlh" onclick="showUpgrade()">⭐ HD Download</button></div><button class="rl" onclick="switchTab(2)">↺ Remove another — still free!</button></div>`;
+    },350)}
+  },150);
+}
+
+function updCr(){
+  document.getElementById('ncr').textContent=credits;
+  const pct=(credits/MAX*100)+'%';
+  ['cb0','cb1','cb3'].forEach(id=>{const e=document.getElementById(id);if(e)e.style.width=pct});
+  ['cd0','cd1','cd3'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=credits+' / '+MAX});
+}
+updCr();
+
+function switchTab(i){
+  curTab=i;
+  document.querySelectorAll('.tb').forEach((b,x)=>b.classList.toggle('active',x===i));
+  document.querySelectorAll('.panel').forEach((p,x)=>p.classList.toggle('active',x===i));
+}
+function tFile(i){document.querySelector('#dz'+i+' input').click()}
+function onFile(t,inp){if(inp.files&&inp.files.length)toast('🖼️','"'+inp.files[0].name+'" ready!')}
+
+[0,1,2,3].forEach(i=>{
+  const d=document.getElementById('dz'+i);
+  d.addEventListener('dragover',e=>{e.preventDefault();d.classList.add('drag-over')});
+  d.addEventListener('dragleave',()=>d.classList.remove('drag-over'));
+  d.addEventListener('drop',e=>{e.preventDefault();d.classList.remove('drag-over');toast('🖼️','Image loaded!')});
+});
+
+function run(t){
+  if(credits<=0){showUpgrade();return}
+  credits--;updCr();
+  const p=document.getElementById('p'+t);
+  p.innerHTML=`<div class="proc"><div class="ps">⚙️</div><div class="pt">${tN[t]}...</div><div class="pp">AI is working on your image</div><div class="pgt"><div class="pgf" id="pgf${t}"></div></div><p style="font-size:.7rem;color:var(--muted2);margin-top:.45rem" id="ppc${t}">0%</p></div>`;
+  let w=0;
+  const iv=setInterval(()=>{
+    w+=Math.random()*17+4;if(w>100)w=100;
+    const pf=document.getElementById('pgf'+t),pc=document.getElementById('ppc'+t);
+    if(pf)pf.style.width=w+'%';if(pc)pc.textContent=Math.round(w)+'%';
+    if(w>=100){clearInterval(iv);setTimeout(()=>{
+      p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">${tD[t]}</div><div class="rs">Done! Free = watermark + lower quality.</div><div class="wn">⚠️ Free includes imgChamp watermark · <b style="cursor:pointer;color:#818cf8" onclick="showUpgrade()">Upgrade for HD →</b></div><div class="rbs"><button class="dlf" onclick="toast('💾','Downloading with watermark...')">⬇ Free Download</button><button class="dlh" onclick="showUpgrade()">⭐ HD Download</button></div><button class="rl" onclick="switchTab(${t})">↺ Process another</button></div>`;
+    },350)}
+  },150);
+}
+
+function showAuth(type){
+  const cfg={
+    login:{t:'Welcome Back 👋',d:'Sign in to your imgChamp account.',btn:'Sign In',sp:false},
+    signup:{t:'Create Free Account 🚀',d:'Get 5 free AI image credits every day. No card needed.',btn:'Create Account',sp:true}
+  };
+  const c=cfg[type]||cfg.signup;
+  document.getElementById('at').textContent=c.t;
+  document.getElementById('ad').textContent=c.d;
+  document.getElementById('ab2').textContent=c.btn;
+  document.getElementById('asp').style.display=c.sp?'block':'none';
+  document.getElementById('am').classList.add('show');
+}
+function closeAuth(){document.getElementById('am').classList.remove('show')}
+function social(p){closeAuth();toast('✅','Signed in with '+p+'! 5 credits ready.')}
+function authDone(){closeAuth();toast('✅','Welcome to imgChamp! 5 credits ready.')}
+
+function showUpgrade(){document.getElementById('um').classList.add('show')}
+function closeUpgrade(){document.getElementById('um').classList.remove('show')}
+function selP(el,plan){
+  curPlan=plan;
+  document.querySelectorAll('.plc').forEach(p=>p.classList.remove('chosen'));
+  el.classList.add('chosen');
+  document.getElementById('pb2').textContent='🔒 Pay '+pPrices[plan]+' — Secure Checkout';
+}
+function goPay(){closeUpgrade();toast('🔒','Redirecting to secure payment...')}
+
+function showPage(id){
+  document.querySelectorAll('.pg-s').forEach(p=>p.classList.remove('show'));
+  document.getElementById(id).classList.add('show');
+  setTimeout(()=>document.getElementById(id).scrollIntoView({behavior:'smooth'}),50);
+}
+function hidePage(){
+  document.querySelectorAll('.pg-s').forEach(p=>p.classList.remove('show'));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function toast(icon,msg){
+  const t=document.getElementById('toast');
+  document.getElementById('ti').textContent=icon+' ';
+  document.getElementById('tm').textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3500);
+}
+</script>
+</body>
+</html>
