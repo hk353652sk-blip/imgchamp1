@@ -846,7 +846,7 @@ function showAuth(type){
   document.getElementById('am').classList.add('show');
 }
 function closeAuth(){document.getElementById('am').classList.remove('show')}
-function social(p){closeAuth();toast('✅','Signed in with '+p+'! 5 credits ready.')}
+async function social(p){if(p==='Google'){await _supabase.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.origin}});}else{closeAuth();toast('✅','Signed in with '+p+'! 5 credits ready.');}}
 function authDone(){closeAuth();toast('✅','Welcome to imgChamp! 5 credits ready.')}
 
 function showUpgrade(){document.getElementById('um').classList.add('show')}
