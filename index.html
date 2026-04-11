@@ -816,7 +816,20 @@ function switchTab(i){
   document.querySelectorAll('.panel').forEach((p,x)=>p.classList.toggle('active',x===i));
 }
 function tFile(i){document.querySelector('#dz'+i+' input').click()}
-function onFile(t,inp){if(inp.files&&inp.files.length)toast('🖼️','"'+inp.files[0].name+'" ready!')}
+function onFile(t,inp){
+  if(inp.files&&inp.files.length){
+    toast('🖼️','"'+inp.files[0].name+'" ready!');
+    const reader=new FileReader();
+    reader.onload=function(e){
+      const dz=document.getElementById('dz'+t);
+      dz.style.backgroundImage='url('+e.target.result+')';
+      dz.style.backgroundSize='cover';
+      dz.style.backgroundPosition='center';
+      dz.style.borderColor='var(--accent)';
+    };
+    reader.readAsDataURL(inp.files[0]);
+  }
+}
 
 [0,1,2,3].forEach(i=>{
   const d=document.getElementById('dz'+i);
