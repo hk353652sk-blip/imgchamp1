@@ -840,11 +840,11 @@ async function run(t){
     const blob=await res.blob();
     clearInterval(iv);
     const url=URL.createObjectURL(blob);
-    p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">${tD[t]}</div><div class="rs">Done! Your processed image is ready.</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_result.png">⬇ Download</a></div><button class="rl" onclick="switchTab(${t})">↺ Process another</button></div>`;
+    p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">${tD[t]}</div><div class="rs">Done! Your processed image is ready.</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_result.png">⬇ Download</a></div><button class="rl" onclick="location.reload()">↺ Process another</button></div>`;
   }catch(e){
     clearInterval(iv);
     credits++;updCr();
-    p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Credit refunded. Try again.</div><button class="rl" onclick="switchTab(${t})">↺ Try Again</button></div>`;
+    p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Credit refunded. Try again.</div><button class="rl" onclick="location.reload()">↺ Try Again</button></div>`;
   }
 }
 
