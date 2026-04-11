@@ -758,7 +758,6 @@ footer p{font-size:.74rem;color:var(--muted2)}
         <div class="plc-cr">⚡ 600 Credits/Month</div>
         <div class="plc-f"><span>Everything in Pro</span><span>Full API access</span><span>Priority support</span></div>
       </div>
-
     </div>
     <button class="pay-b" id="pb2" onclick="goPay()">🔒 Pay Securely — Card or PayPal</button>
     <button class="skip-b" onclick="closeUpgrade()">Maybe Later — Keep Free Plan</button>
@@ -774,24 +773,33 @@ footer p{font-size:.74rem;color:var(--muted2)}
 <div class="toast" id="toast"><span id="ti"></span><span id="tm"></span></div>
 
 <script>
+const BACKEND = 'https://imgchamp-backend.onrender.com';
+
 let credits=5,curTab=0,curPlan='pro';
 const MAX=5;
 const pPrices={starter:'$15/mo',pro:'$29/mo',business:'$79/mo'};
 const tN=['Upscaling image','Restoring face','Removing background','Compressing image'];
 const tD=['Image Upscaled! 🔍','Face Restored! 😊','Background Removed! ✂️','Image Compressed! 📦'];
+const endpoints=['upscale','face-restore','bg-remove','compress'];
 
-function runBG(){
+// ✅ REAL BG REMOVE - Backend se
+async function runBG(){
+  const input = document.querySelector('#dz2 input');
+  if(!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
   const p=document.getElementById('p2');
   p.innerHTML=`<div class="proc"><div class="ps">⚙️</div><div class="pt">Removing background...</div><div class="pp">AI is working — no credit used!</div><div class="pgt"><div class="pgf" id="pgf2"></div></div><p style="font-size:.7rem;color:var(--muted2);margin-top:.45rem" id="ppc2">0%</p></div>`;
-  let w=0;
-  const iv=setInterval(()=>{
-    w+=Math.random()*17+4;if(w>100)w=100;
-    const pf=document.getElementById('pgf2'),pc=document.getElementById('ppc2');
-    if(pf)pf.style.width=w+'%';if(pc)pc.textContent=Math.round(w)+'%';
-    if(w>=100){clearInterval(iv);setTimeout(()=>{
-      p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Background Removed! ✂️</div><div class="rs">Done! Free = low quality + watermark.</div><div class="wn">⚠️ Free = low quality output · <b style="cursor:pointer;color:#818cf8" onclick="showUpgrade()">Upgrade for Full HD →</b></div><div class="rbs"><button class="dlf" onclick="toast('💾','Downloading low quality...')">⬇ Free Download</button><button class="dlh" onclick="showUpgrade()">⭐ HD Download</button></div><button class="rl" onclick="switchTab(2)">↺ Remove another — still free!</button></div>`;
-    },350)}
-  },150);
+  let w=0;const iv=setInterval(()=>{w+=8;if(w>90)w=90;const pf=document.getElementById('pgf2');if(pf)pf.style.width=w+'%';},300);
+  try{
+    const fd=new FormData();fd.append('file',input.files[0]);
+    const res=await fetch(BACKEND+'/bg-remove',{method:'POST',body:fd});
+    const blob=await res.blob();
+    clearInterval(iv);
+    const url=URL.createObjectURL(blob);
+    p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Background Removed! ✂️</div><div class="rs">Done! Download your image below.</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_bg_removed.png">⬇ Download</a></div><button class="rl" onclick="switchTab(2)">↺ Remove another — still free!</button></div>`;
+  }catch(e){
+    clearInterval(iv);
+    p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Try again.</div><button class="rl" onclick="switchTab(2)">↺ Try Again</button></div>`;
+  }
 }
 
 function updCr(){
@@ -817,20 +825,27 @@ function onFile(t,inp){if(inp.files&&inp.files.length)toast('🖼️','"'+inp.fi
   d.addEventListener('drop',e=>{e.preventDefault();d.classList.remove('drag-over');toast('🖼️','Image loaded!')});
 });
 
-function run(t){
+// ✅ REAL API CALL - Backend se
+async function run(t){
   if(credits<=0){showUpgrade();return}
+  const input=document.querySelector('#dz'+t+' input');
+  if(!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
   credits--;updCr();
   const p=document.getElementById('p'+t);
   p.innerHTML=`<div class="proc"><div class="ps">⚙️</div><div class="pt">${tN[t]}...</div><div class="pp">AI is working on your image</div><div class="pgt"><div class="pgf" id="pgf${t}"></div></div><p style="font-size:.7rem;color:var(--muted2);margin-top:.45rem" id="ppc${t}">0%</p></div>`;
-  let w=0;
-  const iv=setInterval(()=>{
-    w+=Math.random()*17+4;if(w>100)w=100;
-    const pf=document.getElementById('pgf'+t),pc=document.getElementById('ppc'+t);
-    if(pf)pf.style.width=w+'%';if(pc)pc.textContent=Math.round(w)+'%';
-    if(w>=100){clearInterval(iv);setTimeout(()=>{
-      p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">${tD[t]}</div><div class="rs">Done! Free = watermark + lower quality.</div><div class="wn">⚠️ Free includes imgChamp watermark · <b style="cursor:pointer;color:#818cf8" onclick="showUpgrade()">Upgrade for HD →</b></div><div class="rbs"><button class="dlf" onclick="toast('💾','Downloading with watermark...')">⬇ Free Download</button><button class="dlh" onclick="showUpgrade()">⭐ HD Download</button></div><button class="rl" onclick="switchTab(${t})">↺ Process another</button></div>`;
-    },350)}
-  },150);
+  let w=0;const iv=setInterval(()=>{w+=8;if(w>90)w=90;const pf=document.getElementById('pgf'+t);if(pf)pf.style.width=w+'%';},300);
+  try{
+    const fd=new FormData();fd.append('file',input.files[0]);
+    const res=await fetch(BACKEND+'/'+endpoints[t],{method:'POST',body:fd});
+    const blob=await res.blob();
+    clearInterval(iv);
+    const url=URL.createObjectURL(blob);
+    p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">${tD[t]}</div><div class="rs">Done! Your processed image is ready.</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_result.png">⬇ Download</a></div><button class="rl" onclick="switchTab(${t})">↺ Process another</button></div>`;
+  }catch(e){
+    clearInterval(iv);
+    credits++;updCr();
+    p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Credit refunded. Try again.</div><button class="rl" onclick="switchTab(${t})">↺ Try Again</button></div>`;
+  }
 }
 
 function showAuth(type){
