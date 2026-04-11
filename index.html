@@ -539,8 +539,7 @@ function onFile(t,inp){
   const d=document.getElementById('dz'+i);
   d.addEventListener('dragover',e=>{e.preventDefault();d.classList.add('drag-over')});
   d.addEventListener('dragleave',()=>d.classList.remove('drag-over'));
-  d.addEventListener('drop',e=>{e.preventDefault();d.classList.remove('drag-over');toast('🖼️','Image loaded!')});
-});
+  d.addEventListener('drop',e=>{e.preventDefault();d.classList.remove('drag-over');if(e.dataTransfer.files&&e.dataTransfer.files[0]){const input=d.querySelector('input');const dt=new DataTransfer();dt.items.add(e.dataTransfer.files[0]);input.files=dt.files;onFile(i,input);}});
 
 async function runBG(){
   const input=document.querySelector('#dz2 input');
