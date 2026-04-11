@@ -100,6 +100,7 @@ h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2rem,5.5vw,3.8rem)
 .pp{color:var(--muted);font-size:.8rem;margin-bottom:1rem}
 .pgt{height:4px;background:var(--border2);border-radius:99px;overflow:hidden;max-width:260px;margin:0 auto}
 .pgf{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent3));border-radius:99px;transition:width .2s}
+.ppc{font-size:.7rem;color:var(--muted2);margin-top:.45rem}
 .rb{text-align:center;padding:1.5rem .5rem}
 .ri{font-size:2.5rem;margin-bottom:.6rem;display:block}
 .rt{font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:800;margin-bottom:.25rem}
@@ -476,7 +477,6 @@ const tN=['Upscaling image','Restoring face','Removing background','Compressing 
 const tD=['Image Upscaled! 🔍','Face Restored! 😊','Background Removed! ✂️','Image Compressed! 📦'];
 const endpoints=['upscale','face-restore','bg-remove','compress'];
 
-// ✅ AUTH - Login ke baad naam aur avatar dikhao
 function updateNav(session){
   const navR=document.getElementById('nav-r');
   if(session){
@@ -535,26 +535,63 @@ function onFile(t,inp){
   }
 }
 
+// ✅ Drag & Drop fix
 [0,1,2,3].forEach(i=>{
   const d=document.getElementById('dz'+i);
   d.addEventListener('dragover',e=>{e.preventDefault();d.classList.add('drag-over')});
   d.addEventListener('dragleave',()=>d.classList.remove('drag-over'));
-  d.addEventListener('drop',e=>{e.preventDefault();d.classList.remove('drag-over');if(e.dataTransfer.files&&e.dataTransfer.files[0]){const input=d.querySelector('input');const dt=new DataTransfer();dt.items.add(e.dataTransfer.files[0]);input.files=dt.files;onFile(i,input);}});
+  d.addEventListener('drop',e=>{
+    e.preventDefault();
+    d.classList.remove('drag-over');
+    if(e.dataTransfer.files&&e.dataTransfer.files[0]){
+      const input=d.querySelector('input');
+      const dt=new DataTransfer();
+      dt.items.add(e.dataTransfer.files[0]);
+      input.files=dt.files;
+      onFile(i,input);
+    }
+  });
+});
+
+// ✅ Progress 0% to 100%
+function startProgress(id){
+  let w=0;
+  const iv=setInterval(()=>{
+    w+=Math.random()*8+3;
+    if(w>95)w=95;
+    const pf=document.getElementById('pgf'+id);
+    const pc=document.getElementById('ppc'+id);
+    if(pf)pf.style.width=w+'%';
+    if(pc)pc.textContent=Math.round(w)+'%';
+  },200);
+  return iv;
+}
+
+function finishProgress(id,iv){
+  clearInterval(iv);
+  const pf=document.getElementById('pgf'+id);
+  const pc=document.getElementById('ppc'+id);
+  if(pf)pf.style.width='100%';
+  if(pc)pc.textContent='100%';
+}
 
 async function runBG(){
   const input=document.querySelector('#dz2 input');
   if(!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
   const p=document.getElementById('p2');
-  p.innerHTML=`<div class="proc"><div class="ps">⚙️</div><div class="pt">Removing background...</div><div class="pp">AI is working — no credit used!</div><div class="pgt"><div class="pgf" id="pgf2"></div></div></div>`;
-  let w=0;const iv=setInterval(()=>{w+=8;if(w>90)w=90;const pf=document.getElementById('pgf2');if(pf)pf.style.width=w+'%';},300);
+  p.innerHTML=`<div class="proc"><div class="ps">⚙️</div><div class="pt">Removing background...</div><div class="pp">AI is working — no credit used!</div><div class="pgt"><div class="pgf" id="pgf2"></div></div><p class="ppc" id="ppc2">0%</p></div>`;
+  const iv=startProgress(2);
   try{
     const fd=new FormData();fd.append('file',input.files[0]);
     const res=await fetch(BACKEND+'/bg-remove',{method:'POST',body:fd});
-    const blob=await res.blob();clearInterval(iv);
+    const blob=await res.blob();
+    finishProgress(2,iv);
     const url=URL.createObjectURL(blob);
-    p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Background Removed! ✂️</div><div class="rs">Done! Download below.</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_bg_removed.png">⬇ Download</a></div><button class="rl" onclick="location.reload()">↺ Remove another</button></div>`;
+    setTimeout(()=>{
+      p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Background Removed! ✂️</div><div class="rs">Done! Download below.</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_bg_removed.png">⬇ Download</a></div><button class="rl" onclick="location.reload()">↺ Remove another</button></div>`;
+    },400);
   }catch(e){
-    clearInterval(iv);
+    finishProgress(2,iv);
     p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Try again.</div><button class="rl" onclick="location.reload()">↺ Try Again</button></div>`;
   }
 }
@@ -565,16 +602,20 @@ async function run(t){
   if(!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
   credits--;updCr();
   const p=document.getElementById('p'+t);
-  p.innerHTML=`<div class="proc"><div class="ps">⚙️</div><div class="pt">${tN[t]}...</div><div class="pp">AI is working on your image</div><div class="pgt"><div class="pgf" id="pgf${t}"></div></div></div>`;
-  let w=0;const iv=setInterval(()=>{w+=8;if(w>90)w=90;const pf=document.getElementById('pgf'+t);if(pf)pf.style.width=w+'%';},300);
+  p.innerHTML=`<div class="proc"><div class="ps">⚙️</div><div class="pt">${tN[t]}...</div><div class="pp">AI is working on your image</div><div class="pgt"><div class="pgf" id="pgf${t}"></div></div><p class="ppc" id="ppc${t}">0%</p></div>`;
+  const iv=startProgress(t);
   try{
     const fd=new FormData();fd.append('file',input.files[0]);
     const res=await fetch(BACKEND+'/'+endpoints[t],{method:'POST',body:fd});
-    const blob=await res.blob();clearInterval(iv);
+    const blob=await res.blob();
+    finishProgress(t,iv);
     const url=URL.createObjectURL(blob);
-    p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">${tD[t]}</div><div class="rs">Done! Your processed image is ready.</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_result.png">⬇ Download</a></div><button class="rl" onclick="location.reload()">↺ Process another</button></div>`;
+    setTimeout(()=>{
+      p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">${tD[t]}</div><div class="rs">Done! Your processed image is ready.</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_result.png">⬇ Download</a></div><button class="rl" onclick="location.reload()">↺ Process another</button></div>`;
+    },400);
   }catch(e){
-    clearInterval(iv);credits++;updCr();
+    finishProgress(t,iv);
+    credits++;updCr();
     p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Credit refunded. Try again.</div><button class="rl" onclick="location.reload()">↺ Try Again</button></div>`;
   }
 }
