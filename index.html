@@ -616,7 +616,7 @@ async function run(t){
   }catch(e){
     finishProgress(t,iv);
     credits++;updCr();
-    p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Credit refunded. Try again.</div><button class="rl" onclick="location.reload()">↺ Try Again</button></div>`;
+    p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Credit refunded. Try again.</div><button class="rl" onclick="switchTab(2)">↺ Try Again</button></div>`;
   }
 }
 
