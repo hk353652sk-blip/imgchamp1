@@ -118,7 +118,6 @@ h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2rem,5.5vw,3.8rem)
 .dlh{display:inline-flex;align-items:center;gap:.35rem;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#fff;padding:.6rem 1.3rem;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.79rem;font-weight:700;cursor:pointer;box-shadow:0 0 20px var(--glow);transition:all .2s;text-decoration:none}
 .dlh:hover{transform:translateY(-1px)}
 .rl{font-size:.76rem;color:var(--muted);cursor:pointer;border:none;background:none;font-family:'Outfit',sans-serif;text-decoration:underline}
-/* Resize tool styles */
 .sz-btns{display:flex;gap:.5rem;margin-bottom:1rem;flex-wrap:wrap}
 .sz-btn{flex:1;min-width:80px;padding:.55rem .5rem;border-radius:10px;border:1px solid var(--border2);background:var(--surface);color:var(--muted);font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s;text-align:center}
 .sz-btn:hover{border-color:var(--accent);color:var(--text)}
@@ -130,19 +129,21 @@ h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2rem,5.5vw,3.8rem)
 .sz-lock{display:flex;align-items:center;gap:.4rem;font-size:.73rem;color:var(--muted);margin-bottom:.8rem;cursor:pointer;user-select:none}
 .sz-lock input{accent-color:var(--accent)}
 .orig-info{font-size:.72rem;color:var(--muted2);margin-bottom:.8rem;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.4rem .7rem}
-/* Format convert styles */
 .fmt-btns{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}
 .fmt-btn{padding:.45rem .9rem;border-radius:8px;border:1px solid var(--border2);background:var(--surface);color:var(--muted);font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s}
 .fmt-btn:hover{border-color:var(--accent);color:var(--text)}
 .fmt-btn.active{border-color:var(--accent);background:rgba(99,102,241,0.12);color:#818cf8}
-/* Crop tool styles */
-.crop-wrap{position:relative;display:inline-block;max-width:100%;margin-bottom:.8rem}
-.crop-canvas{border-radius:10px;max-width:100%;display:block}
-.crop-controls{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.8rem}
+/* Crop canvas styles */
+.crop-canvas-wrap{position:relative;display:inline-block;max-width:100%;margin-bottom:.8rem;cursor:crosshair;user-select:none}
+.crop-canvas-wrap canvas{border-radius:10px;max-width:100%;display:block}
 .crop-inp-row{display:flex;gap:.5rem;align-items:center;margin-bottom:.6rem;flex-wrap:wrap}
 .crop-inp-row label{font-size:.73rem;color:var(--muted);width:40px;flex-shrink:0}
 .crop-inp{width:70px;background:var(--surface);border:1px solid var(--border2);border-radius:7px;color:var(--text);padding:.4rem .5rem;font-family:'Outfit',sans-serif;font-size:.8rem;outline:none}
 .crop-inp:focus{border-color:var(--accent)}
+.crop-preset-btns{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.8rem}
+.crop-preset-btn{padding:.4rem .7rem;border-radius:8px;border:1px solid var(--border2);background:var(--surface);color:var(--muted);font-family:'Outfit',sans-serif;font-size:.72rem;font-weight:600;cursor:pointer;transition:all .2s}
+.crop-preset-btn:hover{border-color:var(--accent);color:var(--text)}
+.crop-preset-btn.active{border-color:var(--accent);background:rgba(99,102,241,0.12);color:#818cf8}
 .feat-s{position:relative;z-index:1;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:55px 5%}
 .fi{max-width:1000px;margin:0 auto}
 .st{text-align:center;font-size:.7rem;font-weight:700;letter-spacing:2px;color:#818cf8;text-transform:uppercase;margin-bottom:.5rem}
@@ -286,19 +287,17 @@ footer p{font-size:.74rem;color:var(--muted2)}
 </section>
 
 <div class="tw" id="tools">
-  <!-- Row 1: AI Tools -->
   <div class="tn">
     <button class="tb active" onclick="switchTab(0)"><span class="ti">🔍</span>Upscale</button>
     <button class="tb" onclick="switchTab(1)"><span class="ti">😊</span>Face Restore</button>
     <button class="tb" onclick="switchTab(2)"><span class="ti">✂️</span>BG Remove</button>
     <button class="tb" onclick="switchTab(3)"><span class="ti">📦</span>Compress</button>
   </div>
-  <!-- Row 2: Free Tools -->
   <div class="tn2">
     <button class="tb" onclick="switchTab(4)"><span class="ti">📐</span>Resize</button>
     <button class="tb" onclick="switchTab(5)"><span class="ti">🔄</span>Convert</button>
     <button class="tb" onclick="switchTab(6)"><span class="ti">📄</span>Image→PDF</button>
-    <button class="tb" onclick="switchTab(7)"><span class="ti">🖼️</span>Crop</button>
+    <button class="tb" onclick="switchTab(7)"><span class="ti">✂️</span>Crop</button>
   </div>
 
   <div class="tc">
@@ -324,7 +323,7 @@ footer p{font-size:.74rem;color:var(--muted2)}
     <div class="panel" id="p1">
       <div class="th"><div class="thi ic1">😊</div>
         <div><h3>AI Face Restore <span class="bf">1 Credit/Image</span></h3>
-        <p>Restore old, blurry or damaged face photos. Free = low quality. <span class="bp">⭐ HD = Upgrade</span></p></div>
+        <p>Restore old, blurry or damaged face photos. <span class="bp">⭐ HD = Upgrade</span></p></div>
       </div>
       <div class="dz" id="dz1" style="border-color:rgba(245,158,11,0.25)"><input type="file" accept="image/*" onchange="onFile(1,this)">
         <span class="dz-ic">👤</span><div class="dz-t">Drop face photo here</div>
@@ -359,7 +358,7 @@ footer p{font-size:.74rem;color:var(--muted2)}
     <div class="panel" id="p3">
       <div class="th"><div class="thi ic3">📦</div>
         <div><h3>Image Compressor <span class="bf">1 Credit/Image</span></h3>
-        <p>Reduce file size up to 90%. Free = medium quality. <span class="bp">⭐ Best quality = Upgrade</span></p></div>
+        <p>Reduce file size up to 90%. <span class="bp">⭐ Best quality = Upgrade</span></p></div>
       </div>
       <div class="dz" id="dz3" style="border-color:rgba(139,92,246,0.25)"><input type="file" accept="image/*" multiple onchange="onFile(3,this)">
         <span class="dz-ic">📦</span><div class="dz-t">Drop image(s) here</div>
@@ -377,7 +376,7 @@ footer p{font-size:.74rem;color:var(--muted2)}
     <div class="panel" id="p4">
       <div class="th"><div class="thi ic4">📐</div>
         <div><h3>Image Resizer <span class="bf">✅ Free!</span></h3>
-        <p>Resize to any size. Quick presets or custom width & height. <span class="bp">⭐ Aspect ratio lock</span></p></div>
+        <p>Resize to any size. Quick presets or custom width & height.</p></div>
       </div>
       <div class="dz" id="dz4" style="border-color:rgba(6,182,212,0.25)"><input type="file" accept="image/*" onchange="onFileResize(this)">
         <span class="dz-ic">📐</span><div class="dz-t">Drop your image here</div>
@@ -387,9 +386,9 @@ footer p{font-size:.74rem;color:var(--muted2)}
         <div class="orig-info" id="orig-info">Original: — × —</div>
         <div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem;font-weight:600;">⚡ Quick Select:</div>
         <div class="sz-btns">
-          <button class="sz-btn" onclick="applyPreset('small')">📱 Small<br><span style="font-size:.65rem;color:var(--muted2)">640 × auto</span></button>
-          <button class="sz-btn" onclick="applyPreset('medium')">💻 Medium<br><span style="font-size:.65rem;color:var(--muted2)">1280 × auto</span></button>
-          <button class="sz-btn" onclick="applyPreset('large')">🖥️ Large<br><span style="font-size:.65rem;color:var(--muted2)">1920 × auto</span></button>
+          <button class="sz-btn" onclick="applyPreset('small')">📱 Small<br><span style="font-size:.65rem;color:var(--muted2)">640×auto</span></button>
+          <button class="sz-btn" onclick="applyPreset('medium')">💻 Medium<br><span style="font-size:.65rem;color:var(--muted2)">1280×auto</span></button>
+          <button class="sz-btn" onclick="applyPreset('large')">🖥️ Large<br><span style="font-size:.65rem;color:var(--muted2)">1920×auto</span></button>
         </div>
         <div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem;font-weight:600;margin-top:.5rem">✏️ Custom Size:</div>
         <div class="sz-inp-row">
@@ -414,7 +413,7 @@ footer p{font-size:.74rem;color:var(--muted2)}
     <div class="panel" id="p5">
       <div class="th"><div class="thi ic5">🔄</div>
         <div><h3>Format Converter <span class="bf">✅ Free!</span></h3>
-        <p>Convert images to any format. JPG, PNG, WEBP, BMP, GIF. <span class="bp">⭐ Instant download</span></p></div>
+        <p>Convert to JPG, PNG, WEBP, BMP, GIF instantly.</p></div>
       </div>
       <div class="dz" id="dz5" style="border-color:rgba(239,68,68,0.25)"><input type="file" accept="image/*" onchange="onFile(5,this)">
         <span class="dz-ic">🔄</span><div class="dz-t">Drop your image here</div>
@@ -440,11 +439,11 @@ footer p{font-size:.74rem;color:var(--muted2)}
     <div class="panel" id="p6">
       <div class="th"><div class="thi ic6">📄</div>
         <div><h3>Image to PDF <span class="bf">✅ Free!</span></h3>
-        <p>Convert any image to PDF instantly. Perfect for documents & sharing. <span class="bp">⭐ Instant download</span></p></div>
+        <p>Convert any image to PDF instantly.</p></div>
       </div>
       <div class="dz" id="dz6" style="border-color:rgba(234,179,8,0.25)"><input type="file" accept="image/*" multiple onchange="onFile(6,this)">
         <span class="dz-ic">📄</span><div class="dz-t">Drop image(s) here</div>
-        <div class="dz-s">Multiple images → 1 PDF · PNG · JPG · WEBP · Max 20MB · <b>or</b></div>
+        <div class="dz-s">Multiple images → 1 PDF · Max 20MB · <b>or</b></div>
         <button class="ob" style="background:linear-gradient(135deg,#ca8a04,#eab308);box-shadow:0 0 20px rgba(234,179,8,0.3)" type="button" onclick="tFile(6)">📁 Open Gallery / Folder</button></div>
       <div class="ci" style="background:rgba(234,179,8,0.05);border-color:rgba(234,179,8,0.2)">
         <div class="ci-l">✅ <b>Unlimited Free</b> · <b style="color:#eab308">No credit needed!</b></div>
@@ -452,39 +451,55 @@ footer p{font-size:.74rem;color:var(--muted2)}
       <button class="ab ab6" onclick="runPDF()">📄 Convert to PDF — Free!</button>
     </div>
 
-    <!-- Panel 7: Crop -->
+    <!-- Panel 7: Crop — Drag & Presets -->
     <div class="panel" id="p7">
-      <div class="th"><div class="thi ic7">🖼️</div>
+      <div class="th"><div class="thi ic7">✂️</div>
         <div><h3>Image Crop <span class="bf">✅ Free!</span></h3>
-        <p>Custom crop — enter exact pixels or drag to select area. <span class="bp">⭐ Precision control</span></p></div>
+        <p>Drag to select crop area or use presets & custom values.</p></div>
       </div>
       <div class="dz" id="dz7" style="border-color:rgba(168,85,247,0.25)"><input type="file" accept="image/*" onchange="onFileCrop(this)">
         <span class="dz-ic">✂️</span><div class="dz-t">Drop your image here</div>
         <div class="dz-s">PNG · JPG · WEBP · Max 20MB · <b>or</b></div>
         <button class="ob" style="background:linear-gradient(135deg,#7c3aed,#a855f7);box-shadow:0 0 20px rgba(168,85,247,0.3)" type="button" onclick="tFile(7)">📁 Open Gallery / Folder</button></div>
-      <div id="crop-options" style="display:none;margin-top:1rem">
+
+      <div id="crop-editor" style="display:none;margin-top:1rem">
         <div class="orig-info" id="crop-orig-info">Original: — × —</div>
-        <div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem;font-weight:600;">✏️ Custom Crop (pixels from original):</div>
+
+        <div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem;font-weight:600;">⚡ Quick Presets:</div>
+        <div class="crop-preset-btns">
+          <button class="crop-preset-btn" onclick="applyCropPreset('square')">⬛ Square</button>
+          <button class="crop-preset-btn" onclick="applyCropPreset('portrait')">📱 Portrait (3:4)</button>
+          <button class="crop-preset-btn" onclick="applyCropPreset('landscape')">🖼️ Landscape (16:9)</button>
+          <button class="crop-preset-btn" onclick="applyCropPreset('banner')">📰 Banner (3:1)</button>
+          <button class="crop-preset-btn" onclick="applyCropPreset('custom')">✏️ Custom</button>
+        </div>
+
+        <div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem;font-weight:600;">🖱️ Drag to select crop area:</div>
+        <div class="crop-canvas-wrap" id="crop-canvas-wrap">
+          <canvas id="crop-canvas"></canvas>
+        </div>
+
+        <div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem;font-weight:600;">✏️ Or enter exact values:</div>
         <div class="crop-inp-row">
           <label>Left X</label>
-          <input class="crop-inp" type="number" id="cr-x" value="0" min="0">
+          <input class="crop-inp" type="number" id="cr-x" value="0" min="0" oninput="updateCropFromInputs()">
           <label style="margin-left:.5rem">Top Y</label>
-          <input class="crop-inp" type="number" id="cr-y" value="0" min="0">
+          <input class="crop-inp" type="number" id="cr-y" value="0" min="0" oninput="updateCropFromInputs()">
         </div>
         <div class="crop-inp-row">
           <label>Width</label>
-          <input class="crop-inp" type="number" id="cr-w" min="1">
+          <input class="crop-inp" type="number" id="cr-w" min="1" oninput="updateCropFromInputs()">
           <label style="margin-left:.5rem">Height</label>
-          <input class="crop-inp" type="number" id="cr-h" min="1">
+          <input class="crop-inp" type="number" id="cr-h" min="1" oninput="updateCropFromInputs()">
         </div>
-        <div style="font-size:.7rem;color:var(--muted2);margin-bottom:.5rem">💡 Tip: X=0, Y=0 starts from top-left corner</div>
+        <div style="font-size:.7rem;color:var(--muted2);margin-bottom:.5rem">💡 Drag on image above to select area, or type values manually</div>
       </div>
+
       <div class="ci" style="background:rgba(168,85,247,0.05);border-color:rgba(168,85,247,0.2)">
         <div class="ci-l">✅ <b>Unlimited Free</b> · <b style="color:#a855f7">No credit needed!</b></div>
       </div>
       <button class="ab ab7" onclick="runCrop()">✂️ Crop Image — Free!</button>
     </div>
-
   </div>
 </div>
 
@@ -523,25 +538,25 @@ footer p{font-size:.74rem;color:var(--muted2)}
     <div class="pc">
       <div class="pn">Free</div><div class="pp2"><sup>$</sup>0<sub>/mo</sub></div>
       <div class="pcr">⚡ 5 Credits/Day</div><div class="pd">Try all tools free — forever</div>
-      <ul class="pfl"><li>5 credits/day</li><li>BG Remove — Unlimited! 🎉</li><li>Resize, Convert, PDF, Crop — Free!</li><li>Low quality output</li><li>imgChamp watermark</li><li class="no">HD downloads</li><li class="no">No watermark</li><li class="no">8× upscale</li></ul>
+      <ul class="pfl"><li>5 credits/day</li><li>BG Remove — Unlimited!</li><li>Resize, Convert, PDF, Crop — Free!</li><li>Low quality output</li><li>imgChamp watermark</li><li class="no">HD downloads</li><li class="no">No watermark</li></ul>
       <button class="pb" onclick="showAuth('signup')">Start Free</button>
     </div>
     <div class="pc">
       <div class="pn">Starter</div><div class="pp2"><sup>$</sup>9<sub>/mo</sub></div>
-      <div class="pcr">⚡ 50 Upscale + 30 Face Restore</div><div class="pd">For casual users & creators</div>
+      <div class="pcr">50 Upscale + 30 Face Restore</div><div class="pd">For casual users & creators</div>
       <ul class="pfl"><li>50 Upscale/month HD</li><li>30 Face Restore/month HD</li><li>BG Remove — Unlimited HD</li><li>All free tools — Unlimited</li><li>No watermark</li><li class="no">API access</li></ul>
       <button class="pb" onclick="showUpgrade()">Get Starter</button>
     </div>
     <div class="pc pop">
       <div class="popt">⭐ Most Popular</div>
       <div class="pn">Pro</div><div class="pp2"><sup>$</sup>19<sub>/mo</sub></div>
-      <div class="pcr">⚡ 200 Upscale + 100 Face Restore</div><div class="pd">For designers & professionals</div>
+      <div class="pcr">200 Upscale + 100 Face Restore</div><div class="pd">For designers & professionals</div>
       <ul class="pfl"><li>200 Upscale/month HD</li><li>100 Face Restore/month HD</li><li>BG Remove — Unlimited HD</li><li>All free tools — Unlimited</li><li>No watermark</li><li>Priority processing</li><li class="no">API access</li></ul>
       <button class="pb fill" onclick="showUpgrade()">Get Pro</button>
     </div>
     <div class="pc">
       <div class="pn">Business</div><div class="pp2"><sup>$</sup>49<sub>/mo</sub></div>
-      <div class="pcr">⚡ 500 Upscale + 300 Face Restore</div><div class="pd">For agencies & developers</div>
+      <div class="pcr">500 Upscale + 300 Face Restore</div><div class="pd">For agencies & developers</div>
       <ul class="pfl"><li>500 Upscale/month HD</li><li>300 Face Restore/month HD</li><li>BG Remove — Unlimited HD</li><li>All free tools — Unlimited</li><li>No watermark</li><li>Full API access</li><li>Priority support</li></ul>
       <button class="pb" onclick="showUpgrade()">Get Business</button>
     </div>
@@ -550,19 +565,17 @@ footer p{font-size:.74rem;color:var(--muted2)}
 
 <div class="pg-s" id="about-page">
   <h2>About imgChamp</h2><p class="pg-date">imgchamp.com — AI Image Tools Platform</p>
-  <p>imgChamp is a free AI-powered image enhancement platform helping creators, photographers, designers and businesses transform images using state-of-the-art artificial intelligence — in seconds.</p>
+  <p>imgChamp is a free AI-powered image enhancement platform helping creators, photographers, designers and businesses transform images in seconds.</p>
   <h3>Our Mission</h3><p>Professional image editing should be accessible to everyone.</p>
   <h3>Contact</h3><p>📧 support@imgchamp.com</p>
 </div>
-
 <div class="pg-s" id="privacy-page">
   <h2>Privacy Policy</h2><p class="pg-date">Last updated: April 2026</p>
   <h3>1. Information We Collect</h3><p>We collect your email on signup. Images are auto-deleted within 1 hour.</p>
-  <h3>2. IP Tracking</h3><p>We collect IP addresses to enforce free credit limits (5/day per device).</p>
+  <h3>2. IP Tracking</h3><p>We collect IP addresses to enforce free credit limits.</p>
   <h3>3. Payments</h3><p>Payments via LemonSqueezy. We never store card information.</p>
   <h3>Contact</h3><p>📧 privacy@imgchamp.com</p>
 </div>
-
 <div class="pg-s" id="terms-page">
   <h2>Terms of Service</h2><p class="pg-date">Last updated: April 2026</p>
   <h3>1. Credit System</h3><p>Free accounts get 5 credits/day. Each image = 1 credit.</p>
@@ -636,13 +649,24 @@ footer p{font-size:.74rem;color:var(--muted2)}
 const BACKEND='https://imgchamp-backend.onrender.com';
 let credits=5,curTab=0,curPlan='pro';
 let rzOrigW=0,rzOrigH=0,rzAspect=1;
-let cropOrigW=0,cropOrigH=0;
 let selFmtVal='jpeg';
+let cropImg=null,cropOrigW=0,cropOrigH=0;
+let cropDragging=false,cropStartX=0,cropStartY=0;
+let cropX=0,cropY=0,cropW=0,cropH=0;
 const MAX=5;
 const pPrices={starter:'$9/mo',pro:'$19/mo',business:'$49/mo'};
 const tN=['Upscaling image','Restoring face','Removing background','Compressing image'];
 const tD=['Image Upscaled! 🔍','Face Restored! 😊','Background Removed! ✂️','Image Compressed! 📦'];
 const endpoints=['upscale','face-restore','bg-remove','compress'];
+
+// Panel HTML store — for "another" reset
+const panelHTML={};
+window.addEventListener('DOMContentLoaded',()=>{
+  for(let i=0;i<8;i++){
+    const p=document.getElementById('p'+i);
+    if(p)panelHTML[i]=p.innerHTML;
+  }
+});
 
 // ✅ Auth
 function updateNav(session){
@@ -677,11 +701,21 @@ function updCr(){
 }
 updCr();
 
-// ✅ Tab switch — 8 tabs
+// ✅ switchTab — resets panel HTML
 function switchTab(i){
   curTab=i;
   document.querySelectorAll('.tb').forEach((b,x)=>b.classList.toggle('active',x===i));
-  document.querySelectorAll('.panel').forEach((p,x)=>p.classList.toggle('active',x===i));
+  document.querySelectorAll('.panel').forEach((p,x)=>{
+    p.classList.toggle('active',x===i);
+    // Reset panel to original HTML when switching back
+    if(x===i && panelHTML[i]){
+      p.innerHTML=panelHTML[i];
+      // Re-attach drag events for new 8 dropzones
+      attachDZ(i);
+      if(i===7)initCropCanvas();
+    }
+  });
+  document.getElementById('tools').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
 function tFile(i){
@@ -695,6 +729,7 @@ function onFile(t,inp){
     const reader=new FileReader();
     reader.onload=function(e){
       const dz=document.getElementById('dz'+t);
+      if(!dz)return;
       dz.style.backgroundImage='url('+e.target.result+')';
       dz.style.backgroundSize='cover';
       dz.style.backgroundPosition='center';
@@ -704,15 +739,13 @@ function onFile(t,inp){
   }
 }
 
-// ✅ Drag & Drop fix — all 8 dropzones
-[0,1,2,3,4,5,6,7].forEach(i=>{
+function attachDZ(i){
   const d=document.getElementById('dz'+i);
   if(!d)return;
   d.addEventListener('dragover',e=>{e.preventDefault();d.classList.add('drag-over')});
   d.addEventListener('dragleave',()=>d.classList.remove('drag-over'));
   d.addEventListener('drop',e=>{
-    e.preventDefault();
-    d.classList.remove('drag-over');
+    e.preventDefault();d.classList.remove('drag-over');
     if(e.dataTransfer.files&&e.dataTransfer.files[0]){
       const input=d.querySelector('input');
       const dt=new DataTransfer();
@@ -723,7 +756,10 @@ function onFile(t,inp){
       else onFile(i,input);
     }
   });
-});
+}
+
+// Attach drag events on load
+[0,1,2,3,4,5,6,7].forEach(i=>attachDZ(i));
 
 // ✅ Progress
 function startProgress(id){
@@ -745,33 +781,30 @@ function finishProgress(id,iv){
   if(pc)pc.textContent='100%';
 }
 
-// ✅ BG Remove — error fix switchTab(2)
+// ✅ BG Remove
 async function runBG(){
   const input=document.querySelector('#dz2 input');
-  if(!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
+  if(!input||!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
   const p=document.getElementById('p2');
   p.innerHTML=`<div class="proc"><div class="ps">⚙️</div><div class="pt">Removing background...</div><div class="pp">AI is working — no credit used!</div><div class="pgt"><div class="pgf" id="pgf2"></div></div><p class="ppc" id="ppc2">0%</p></div>`;
   const iv=startProgress(2);
   try{
     const fd=new FormData();fd.append('file',input.files[0]);
     const res=await fetch(BACKEND+'/bg-remove',{method:'POST',body:fd});
-    const blob=await res.blob();
-    finishProgress(2,iv);
+    const blob=await res.blob();finishProgress(2,iv);
     const url=URL.createObjectURL(blob);
-    setTimeout(()=>{
-      p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Background Removed! ✂️</div><div class="rs">Done! Download below.</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_bg_removed.png">⬇ Download</a></div><button class="rl" onclick="switchTab(2)">↺ Remove another</button></div>`;
-    },400);
+    setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Background Removed! ✂️</div><div class="rs">Done! Download below.</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_bg_removed.png">⬇ Download</a></div><button class="rl" onclick="switchTab(2)">↺ Remove another</button></div>`;},400);
   }catch(e){
     finishProgress(2,iv);
     p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Try again.</div><button class="rl" onclick="switchTab(2)">↺ Try Again</button></div>`;
   }
 }
 
-// ✅ AI Tools run — error fix switchTab(t)
+// ✅ AI Tools run
 async function run(t){
   if(credits<=0){showUpgrade();return}
   const input=document.querySelector('#dz'+t+' input');
-  if(!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
+  if(!input||!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
   credits--;updCr();
   const p=document.getElementById('p'+t);
   p.innerHTML=`<div class="proc"><div class="ps">⚙️</div><div class="pt">${tN[t]}...</div><div class="pp">AI is working on your image</div><div class="pgt"><div class="pgf" id="pgf${t}"></div></div><p class="ppc" id="ppc${t}">0%</p></div>`;
@@ -779,37 +812,30 @@ async function run(t){
   try{
     const fd=new FormData();fd.append('file',input.files[0]);
     const res=await fetch(BACKEND+'/'+endpoints[t],{method:'POST',body:fd});
-    const blob=await res.blob();
-    finishProgress(t,iv);
+    const blob=await res.blob();finishProgress(t,iv);
     const url=URL.createObjectURL(blob);
-    setTimeout(()=>{
-      p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">${tD[t]}</div><div class="rs">Done! Your processed image is ready.</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_result.png">⬇ Download</a></div><button class="rl" onclick="switchTab(${t})">↺ Process another</button></div>`;
-    },400);
+    setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">${tD[t]}</div><div class="rs">Done! Your processed image is ready.</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_result.png">⬇ Download</a></div><button class="rl" onclick="switchTab(${t})">↺ Process another</button></div>`;},400);
   }catch(e){
-    finishProgress(t,iv);
-    credits++;updCr();
+    finishProgress(t,iv);credits++;updCr();
     p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Credit refunded. Try again.</div><button class="rl" onclick="switchTab(${t})">↺ Try Again</button></div>`;
   }
 }
 
-// ✅ RESIZE TOOL
+// ✅ RESIZE
 function onFileResize(inp){
   if(!inp.files||!inp.files[0])return;
   toast('🖼️','"'+inp.files[0].name+'" ready!');
   const img=new Image();
   const url=URL.createObjectURL(inp.files[0]);
   img.onload=function(){
-    rzOrigW=img.width;rzOrigH=img.height;
-    rzAspect=img.width/img.height;
-    document.getElementById('orig-info').textContent='Original: '+rzOrigW+' × '+rzOrigH+' px';
-    document.getElementById('rz-w').value=rzOrigW;
-    document.getElementById('rz-h').value=rzOrigH;
-    document.getElementById('resize-options').style.display='block';
+    rzOrigW=img.width;rzOrigH=img.height;rzAspect=img.width/img.height;
+    const oi=document.getElementById('orig-info');
+    if(oi)oi.textContent='Original: '+rzOrigW+' × '+rzOrigH+' px';
+    const rw=document.getElementById('rz-w');const rh=document.getElementById('rz-h');
+    if(rw)rw.value=rzOrigW;if(rh)rh.value=rzOrigH;
+    const ro=document.getElementById('resize-options');if(ro)ro.style.display='block';
     const dz=document.getElementById('dz4');
-    dz.style.backgroundImage='url('+url+')';
-    dz.style.backgroundSize='cover';
-    dz.style.backgroundPosition='center';
-    dz.style.borderColor='var(--accent)';
+    if(dz){dz.style.backgroundImage='url('+url+')';dz.style.backgroundSize='cover';dz.style.backgroundPosition='center';dz.style.borderColor='var(--accent)';}
   };
   img.src=url;
 }
@@ -817,30 +843,28 @@ function onFileResize(inp){
 function applyPreset(size){
   document.querySelectorAll('.sz-btn').forEach(b=>b.classList.remove('active'));
   event.target.closest('.sz-btn').classList.add('active');
-  let w;
-  if(size==='small')w=640;
-  else if(size==='medium')w=1280;
-  else w=1920;
-  w=Math.min(w,rzOrigW);
-  const h=Math.round(w/rzAspect);
-  document.getElementById('rz-w').value=w;
-  document.getElementById('rz-h').value=h;
+  let w=size==='small'?640:size==='medium'?1280:1920;
+  w=Math.min(w,rzOrigW||w);
+  const h=Math.round(w/(rzAspect||1));
+  const rw=document.getElementById('rz-w');const rh=document.getElementById('rz-h');
+  if(rw)rw.value=w;if(rh)rh.value=h;
 }
 
 function syncAspect(changed){
-  if(!document.getElementById('rz-lock').checked)return;
+  const lock=document.getElementById('rz-lock');
+  if(!lock||!lock.checked)return;
   if(changed==='w'){
     const w=parseInt(document.getElementById('rz-w').value)||0;
-    document.getElementById('rz-h').value=Math.round(w/rzAspect)||'';
+    document.getElementById('rz-h').value=Math.round(w/(rzAspect||1))||'';
   }else{
     const h=parseInt(document.getElementById('rz-h').value)||0;
-    document.getElementById('rz-w').value=Math.round(h*rzAspect)||'';
+    document.getElementById('rz-w').value=Math.round(h*(rzAspect||1))||'';
   }
 }
 
 async function runResize(){
   const input=document.querySelector('#dz4 input');
-  if(!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
+  if(!input||!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
   const w=parseInt(document.getElementById('rz-w').value);
   const h=parseInt(document.getElementById('rz-h').value);
   if(!w||!h||w<1||h<1){toast('⚠️','Please enter valid width & height!');return}
@@ -848,17 +872,11 @@ async function runResize(){
   p.innerHTML=`<div class="proc"><div class="ps">⚙️</div><div class="pt">Resizing image...</div><div class="pp">Processing — no credit used!</div><div class="pgt"><div class="pgf" id="pgf4"></div></div><p class="ppc" id="ppc4">0%</p></div>`;
   const iv=startProgress(4);
   try{
-    const fd=new FormData();
-    fd.append('file',input.files[0]);
-    fd.append('width',w);
-    fd.append('height',h);
+    const fd=new FormData();fd.append('file',input.files[0]);fd.append('width',w);fd.append('height',h);
     const res=await fetch(BACKEND+'/resize',{method:'POST',body:fd});
-    const blob=await res.blob();
-    finishProgress(4,iv);
+    const blob=await res.blob();finishProgress(4,iv);
     const url=URL.createObjectURL(blob);
-    setTimeout(()=>{
-      p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Image Resized! 📐</div><div class="rs">New size: ${w} × ${h} px</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_resized.png">⬇ Download</a></div><button class="rl" onclick="switchTab(4)">↺ Resize another</button></div>`;
-    },400);
+    setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Image Resized! 📐</div><div class="rs">New size: ${w} × ${h} px</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_resized.png">⬇ Download</a></div><button class="rl" onclick="switchTab(4)">↺ Resize another</button></div>`;},400);
   }catch(e){
     finishProgress(4,iv);
     p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Try again.</div><button class="rl" onclick="switchTab(4)">↺ Try Again</button></div>`;
@@ -868,28 +886,22 @@ async function runResize(){
 // ✅ FORMAT CONVERT
 function selFmt(el,fmt){
   document.querySelectorAll('.fmt-btn').forEach(b=>b.classList.remove('active'));
-  el.classList.add('active');
-  selFmtVal=fmt;
+  el.classList.add('active');selFmtVal=fmt;
 }
 
 async function runConvert(){
   const input=document.querySelector('#dz5 input');
-  if(!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
+  if(!input||!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
   const p=document.getElementById('p5');
-  p.innerHTML=`<div class="proc"><div class="ps">⚙️</div><div class="pt">Converting format...</div><div class="pp">Processing — no credit used!</div><div class="pgt"><div class="pgf" id="pgf5"></div></div><p class="ppc" id="ppc5">0%</p></div>`;
+  p.innerHTML=`<div class="proc"><div class="ps">⚙️</div><div class="pt">Converting to ${selFmtVal.toUpperCase()}...</div><div class="pp">Processing — no credit used!</div><div class="pgt"><div class="pgf" id="pgf5"></div></div><p class="ppc" id="ppc5">0%</p></div>`;
   const iv=startProgress(5);
   try{
-    const fd=new FormData();
-    fd.append('file',input.files[0]);
-    fd.append('format',selFmtVal);
+    const fd=new FormData();fd.append('file',input.files[0]);fd.append('format',selFmtVal);
     const res=await fetch(BACKEND+'/convert',{method:'POST',body:fd});
-    const blob=await res.blob();
-    finishProgress(5,iv);
+    const blob=await res.blob();finishProgress(5,iv);
     const ext=selFmtVal==='jpeg'?'jpg':selFmtVal;
     const url=URL.createObjectURL(blob);
-    setTimeout(()=>{
-      p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Format Converted! 🔄</div><div class="rs">Converted to ${ext.toUpperCase()}</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_converted.${ext}">⬇ Download ${ext.toUpperCase()}</a></div><button class="rl" onclick="switchTab(5)">↺ Convert another</button></div>`;
-    },400);
+    setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Format Converted! 🔄</div><div class="rs">Converted to ${ext.toUpperCase()}</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_converted.${ext}">⬇ Download ${ext.toUpperCase()}</a></div><button class="rl" onclick="switchTab(5)">↺ Convert another</button></div>`;},400);
   }catch(e){
     finishProgress(5,iv);
     p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Try again.</div><button class="rl" onclick="switchTab(5)">↺ Try Again</button></div>`;
@@ -899,79 +911,169 @@ async function runConvert(){
 // ✅ IMAGE TO PDF
 async function runPDF(){
   const input=document.querySelector('#dz6 input');
-  if(!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
+  if(!input||!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
   const p=document.getElementById('p6');
   p.innerHTML=`<div class="proc"><div class="ps">⚙️</div><div class="pt">Converting to PDF...</div><div class="pp">Processing — no credit used!</div><div class="pgt"><div class="pgf" id="pgf6"></div></div><p class="ppc" id="ppc6">0%</p></div>`;
   const iv=startProgress(6);
   try{
-    const fd=new FormData();
-    Array.from(input.files).forEach(f=>fd.append('files',f));
+    const fd=new FormData();Array.from(input.files).forEach(f=>fd.append('files',f));
     const res=await fetch(BACKEND+'/image-to-pdf',{method:'POST',body:fd});
-    const blob=await res.blob();
-    finishProgress(6,iv);
+    const blob=await res.blob();finishProgress(6,iv);
     const url=URL.createObjectURL(blob);
-    setTimeout(()=>{
-      p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">PDF Created! 📄</div><div class="rs">Your PDF is ready to download.</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_document.pdf">⬇ Download PDF</a></div><button class="rl" onclick="switchTab(6)">↺ Convert another</button></div>`;
-    },400);
+    setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">PDF Created! 📄</div><div class="rs">Your PDF is ready.</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_document.pdf">⬇ Download PDF</a></div><button class="rl" onclick="switchTab(6)">↺ Convert another</button></div>`;},400);
   }catch(e){
     finishProgress(6,iv);
     p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Try again.</div><button class="rl" onclick="switchTab(6)">↺ Try Again</button></div>`;
   }
 }
 
-// ✅ CROP TOOL
+// ✅ CROP TOOL — Drag + Presets
+function initCropCanvas(){
+  const canvas=document.getElementById('crop-canvas');
+  if(!canvas)return;
+  canvas.addEventListener('mousedown',cropMouseDown);
+  canvas.addEventListener('mousemove',cropMouseMove);
+  canvas.addEventListener('mouseup',cropMouseUp);
+  canvas.addEventListener('touchstart',e=>{e.preventDefault();cropMouseDown(e.touches[0]);},{passive:false});
+  canvas.addEventListener('touchmove',e=>{e.preventDefault();cropMouseMove(e.touches[0]);},{passive:false});
+  canvas.addEventListener('touchend',e=>{e.preventDefault();cropMouseUp(e.changedTouches[0]);},{passive:false});
+}
+
 function onFileCrop(inp){
   if(!inp.files||!inp.files[0])return;
   toast('🖼️','"'+inp.files[0].name+'" ready!');
-  const img=new Image();
+  cropImg=new Image();
   const url=URL.createObjectURL(inp.files[0]);
-  img.onload=function(){
-    cropOrigW=img.width;cropOrigH=img.height;
-    document.getElementById('crop-orig-info').textContent='Original: '+cropOrigW+' × '+cropOrigH+' px';
-    document.getElementById('cr-x').value=0;
-    document.getElementById('cr-y').value=0;
-    document.getElementById('cr-w').value=cropOrigW;
-    document.getElementById('cr-h').value=cropOrigH;
-    document.getElementById('crop-options').style.display='block';
+  cropImg.onload=function(){
+    cropOrigW=cropImg.width;cropOrigH=cropImg.height;
+    const oi=document.getElementById('crop-orig-info');
+    if(oi)oi.textContent='Original: '+cropOrigW+' × '+cropOrigH+' px';
+    const ce=document.getElementById('crop-editor');if(ce)ce.style.display='block';
+    cropX=0;cropY=0;cropW=cropOrigW;cropH=cropOrigH;
+    updateCropInputs();
+    drawCropCanvas();
     const dz=document.getElementById('dz7');
-    dz.style.backgroundImage='url('+url+')';
-    dz.style.backgroundSize='cover';
-    dz.style.backgroundPosition='center';
-    dz.style.borderColor='var(--accent)';
+    if(dz){dz.style.backgroundImage='url('+url+')';dz.style.backgroundSize='cover';dz.style.backgroundPosition='center';dz.style.borderColor='var(--accent)';}
+    initCropCanvas();
   };
-  img.src=url;
+  cropImg.src=url;
+}
+
+function drawCropCanvas(){
+  const canvas=document.getElementById('crop-canvas');
+  if(!canvas||!cropImg)return;
+  const maxW=Math.min(canvas.parentElement.clientWidth||500,700);
+  const scale=maxW/cropOrigW;
+  canvas.width=maxW;
+  canvas.height=cropOrigH*scale;
+  const ctx=canvas.getContext('2d');
+  ctx.drawImage(cropImg,0,0,canvas.width,canvas.height);
+  // Dark overlay
+  ctx.fillStyle='rgba(0,0,0,0.5)';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  // Clear crop area
+  const sx=cropX*scale,sy=cropY*scale,sw=cropW*scale,sh=cropH*scale;
+  ctx.drawImage(cropImg,cropX,cropY,cropW,cropH,sx,sy,sw,sh);
+  // Border
+  ctx.strokeStyle='#6366f1';ctx.lineWidth=2;ctx.setLineDash([6,3]);
+  ctx.strokeRect(sx,sy,sw,sh);
+  ctx.setLineDash([]);
+  // Corner handles
+  const hs=8;ctx.fillStyle='#6366f1';
+  [[sx,sy],[sx+sw,sy],[sx,sy+sh],[sx+sw,sy+sh]].forEach(([hx,hy])=>{
+    ctx.fillRect(hx-hs/2,hy-hs/2,hs,hs);
+  });
+}
+
+function getCanvasPos(e){
+  const canvas=document.getElementById('crop-canvas');
+  const rect=canvas.getBoundingClientRect();
+  const scale=cropOrigW/canvas.width;
+  return{
+    x:Math.max(0,Math.min(cropOrigW,(e.clientX-rect.left)*scale)),
+    y:Math.max(0,Math.min(cropOrigH,(e.clientY-rect.top)*scale))
+  };
+}
+
+function cropMouseDown(e){
+  if(!cropImg)return;
+  cropDragging=true;
+  const pos=getCanvasPos(e);
+  cropStartX=pos.x;cropStartY=pos.y;
+  cropX=pos.x;cropY=pos.y;cropW=1;cropH=1;
+}
+function cropMouseMove(e){
+  if(!cropDragging||!cropImg)return;
+  const pos=getCanvasPos(e);
+  cropX=Math.min(cropStartX,pos.x);
+  cropY=Math.min(cropStartY,pos.y);
+  cropW=Math.abs(pos.x-cropStartX)||1;
+  cropH=Math.abs(pos.y-cropStartY)||1;
+  updateCropInputs();
+  drawCropCanvas();
+}
+function cropMouseUp(e){
+  if(!cropDragging)return;
+  cropDragging=false;
+  cropMouseMove(e);
+}
+
+function updateCropInputs(){
+  const cx=document.getElementById('cr-x');const cy=document.getElementById('cr-y');
+  const cw=document.getElementById('cr-w');const ch=document.getElementById('cr-h');
+  if(cx)cx.value=Math.round(cropX);if(cy)cy.value=Math.round(cropY);
+  if(cw)cw.value=Math.round(cropW);if(ch)ch.value=Math.round(cropH);
+}
+
+function updateCropFromInputs(){
+  cropX=parseInt(document.getElementById('cr-x').value)||0;
+  cropY=parseInt(document.getElementById('cr-y').value)||0;
+  cropW=parseInt(document.getElementById('cr-w').value)||cropOrigW;
+  cropH=parseInt(document.getElementById('cr-h').value)||cropOrigH;
+  drawCropCanvas();
+}
+
+function applyCropPreset(preset){
+  document.querySelectorAll('.crop-preset-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  if(!cropOrigW)return;
+  let w,h;
+  if(preset==='square'){w=Math.min(cropOrigW,cropOrigH);h=w;}
+  else if(preset==='portrait'){h=cropOrigH;w=Math.round(h*3/4);if(w>cropOrigW){w=cropOrigW;h=Math.round(w*4/3);}}
+  else if(preset==='landscape'){w=cropOrigW;h=Math.round(w*9/16);if(h>cropOrigH){h=cropOrigH;w=Math.round(h*16/9);}}
+  else if(preset==='banner'){w=cropOrigW;h=Math.round(w/3);if(h>cropOrigH){h=cropOrigH;w=h*3;}}
+  else{cropX=0;cropY=0;cropW=cropOrigW;cropH=cropOrigH;updateCropInputs();drawCropCanvas();return;}
+  cropX=Math.round((cropOrigW-w)/2);
+  cropY=Math.round((cropOrigH-h)/2);
+  cropW=w;cropH=h;
+  updateCropInputs();drawCropCanvas();
 }
 
 async function runCrop(){
   const input=document.querySelector('#dz7 input');
-  if(!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
+  if(!input||!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
   const x=parseInt(document.getElementById('cr-x').value)||0;
   const y=parseInt(document.getElementById('cr-y').value)||0;
   const w=parseInt(document.getElementById('cr-w').value);
   const h=parseInt(document.getElementById('cr-h').value);
-  if(!w||!h||w<1||h<1){toast('⚠️','Please enter valid crop size!');return}
+  if(!w||!h||w<1||h<1){toast('⚠️','Please select crop area first!');return}
   const p=document.getElementById('p7');
   p.innerHTML=`<div class="proc"><div class="ps">⚙️</div><div class="pt">Cropping image...</div><div class="pp">Processing — no credit used!</div><div class="pgt"><div class="pgf" id="pgf7"></div></div><p class="ppc" id="ppc7">0%</p></div>`;
   const iv=startProgress(7);
   try{
     const fd=new FormData();
-    fd.append('file',input.files[0]);
-    fd.append('x',x);fd.append('y',y);
-    fd.append('width',w);fd.append('height',h);
+    fd.append('file',input.files[0]);fd.append('x',x);fd.append('y',y);fd.append('width',w);fd.append('height',h);
     const res=await fetch(BACKEND+'/crop',{method:'POST',body:fd});
-    const blob=await res.blob();
-    finishProgress(7,iv);
+    const blob=await res.blob();finishProgress(7,iv);
     const url=URL.createObjectURL(blob);
-    setTimeout(()=>{
-      p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Image Cropped! ✂️</div><div class="rs">Crop: ${w} × ${h} px</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_cropped.png">⬇ Download</a></div><button class="rl" onclick="switchTab(7)">↺ Crop another</button></div>`;
-    },400);
+    setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Image Cropped! ✂️</div><div class="rs">Crop: ${w} × ${h} px</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_cropped.png">⬇ Download</a></div><button class="rl" onclick="switchTab(7)">↺ Crop another</button></div>`;},400);
   }catch(e){
     finishProgress(7,iv);
     p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Try again.</div><button class="rl" onclick="switchTab(7)">↺ Try Again</button></div>`;
   }
 }
 
-// ✅ Auth functions
+// ✅ Auth
 function showAuth(type){
   const cfg={login:{t:'Welcome Back 👋',d:'Sign in to your imgChamp account.',btn:'Sign In',sp:false},signup:{t:'Create Free Account 🚀',d:'Get 5 free AI image credits every day.',btn:'Create Account',sp:true}};
   const c=cfg[type]||cfg.signup;
