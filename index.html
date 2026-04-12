@@ -592,7 +592,7 @@ async function runBG(){
     },400);
   }catch(e){
     finishProgress(2,iv);
-    p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Try again.</div><button class="rl" onclick="location.reload()">↺ Try Again</button></div>`;
+    p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Try again.</div><button class="rl" onclick="switchTab(${t})">↺ Try Again</button></div>`;
   }
 }
 
