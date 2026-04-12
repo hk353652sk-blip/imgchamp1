@@ -588,7 +588,7 @@ async function runBG(){
     finishProgress(2,iv);
     const url=URL.createObjectURL(blob);
     setTimeout(()=>{
-      p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Background Removed! ✂️</div><div class="rs">Done! Download below.</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_bg_removed.png">⬇ Download</a></div><button class="rl" onclick="location.reload()">↺ Remove another</button></div>`;
+      p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Background Removed! ✂️</div><div class="rs">Done! Download below.</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_bg_removed.png">⬇ Download</a></div><button class="rl" onclick="switchTab(2)">↺ Remove another</button></div>`;
     },400);
   }catch(e){
     finishProgress(2,iv);
@@ -611,7 +611,7 @@ async function run(t){
     finishProgress(t,iv);
     const url=URL.createObjectURL(blob);
     setTimeout(()=>{
-      p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">${tD[t]}</div><div class="rs">Done! Your processed image is ready.</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_result.png">⬇ Download</a></div><button class="rl" onclick="location.reload()">↺ Process another</button></div>`;
+      p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">${tD[t]}</div><div class="rs">Done! Your processed image is ready.</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_result.png">⬇ Download</a></div><button class="rl" onclick="switchTab(${t})">↺ Process another</button></div>`;
     },400);
   }catch(e){
     finishProgress(t,iv);
