@@ -133,7 +133,6 @@ h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2rem,5.5vw,3.8rem)
 .fmt-btn{padding:.45rem .9rem;border-radius:8px;border:1px solid var(--border2);background:var(--surface);color:var(--muted);font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s}
 .fmt-btn:hover{border-color:var(--accent);color:var(--text)}
 .fmt-btn.active{border-color:var(--accent);background:rgba(99,102,241,0.12);color:#818cf8}
-/* Crop canvas styles */
 .crop-canvas-wrap{position:relative;display:inline-block;max-width:100%;margin-bottom:.8rem;cursor:crosshair;user-select:none}
 .crop-canvas-wrap canvas{border-radius:10px;max-width:100%;display:block}
 .crop-inp-row{display:flex;gap:.5rem;align-items:center;margin-bottom:.6rem;flex-wrap:wrap}
@@ -418,9 +417,9 @@ footer p{font-size:.74rem;color:var(--muted2)}
         <div><h3>Format Converter <span class="bf">✅ Free!</span></h3>
         <p>Convert to JPG, PNG, WEBP, BMP, GIF instantly.</p></div>
       </div>
-      <div class="dz" id="dz5" style="border-color:rgba(239,68,68,0.25)"><input type="file" accept="image/*" onchange="onFile(5,this)">
-        <span class="dz-ic">🔄</span><div class="dz-t">Drop your image here</div>
-        <div class="dz-s">PNG · JPG · WEBP · BMP · GIF · Max 20MB · <b>or</b></div>
+      <div class="dz" id="dz5" style="border-color:rgba(239,68,68,0.25)"><input type="file" accept="image/*" multiple onchange="onFile(5,this)">
+        <span class="dz-ic">🔄</span><div class="dz-t">Drop image(s) here</div>
+        <div class="dz-s">Multiple files OK · PNG · JPG · WEBP · BMP · GIF · Max 20MB · <b>or</b></div>
         <button class="ob" style="background:linear-gradient(135deg,#dc2626,#ef4444);box-shadow:0 0 20px rgba(239,68,68,0.3)" type="button" onclick="tFile(5)">📁 Open Gallery / Folder</button></div>
       <div style="margin-top:1rem">
         <div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem;font-weight:600;">🎯 Convert to:</div>
@@ -667,7 +666,6 @@ window.addEventListener('DOMContentLoaded',()=>{
   }
 });
 
-// ✅ Auth
 function updateNav(session){
   const navR=document.getElementById('nav-r');
   if(session){
@@ -700,7 +698,6 @@ function updCr(){
 }
 updCr();
 
-// ✅ FIX: switchTab — confirms before reset if image loaded
 function switchTab(i){
   if(curTab===i)return;
   const activePanel=document.getElementById('p'+curTab);
@@ -727,9 +724,11 @@ function tFile(i){
   if(inp)inp.click();
 }
 
+// ✅ FIX: multiple files toast
 function onFile(t,inp){
   if(inp.files&&inp.files.length){
-    toast('🖼️','"'+inp.files[0].name+'" ready!');
+    const count=inp.files.length;
+    toast('🖼️',count>1?count+' images ready!':'"'+inp.files[0].name+'" ready!');
     const reader=new FileReader();
     reader.onload=function(e){
       const dz=document.getElementById('dz'+t);
@@ -743,6 +742,7 @@ function onFile(t,inp){
   }
 }
 
+// ✅ FIX: multiple drag & drop for tabs 3, 5, 6
 function attachDZ(i){
   const d=document.getElementById('dz'+i);
   if(!d)return;
@@ -750,10 +750,14 @@ function attachDZ(i){
   d.addEventListener('dragleave',()=>d.classList.remove('drag-over'));
   d.addEventListener('drop',e=>{
     e.preventDefault();d.classList.remove('drag-over');
-    if(e.dataTransfer.files&&e.dataTransfer.files[0]){
+    if(e.dataTransfer.files&&e.dataTransfer.files.length){
       const input=d.querySelector('input');
       const dt=new DataTransfer();
-      dt.items.add(e.dataTransfer.files[0]);
+      if(i===3||i===5||i===6){
+        Array.from(e.dataTransfer.files).forEach(f=>dt.items.add(f));
+      }else{
+        dt.items.add(e.dataTransfer.files[0]);
+      }
       input.files=dt.files;
       if(i===4)onFileResize(input);
       else if(i===7)onFileCrop(input);
@@ -821,7 +825,6 @@ async function run(t){
   }
 }
 
-// ✅ RESIZE
 function onFileResize(inp){
   if(!inp.files||!inp.files[0])return;
   toast('🖼️','"'+inp.files[0].name+'" ready!');
@@ -840,7 +843,6 @@ function onFileResize(inp){
   img.src=url;
 }
 
-// ✅ 6 presets
 function applyPreset(size){
   document.querySelectorAll('.sz-btn').forEach(b=>b.classList.remove('active'));
   event.target.closest('.sz-btn').classList.add('active');
@@ -885,37 +887,42 @@ async function runResize(){
   }
 }
 
-// ✅ FORMAT CONVERT
 function selFmt(el,fmt){
   document.querySelectorAll('.fmt-btn').forEach(b=>b.classList.remove('active'));
   el.classList.add('active');selFmtVal=fmt;
 }
 
+// ✅ FIX: Convert multiple files — each file converted separately, all download links shown
 async function runConvert(){
   const input=document.querySelector('#dz5 input');
   if(!input||!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
+  const files=Array.from(input.files);
   const p=document.getElementById('p5');
-  p.innerHTML=`<div class="proc"><div class="ps">⚙️</div><div class="pt">Converting to ${selFmtVal.toUpperCase()}...</div><div class="pp">Processing — no credit used!</div><div class="pgt"><div class="pgf" id="pgf5"></div></div><p class="ppc" id="ppc5">0%</p></div>`;
+  p.innerHTML=`<div class="proc"><div class="ps">⚙️</div><div class="pt">Converting ${files.length} image(s) to ${selFmtVal.toUpperCase()}...</div><div class="pp">Processing — no credit used!</div><div class="pgt"><div class="pgf" id="pgf5"></div></div><p class="ppc" id="ppc5">0%</p></div>`;
   const iv=startProgress(5);
   try{
-    const fd=new FormData();fd.append('file',input.files[0]);fd.append('format',selFmtVal);
-    const res=await fetch(BACKEND+'/convert',{method:'POST',body:fd});
-    const blob=await res.blob();finishProgress(5,iv);
     const ext=selFmtVal==='jpeg'?'jpg':selFmtVal;
-    const url=URL.createObjectURL(blob);
-    setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Format Converted! 🔄</div><div class="rs">Converted to ${ext.toUpperCase()}</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_converted.${ext}">⬇ Download ${ext.toUpperCase()}</a></div><button class="rl" onclick="switchTab(5)">↺ Convert another</button></div>`;},400);
+    const urls=[];
+    for(const f of files){
+      const fd=new FormData();fd.append('file',f);fd.append('format',selFmtVal);
+      const res=await fetch(BACKEND+'/convert',{method:'POST',body:fd});
+      const blob=await res.blob();
+      urls.push({url:URL.createObjectURL(blob),name:f.name.replace(/\.[^.]+$/,'.'+ext)});
+    }
+    finishProgress(5,iv);
+    const dlLinks=urls.map(u=>`<a class="dlh" href="${u.url}" download="${u.name}">⬇ ${u.name}</a>`).join('');
+    setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Format Converted! 🔄</div><div class="rs">${urls.length} file(s) converted to ${ext.toUpperCase()}</div><div class="rbs" style="flex-direction:column;align-items:center;gap:.4rem">${dlLinks}</div><button class="rl" onclick="switchTab(5)">↺ Convert another</button></div>`;},400);
   }catch(e){
     finishProgress(5,iv);
     p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Try again.</div><button class="rl" onclick="switchTab(5)">↺ Try Again</button></div>`;
   }
 }
 
-// ✅ IMAGE TO PDF
 async function runPDF(){
   const input=document.querySelector('#dz6 input');
   if(!input||!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
   const p=document.getElementById('p6');
-  p.innerHTML=`<div class="proc"><div class="ps">⚙️</div><div class="pt">Converting to PDF...</div><div class="pp">Processing — no credit used!</div><div class="pgt"><div class="pgf" id="pgf6"></div></div><p class="ppc" id="ppc6">0%</p></div>`;
+  p.innerHTML=`<div class="proc"><div class="ps">⚙️</div><div class="pt">Converting ${input.files.length} image(s) to PDF...</div><div class="pp">Processing — no credit used!</div><div class="pgt"><div class="pgf" id="pgf6"></div></div><p class="ppc" id="ppc6">0%</p></div>`;
   const iv=startProgress(6);
   try{
     const fd=new FormData();Array.from(input.files).forEach(f=>fd.append('files',f));
@@ -929,7 +936,6 @@ async function runPDF(){
   }
 }
 
-// ✅ CROP TOOL
 function initCropCanvas(){
   const canvas=document.getElementById('crop-canvas');
   if(!canvas)return;
@@ -952,8 +958,7 @@ function onFileCrop(inp){
     if(oi)oi.textContent='Original: '+cropOrigW+' × '+cropOrigH+' px';
     const ce=document.getElementById('crop-editor');if(ce)ce.style.display='block';
     cropX=0;cropY=0;cropW=cropOrigW;cropH=cropOrigH;
-    updateCropInputs();
-    drawCropCanvas();
+    updateCropInputs();drawCropCanvas();
     const dz=document.getElementById('dz7');
     if(dz){dz.style.backgroundImage='url('+url+')';dz.style.backgroundSize='cover';dz.style.backgroundPosition='center';dz.style.borderColor='var(--accent)';}
     initCropCanvas();
@@ -966,55 +971,34 @@ function drawCropCanvas(){
   if(!canvas||!cropImg)return;
   const maxW=Math.min(canvas.parentElement.clientWidth||500,700);
   const scale=maxW/cropOrigW;
-  canvas.width=maxW;
-  canvas.height=cropOrigH*scale;
+  canvas.width=maxW;canvas.height=cropOrigH*scale;
   const ctx=canvas.getContext('2d');
   ctx.drawImage(cropImg,0,0,canvas.width,canvas.height);
-  ctx.fillStyle='rgba(0,0,0,0.5)';
-  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle='rgba(0,0,0,0.5)';ctx.fillRect(0,0,canvas.width,canvas.height);
   const sx=cropX*scale,sy=cropY*scale,sw=cropW*scale,sh=cropH*scale;
   ctx.drawImage(cropImg,cropX,cropY,cropW,cropH,sx,sy,sw,sh);
   ctx.strokeStyle='#6366f1';ctx.lineWidth=2;ctx.setLineDash([6,3]);
-  ctx.strokeRect(sx,sy,sw,sh);
-  ctx.setLineDash([]);
+  ctx.strokeRect(sx,sy,sw,sh);ctx.setLineDash([]);
   const hs=8;ctx.fillStyle='#6366f1';
-  [[sx,sy],[sx+sw,sy],[sx,sy+sh],[sx+sw,sy+sh]].forEach(([hx,hy])=>{
-    ctx.fillRect(hx-hs/2,hy-hs/2,hs,hs);
-  });
+  [[sx,sy],[sx+sw,sy],[sx,sy+sh],[sx+sw,sy+sh]].forEach(([hx,hy])=>{ctx.fillRect(hx-hs/2,hy-hs/2,hs,hs);});
 }
 
 function getCanvasPos(e){
   const canvas=document.getElementById('crop-canvas');
   const rect=canvas.getBoundingClientRect();
   const scale=cropOrigW/canvas.width;
-  return{
-    x:Math.max(0,Math.min(cropOrigW,(e.clientX-rect.left)*scale)),
-    y:Math.max(0,Math.min(cropOrigH,(e.clientY-rect.top)*scale))
-  };
+  return{x:Math.max(0,Math.min(cropOrigW,(e.clientX-rect.left)*scale)),y:Math.max(0,Math.min(cropOrigH,(e.clientY-rect.top)*scale))};
 }
 
-function cropMouseDown(e){
-  if(!cropImg)return;
-  cropDragging=true;
-  const pos=getCanvasPos(e);
-  cropStartX=pos.x;cropStartY=pos.y;
-  cropX=pos.x;cropY=pos.y;cropW=1;cropH=1;
-}
+function cropMouseDown(e){if(!cropImg)return;cropDragging=true;const pos=getCanvasPos(e);cropStartX=pos.x;cropStartY=pos.y;cropX=pos.x;cropY=pos.y;cropW=1;cropH=1;}
 function cropMouseMove(e){
   if(!cropDragging||!cropImg)return;
   const pos=getCanvasPos(e);
-  cropX=Math.min(cropStartX,pos.x);
-  cropY=Math.min(cropStartY,pos.y);
-  cropW=Math.abs(pos.x-cropStartX)||1;
-  cropH=Math.abs(pos.y-cropStartY)||1;
-  updateCropInputs();
-  drawCropCanvas();
+  cropX=Math.min(cropStartX,pos.x);cropY=Math.min(cropStartY,pos.y);
+  cropW=Math.abs(pos.x-cropStartX)||1;cropH=Math.abs(pos.y-cropStartY)||1;
+  updateCropInputs();drawCropCanvas();
 }
-function cropMouseUp(e){
-  if(!cropDragging)return;
-  cropDragging=false;
-  cropMouseMove(e);
-}
+function cropMouseUp(e){if(!cropDragging)return;cropDragging=false;cropMouseMove(e);}
 
 function updateCropInputs(){
   const cx=document.getElementById('cr-x');const cy=document.getElementById('cr-y');
@@ -1041,10 +1025,8 @@ function applyCropPreset(preset){
   else if(preset==='landscape'){w=cropOrigW;h=Math.round(w*9/16);if(h>cropOrigH){h=cropOrigH;w=Math.round(h*16/9);}}
   else if(preset==='banner'){w=cropOrigW;h=Math.round(w/3);if(h>cropOrigH){h=cropOrigH;w=h*3;}}
   else{cropX=0;cropY=0;cropW=cropOrigW;cropH=cropOrigH;updateCropInputs();drawCropCanvas();return;}
-  cropX=Math.round((cropOrigW-w)/2);
-  cropY=Math.round((cropOrigH-h)/2);
-  cropW=w;cropH=h;
-  updateCropInputs();drawCropCanvas();
+  cropX=Math.round((cropOrigW-w)/2);cropY=Math.round((cropOrigH-h)/2);
+  cropW=w;cropH=h;updateCropInputs();drawCropCanvas();
 }
 
 async function runCrop(){
@@ -1071,12 +1053,10 @@ async function runCrop(){
   }
 }
 
-// ✅ Auth
 function showAuth(type){
   const cfg={login:{t:'Welcome Back 👋',d:'Sign in to your imgChamp account.',btn:'Sign In',sp:false},signup:{t:'Create Free Account 🚀',d:'Get 5 free AI image credits every day.',btn:'Create Account',sp:true}};
   const c=cfg[type]||cfg.signup;
-  document.getElementById('at').textContent=c.t;
-  document.getElementById('ad').textContent=c.d;
+  document.getElementById('at').textContent=c.t;document.getElementById('ad').textContent=c.d;
   document.getElementById('ab2').textContent=c.btn;
   document.getElementById('asp').style.display=c.sp?'block':'none';
   document.getElementById('am').classList.add('show');
