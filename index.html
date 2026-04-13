@@ -12,7 +12,9 @@
 <meta property="og:url" content="https://imgchamp.com">
 <link rel="canonical" href="https://imgchamp.com">
 <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 <script>
 const _supabase = window.supabase.createClient(
 'https://bitmwxgkgvjnfzafysto.supabase.co',
@@ -35,11 +37,28 @@ nav{position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-co
 .btn-lo:hover{border-color:var(--accent);color:var(--text)}
 .btn-su{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#fff;padding:.43rem 1.1rem;border-radius:8px;font-size:.82rem;cursor:pointer;font-family:'Outfit',sans-serif;font-weight:600;transition:all .2s;box-shadow:0 0 20px var(--glow)}
 .btn-su:hover{transform:translateY(-1px);box-shadow:0 0 30px var(--glow)}
-.user-btn{display:flex;align-items:center;gap:.5rem;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);border-radius:8px;padding:.33rem .8rem;cursor:default}
+.user-btn{display:flex;align-items:center;gap:.5rem;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);border-radius:8px;padding:.33rem .8rem;cursor:default;position:relative}
 .user-btn img{width:22px;height:22px;border-radius:50%;object-fit:cover}
 .user-btn span{font-size:.78rem;font-weight:700;color:#818cf8}
+.plan-badge{position:absolute;top:-8px;right:-8px;font-size:.55rem;font-weight:800;padding:.15rem .4rem;border-radius:50px;white-space:nowrap;letter-spacing:.3px}
+.plan-badge.free{background:#374151;color:#9ca3af}
+.plan-badge.starter{background:linear-gradient(135deg,#059669,#10b981);color:#fff}
+.plan-badge.pro{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff}
+.plan-badge.business{background:linear-gradient(135deg,#d97706,#f59e0b);color:#fff}
 .signout-btn{background:transparent;border:1px solid var(--border2);color:var(--muted);padding:.33rem .7rem;border-radius:8px;font-size:.75rem;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .2s}
 .signout-btn:hover{border-color:var(--danger);color:var(--danger)}
+/* Jobs bar */
+.jobs-bar{position:fixed;bottom:1.5rem;left:1.5rem;z-index:9998;display:flex;flex-direction:column;gap:.5rem;max-width:280px}
+.job-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:.7rem 1rem;display:flex;align-items:center;gap:.6rem;box-shadow:0 8px 30px rgba(0,0,0,0.4);animation:slideIn .3s ease}
+@keyframes slideIn{from{transform:translateX(-100%);opacity:0}to{transform:translateX(0);opacity:1}}
+.job-spin{font-size:1.1rem;animation:spin 1s linear infinite;flex-shrink:0}
+.job-done{font-size:1.1rem;flex-shrink:0}
+.job-info{flex:1;min-width:0}
+.job-title{font-size:.75rem;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.job-sub{font-size:.65rem;color:var(--muted)}
+.job-cancel{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.8rem;padding:.1rem .3rem;border-radius:4px;flex-shrink:0}
+.job-cancel:hover{color:var(--danger)}
+.job-dl{display:inline-flex;align-items:center;gap:.25rem;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#fff;padding:.3rem .7rem;border-radius:7px;font-family:'Outfit',sans-serif;font-size:.68rem;font-weight:700;cursor:pointer;text-decoration:none;margin-top:.3rem}
 .hero{position:relative;z-index:1;text-align:center;padding:70px 5% 40px}
 .hero-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.2);border-radius:50px;padding:.28rem 1rem;font-size:.74rem;color:#818cf8;font-weight:600;letter-spacing:.3px;margin-bottom:1.3rem;animation:fu .5s ease both}
 h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2rem,5.5vw,3.8rem);font-weight:800;line-height:1.1;letter-spacing:-2px;margin-bottom:1rem;animation:fu .5s .08s ease both}
@@ -74,7 +93,9 @@ h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2rem,5.5vw,3.8rem)
 .th p{font-size:.77rem;color:var(--muted);line-height:1.5}
 .bf{display:inline-flex;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.25);border-radius:5px;padding:.1rem .45rem;font-size:.66rem;color:#34d399;font-weight:700;margin-left:.35rem}
 .bp{display:inline-flex;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);border-radius:5px;padding:.1rem .45rem;font-size:.66rem;color:#818cf8;font-weight:700}
-.dz{border:2px dashed var(--border2);border-radius:16px;padding:2.5rem 1.5rem;text-align:center;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;background:linear-gradient(135deg,rgba(99,102,241,0.02),rgba(139,92,246,0.02))}
+/* Dropzone — bottom bar style after upload */
+.dz{border:2px dashed var(--border2);border-radius:16px;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;background:linear-gradient(135deg,rgba(99,102,241,0.02),rgba(139,92,246,0.02));min-height:160px}
+.dz-empty{padding:2.5rem 1.5rem;text-align:center}
 .dz:hover,.dz.drag-over{border-color:var(--accent);background:rgba(99,102,241,0.05);box-shadow:0 0 30px rgba(99,102,241,0.08)}
 .dz input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
 .dz-ic{font-size:2.4rem;margin-bottom:.8rem;display:block;filter:drop-shadow(0 0 12px rgba(99,102,241,0.3))}
@@ -83,6 +104,11 @@ h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2rem,5.5vw,3.8rem)
 .dz-s b{color:#818cf8}
 .ob{display:inline-flex;align-items:center;gap:.4rem;margin-top:.9rem;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:10px;padding:.55rem 1.3rem;font-size:.8rem;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .2s;box-shadow:0 0 20px var(--glow)}
 .ob:hover{transform:translateY(-1px);box-shadow:0 0 30px var(--glow)}
+/* Uploaded state - image preview + bottom bar */
+.dz-preview{width:100%;height:180px;object-fit:cover;display:block;border-radius:14px 14px 0 0}
+.dz-bottom{display:flex;align-items:center;justify-content:space-between;padding:.6rem .9rem;background:rgba(0,0,0,0.5);backdrop-filter:blur(8px);border-top:1px solid rgba(255,255,255,0.08);border-radius:0 0 14px 14px}
+.dz-fname{font-size:.72rem;color:var(--text);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px}
+.dz-change{font-size:.68rem;color:#818cf8;font-weight:700;cursor:pointer;border:1px solid rgba(99,102,241,0.3);background:rgba(99,102,241,0.1);border-radius:6px;padding:.2rem .55rem;font-family:'Outfit',sans-serif;white-space:nowrap}
 .ci{display:flex;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.7rem 1rem;margin-top:.9rem;flex-wrap:wrap;gap:.45rem}
 .ci-l{font-size:.77rem;color:var(--muted)}
 .ci-l b{color:var(--text);font-size:.86rem}
@@ -102,7 +128,16 @@ h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2rem,5.5vw,3.8rem)
 .ab5{background:linear-gradient(135deg,#dc2626,#ef4444);box-shadow:0 0 25px rgba(239,68,68,0.3)}
 .ab6{background:linear-gradient(135deg,#ca8a04,#eab308);box-shadow:0 0 25px rgba(234,179,8,0.3)}
 .ab7{background:linear-gradient(135deg,#7c3aed,#a855f7);box-shadow:0 0 25px rgba(168,85,247,0.3)}
-.proc{text-align:center;padding:2rem 1rem}
+/* Processing overlay with boxing gloves animation */
+.proc{text-align:center;padding:2rem 1rem;position:relative}
+.proc-overlay{position:relative;display:inline-block;margin-bottom:1rem}
+.proc-img-blur{width:100%;max-height:160px;object-fit:cover;border-radius:12px;filter:blur(8px);opacity:0.7;display:block}
+.boxing-anim{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;align-items:center;gap:.3rem;animation:punchAnim 1s ease-in-out infinite}
+.glove-l{font-size:2rem;display:inline-block;animation:punchL .5s ease-in-out infinite alternate;transform-origin:right center}
+.glove-r{font-size:2rem;display:inline-block;animation:punchR .5s ease-in-out infinite alternate;transform-origin:left center}
+@keyframes punchL{from{transform:translateX(-8px) rotate(-15deg)}to{transform:translateX(8px) rotate(10deg)}}
+@keyframes punchR{from{transform:translateX(8px) rotate(15deg)}to{transform:translateX(-8px) rotate(-10deg)}}
+@keyframes punchAnim{0%,100%{gap:.3rem}50%{gap:.8rem}}
 .ps{font-size:2.5rem;display:inline-block;animation:spin 1.2s linear infinite;margin-bottom:.8rem}
 @keyframes spin{to{transform:rotate(360deg)}}
 .pt{font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:700;margin-bottom:.35rem}
@@ -115,8 +150,22 @@ h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2rem,5.5vw,3.8rem)
 .rt{font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:800;margin-bottom:.25rem}
 .rs{color:var(--muted);font-size:.78rem;margin-bottom:.9rem}
 .rbs{display:flex;gap:.55rem;justify-content:center;flex-wrap:wrap;margin-bottom:.7rem}
-.dlh{display:inline-flex;align-items:center;gap:.35rem;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#fff;padding:.6rem 1.3rem;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.79rem;font-weight:700;cursor:pointer;box-shadow:0 0 20px var(--glow);transition:all .2s;text-decoration:none}
+/* Download dropdown */
+.dl-wrap{position:relative;display:inline-block}
+.dlh{display:inline-flex;align-items:center;gap:.35rem;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#fff;padding:.6rem 1.3rem;border-radius:10px 0 0 10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.79rem;font-weight:700;cursor:pointer;box-shadow:0 0 20px var(--glow);transition:all .2s;text-decoration:none}
 .dlh:hover{transform:translateY(-1px)}
+.dl-arr{display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#5558e8,#7c3aed);border:none;color:#fff;padding:.6rem .7rem;border-radius:0 10px 10px 0;cursor:pointer;box-shadow:0 0 20px var(--glow);border-left:1px solid rgba(255,255,255,0.15)}
+.dl-dropdown{display:none;position:absolute;bottom:calc(100% + 6px);left:0;background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,0.5);min-width:220px;z-index:100}
+.dl-dropdown.show{display:block}
+.dl-opt{display:flex;align-items:center;justify-content:space-between;padding:.7rem 1rem;cursor:pointer;transition:background .2s;text-decoration:none}
+.dl-opt:hover{background:rgba(99,102,241,0.08)}
+.dl-opt-l{display:flex;align-items:center;gap:.5rem}
+.dl-opt-icon{font-size:.9rem}
+.dl-opt-name{font-size:.78rem;font-weight:700;color:var(--text)}
+.dl-opt-size{font-size:.68rem;color:var(--muted)}
+.dl-opt-badge{font-size:.62rem;font-weight:700;padding:.12rem .45rem;border-radius:50px}
+.dl-opt-badge.free{background:rgba(16,185,129,0.15);color:#34d399;border:1px solid rgba(16,185,129,0.3)}
+.dl-opt-badge.lock{background:rgba(99,102,241,0.15);color:#818cf8;border:1px solid rgba(99,102,241,0.3);cursor:pointer}
 .rl{font-size:.76rem;color:var(--muted);cursor:pointer;border:none;background:none;font-family:'Outfit',sans-serif;text-decoration:underline}
 .sz-btns{display:flex;gap:.5rem;margin-bottom:1rem;flex-wrap:wrap}
 .sz-btn{flex:1;min-width:80px;padding:.55rem .5rem;border-radius:10px;border:1px solid var(--border2);background:var(--surface);color:var(--muted);font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s;text-align:center}
@@ -133,12 +182,9 @@ h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2rem,5.5vw,3.8rem)
 .fmt-btn{padding:.45rem .9rem;border-radius:8px;border:1px solid var(--border2);background:var(--surface);color:var(--muted);font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s}
 .fmt-btn:hover{border-color:var(--accent);color:var(--text)}
 .fmt-btn.active{border-color:var(--accent);background:rgba(99,102,241,0.12);color:#818cf8}
-.crop-canvas-wrap{position:relative;display:inline-block;max-width:100%;margin-bottom:.8rem;cursor:crosshair;user-select:none}
-.crop-canvas-wrap canvas{border-radius:10px;max-width:100%;display:block}
-.crop-inp-row{display:flex;gap:.5rem;align-items:center;margin-bottom:.6rem;flex-wrap:wrap}
-.crop-inp-row label{font-size:.73rem;color:var(--muted);width:40px;flex-shrink:0}
-.crop-inp{width:70px;background:var(--surface);border:1px solid var(--border2);border-radius:7px;color:var(--text);padding:.4rem .5rem;font-family:'Outfit',sans-serif;font-size:.8rem;outline:none}
-.crop-inp:focus{border-color:var(--accent)}
+/* Cropper styles */
+.crop-wrap{max-width:100%;margin-bottom:.8rem;border-radius:10px;overflow:hidden;max-height:320px}
+.crop-wrap img{max-width:100%;display:block}
 .crop-preset-btns{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.8rem}
 .crop-preset-btn{padding:.4rem .7rem;border-radius:8px;border:1px solid var(--border2);background:var(--surface);color:var(--muted);font-family:'Outfit',sans-serif;font-size:.72rem;font-weight:600;cursor:pointer;transition:all .2s}
 .crop-preset-btn:hover{border-color:var(--accent);color:var(--text)}
@@ -258,6 +304,9 @@ footer p{font-size:.74rem;color:var(--muted2)}
 <div class="bg-mesh"></div>
 <div class="bg-grid"></div>
 
+<!-- Jobs bar for background processing -->
+<div class="jobs-bar" id="jobs-bar"></div>
+
 <nav>
   <div class="logo" onclick="hidePage()">
     <div class="logo-icon">🏆</div>
@@ -307,9 +356,9 @@ footer p{font-size:.74rem;color:var(--muted2)}
         <p>Enhance images up to 8×. Free = low quality + watermark. <span class="bp">⭐ HD = Upgrade</span></p></div>
       </div>
       <div class="dz" id="dz0"><input type="file" accept="image/*" onchange="onFile(0,this)">
-        <span class="dz-ic">🖼️</span><div class="dz-t">Drop your image here</div>
+        <div class="dz-empty"><span class="dz-ic">🖼️</span><div class="dz-t">Drop your image here</div>
         <div class="dz-s">PNG · JPG · WEBP · Max 10MB · <b>or</b></div>
-        <button class="ob" type="button" onclick="tFile(0)">📁 Open Gallery / Folder</button></div>
+        <button class="ob" type="button" onclick="tFile(0)">📁 Open Gallery / Folder</button></div></div>
       <div class="ci">
         <div class="ci-l">Credits today: <b id="cd0">5 / 5</b></div>
         <div class="ci-r"><div class="cbt"><div class="cbf" id="cb0" style="width:100%"></div></div>
@@ -325,9 +374,9 @@ footer p{font-size:.74rem;color:var(--muted2)}
         <p>Restore old, blurry or damaged face photos. <span class="bp">⭐ HD = Upgrade</span></p></div>
       </div>
       <div class="dz" id="dz1" style="border-color:rgba(245,158,11,0.25)"><input type="file" accept="image/*" onchange="onFile(1,this)">
-        <span class="dz-ic">👤</span><div class="dz-t">Drop face photo here</div>
+        <div class="dz-empty"><span class="dz-ic">👤</span><div class="dz-t">Drop face photo here</div>
         <div class="dz-s">Best with portrait photos · Max 10MB · <b>or</b></div>
-        <button class="ob" style="background:linear-gradient(135deg,#d97706,#f59e0b);box-shadow:0 0 20px rgba(245,158,11,0.3)" type="button" onclick="tFile(1)">📁 Open Gallery / Folder</button></div>
+        <button class="ob" style="background:linear-gradient(135deg,#d97706,#f59e0b);box-shadow:0 0 20px rgba(245,158,11,0.3)" type="button" onclick="tFile(1)">📁 Open Gallery / Folder</button></div></div>
       <div class="ci">
         <div class="ci-l">Credits today: <b id="cd1">5 / 5</b></div>
         <div class="ci-r"><div class="cbt"><div class="cbf" id="cb1" style="width:100%;background:linear-gradient(90deg,#d97706,#f59e0b)"></div></div>
@@ -343,9 +392,9 @@ footer p{font-size:.74rem;color:var(--muted2)}
         <p>Remove backgrounds instantly — unlimited & free! <span class="bp">⭐ HD = Upgrade</span></p></div>
       </div>
       <div class="dz" id="dz2" style="border-color:rgba(16,185,129,0.25)"><input type="file" accept="image/*" onchange="onFile(2,this)">
-        <span class="dz-ic">🌅</span><div class="dz-t">Drop your image here</div>
+        <div class="dz-empty"><span class="dz-ic">🌅</span><div class="dz-t">Drop your image here</div>
         <div class="dz-s">Products · Portraits · Objects · Max 15MB · <b>or</b></div>
-        <button class="ob" style="background:linear-gradient(135deg,#059669,#10b981);box-shadow:0 0 20px rgba(16,185,129,0.25)" type="button" onclick="tFile(2)">📁 Open Gallery / Folder</button></div>
+        <button class="ob" style="background:linear-gradient(135deg,#059669,#10b981);box-shadow:0 0 20px rgba(16,185,129,0.25)" type="button" onclick="tFile(2)">📁 Open Gallery / Folder</button></div></div>
       <div class="ci" style="background:rgba(16,185,129,0.05);border-color:rgba(16,185,129,0.2)">
         <div class="ci-l">✅ <b>Unlimited Free</b> · <b style="color:#34d399">No credit needed!</b></div>
         <div class="ci-r"><button class="ul" style="color:#10b981" onclick="showUpgrade()">Get HD ↗</button></div>
@@ -357,12 +406,20 @@ footer p{font-size:.74rem;color:var(--muted2)}
     <div class="panel" id="p3">
       <div class="th"><div class="thi ic3">📦</div>
         <div><h3>Image Compressor <span class="bf">1 Credit/Image</span></h3>
-        <p>Reduce file size up to 90%. <span class="bp">⭐ Best quality = Upgrade</span></p></div>
+        <p>Reduce file size up to 70%. <span class="bp">⭐ Best quality = Upgrade</span></p></div>
       </div>
       <div class="dz" id="dz3" style="border-color:rgba(139,92,246,0.25)"><input type="file" accept="image/*" multiple onchange="onFile(3,this)">
-        <span class="dz-ic">📦</span><div class="dz-t">Drop image(s) here</div>
+        <div class="dz-empty"><span class="dz-ic">📦</span><div class="dz-t">Drop image(s) here</div>
         <div class="dz-s">Multiple files OK · Max 20MB each · <b>or</b></div>
-        <button class="ob" style="background:linear-gradient(135deg,#7c3aed,#a78bfa);box-shadow:0 0 20px rgba(124,58,237,0.3)" type="button" onclick="tFile(3)">📁 Open Gallery / Folder</button></div>
+        <button class="ob" style="background:linear-gradient(135deg,#7c3aed,#a78bfa);box-shadow:0 0 20px rgba(124,58,237,0.3)" type="button" onclick="tFile(3)">📁 Open Gallery / Folder</button></div></div>
+      <div style="margin-top:1rem">
+        <div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem;font-weight:600;">⚡ Compression Level:</div>
+        <div class="sz-btns">
+          <button class="sz-btn" id="cmp-light" onclick="selCompress(this,'light')">🟢 Light<br><span style="font-size:.65rem;color:var(--muted2)">~20-30% smaller</span></button>
+          <button class="sz-btn" id="cmp-medium" onclick="selCompress(this,'medium')">🟡 Medium<br><span style="font-size:.65rem;color:var(--muted2)">~40-50% smaller</span></button>
+          <button class="sz-btn active" id="cmp-max" onclick="selCompress(this,'max')">🔴 Max<br><span style="font-size:.65rem;color:var(--muted2)">~60-70% smaller</span></button>
+        </div>
+      </div>
       <div class="ci">
         <div class="ci-l">Credits today: <b id="cd3">5 / 5</b></div>
         <div class="ci-r"><div class="cbt"><div class="cbf" id="cb3" style="width:100%;background:linear-gradient(90deg,#7c3aed,#a78bfa)"></div></div>
@@ -378,19 +435,19 @@ footer p{font-size:.74rem;color:var(--muted2)}
         <p>Resize to any size. Quick presets or custom width & height.</p></div>
       </div>
       <div class="dz" id="dz4" style="border-color:rgba(6,182,212,0.25)"><input type="file" accept="image/*" onchange="onFileResize(this)">
-        <span class="dz-ic">📐</span><div class="dz-t">Drop your image here</div>
+        <div class="dz-empty"><span class="dz-ic">📐</span><div class="dz-t">Drop your image here</div>
         <div class="dz-s">PNG · JPG · WEBP · Max 20MB · <b>or</b></div>
-        <button class="ob" style="background:linear-gradient(135deg,#0891b2,#06b6d4);box-shadow:0 0 20px rgba(6,182,212,0.3)" type="button" onclick="tFile(4)">📁 Open Gallery / Folder</button></div>
+        <button class="ob" style="background:linear-gradient(135deg,#0891b2,#06b6d4);box-shadow:0 0 20px rgba(6,182,212,0.3)" type="button" onclick="tFile(4)">📁 Open Gallery / Folder</button></div></div>
       <div id="resize-options" style="display:none;margin-top:1rem">
         <div class="orig-info" id="orig-info">Original: — × —</div>
         <div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem;font-weight:600;">⚡ Quick Select:</div>
-        <div class="sz-btns">
-          <button class="sz-btn" onclick="applyPreset('small')">📱 Small<br><span style="font-size:.65rem;color:var(--muted2)">640×auto</span></button>
-          <button class="sz-btn" onclick="applyPreset('hd')">📸 HD<br><span style="font-size:.65rem;color:var(--muted2)">1080×auto</span></button>
-          <button class="sz-btn" onclick="applyPreset('medium')">💻 Medium<br><span style="font-size:.65rem;color:var(--muted2)">1280×auto</span></button>
-          <button class="sz-btn" onclick="applyPreset('large')">🖥️ Large<br><span style="font-size:.65rem;color:var(--muted2)">1920×auto</span></button>
-          <button class="sz-btn" onclick="applyPreset('2k')">🖥️ 2K<br><span style="font-size:.65rem;color:var(--muted2)">2560×auto</span></button>
-          <button class="sz-btn" onclick="applyPreset('4k')">🎬 4K<br><span style="font-size:.65rem;color:var(--muted2)">3840×auto</span></button>
+        <div class="sz-btns" id="resize-preset-btns">
+          <button class="sz-btn" onclick="applyPreset(this,'small')">📱 Small<br><span style="font-size:.65rem;color:var(--muted2)">640×auto</span></button>
+          <button class="sz-btn" onclick="applyPreset(this,'hd')">📸 HD<br><span style="font-size:.65rem;color:var(--muted2)">1080×auto</span></button>
+          <button class="sz-btn" onclick="applyPreset(this,'medium')">💻 Medium<br><span style="font-size:.65rem;color:var(--muted2)">1280×auto</span></button>
+          <button class="sz-btn" onclick="applyPreset(this,'large')">🖥️ Large<br><span style="font-size:.65rem;color:var(--muted2)">1920×auto</span></button>
+          <button class="sz-btn" onclick="applyPreset(this,'2k')">🖥️ 2K<br><span style="font-size:.65rem;color:var(--muted2)">2560×auto</span></button>
+          <button class="sz-btn" onclick="applyPreset(this,'4k')">🎬 4K<br><span style="font-size:.65rem;color:var(--muted2)">3840×auto</span></button>
         </div>
         <div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem;font-weight:600;margin-top:.5rem">✏️ Custom Size:</div>
         <div class="sz-inp-row">
@@ -418,9 +475,9 @@ footer p{font-size:.74rem;color:var(--muted2)}
         <p>Convert to JPG, PNG, WEBP, BMP, GIF instantly.</p></div>
       </div>
       <div class="dz" id="dz5" style="border-color:rgba(239,68,68,0.25)"><input type="file" accept="image/*" multiple onchange="onFile(5,this)">
-        <span class="dz-ic">🔄</span><div class="dz-t">Drop image(s) here</div>
+        <div class="dz-empty"><span class="dz-ic">🔄</span><div class="dz-t">Drop image(s) here</div>
         <div class="dz-s">Multiple files OK · PNG · JPG · WEBP · BMP · GIF · Max 20MB · <b>or</b></div>
-        <button class="ob" style="background:linear-gradient(135deg,#dc2626,#ef4444);box-shadow:0 0 20px rgba(239,68,68,0.3)" type="button" onclick="tFile(5)">📁 Open Gallery / Folder</button></div>
+        <button class="ob" style="background:linear-gradient(135deg,#dc2626,#ef4444);box-shadow:0 0 20px rgba(239,68,68,0.3)" type="button" onclick="tFile(5)">📁 Open Gallery / Folder</button></div></div>
       <div style="margin-top:1rem">
         <div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem;font-weight:600;">🎯 Convert to:</div>
         <div class="fmt-btns">
@@ -444,9 +501,9 @@ footer p{font-size:.74rem;color:var(--muted2)}
         <p>Convert any image to PDF instantly.</p></div>
       </div>
       <div class="dz" id="dz6" style="border-color:rgba(234,179,8,0.25)"><input type="file" accept="image/*" multiple onchange="onFile(6,this)">
-        <span class="dz-ic">📄</span><div class="dz-t">Drop image(s) here</div>
+        <div class="dz-empty"><span class="dz-ic">📄</span><div class="dz-t">Drop image(s) here</div>
         <div class="dz-s">Multiple images → 1 PDF · Max 20MB · <b>or</b></div>
-        <button class="ob" style="background:linear-gradient(135deg,#ca8a04,#eab308);box-shadow:0 0 20px rgba(234,179,8,0.3)" type="button" onclick="tFile(6)">📁 Open Gallery / Folder</button></div>
+        <button class="ob" style="background:linear-gradient(135deg,#ca8a04,#eab308);box-shadow:0 0 20px rgba(234,179,8,0.3)" type="button" onclick="tFile(6)">📁 Open Gallery / Folder</button></div></div>
       <div class="ci" style="background:rgba(234,179,8,0.05);border-color:rgba(234,179,8,0.2)">
         <div class="ci-l">✅ <b>Unlimited Free</b> · <b style="color:#eab308">No credit needed!</b></div>
       </div>
@@ -457,41 +514,27 @@ footer p{font-size:.74rem;color:var(--muted2)}
     <div class="panel" id="p7">
       <div class="th"><div class="thi ic7">✂️</div>
         <div><h3>Image Crop <span class="bf">✅ Free!</span></h3>
-        <p>Drag to select crop area or use presets & custom values.</p></div>
+        <p>Crop with drag, presets or custom values. Mobile friendly.</p></div>
       </div>
       <div class="dz" id="dz7" style="border-color:rgba(168,85,247,0.25)"><input type="file" accept="image/*" onchange="onFileCrop(this)">
-        <span class="dz-ic">✂️</span><div class="dz-t">Drop your image here</div>
+        <div class="dz-empty"><span class="dz-ic">✂️</span><div class="dz-t">Drop your image here</div>
         <div class="dz-s">PNG · JPG · WEBP · Max 20MB · <b>or</b></div>
-        <button class="ob" style="background:linear-gradient(135deg,#7c3aed,#a855f7);box-shadow:0 0 20px rgba(168,85,247,0.3)" type="button" onclick="tFile(7)">📁 Open Gallery / Folder</button></div>
+        <button class="ob" style="background:linear-gradient(135deg,#7c3aed,#a855f7);box-shadow:0 0 20px rgba(168,85,247,0.3)" type="button" onclick="tFile(7)">📁 Open Gallery / Folder</button></div></div>
 
       <div id="crop-editor" style="display:none;margin-top:1rem">
         <div class="orig-info" id="crop-orig-info">Original: — × —</div>
         <div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem;font-weight:600;">⚡ Quick Presets:</div>
         <div class="crop-preset-btns">
-          <button class="crop-preset-btn" onclick="applyCropPreset('square')">⬛ Square</button>
+          <button class="crop-preset-btn" onclick="applyCropPreset('free')">✏️ Free</button>
+          <button class="crop-preset-btn" onclick="applyCropPreset('square')">⬛ Square (1:1)</button>
           <button class="crop-preset-btn" onclick="applyCropPreset('portrait')">📱 Portrait (3:4)</button>
           <button class="crop-preset-btn" onclick="applyCropPreset('landscape')">🖼️ Landscape (16:9)</button>
           <button class="crop-preset-btn" onclick="applyCropPreset('banner')">📰 Banner (3:1)</button>
-          <button class="crop-preset-btn" onclick="applyCropPreset('custom')">✏️ Custom</button>
         </div>
-        <div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem;font-weight:600;">🖱️ Drag to select crop area:</div>
-        <div class="crop-canvas-wrap" id="crop-canvas-wrap">
-          <canvas id="crop-canvas"></canvas>
+        <div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem;font-weight:600;">🖱️ Drag to crop — works on mobile too:</div>
+        <div class="crop-wrap" id="crop-wrap">
+          <img id="crop-img-el" src="" alt="crop">
         </div>
-        <div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem;font-weight:600;">✏️ Or enter exact values:</div>
-        <div class="crop-inp-row">
-          <label>Left X</label>
-          <input class="crop-inp" type="number" id="cr-x" value="0" min="0" oninput="updateCropFromInputs()">
-          <label style="margin-left:.5rem">Top Y</label>
-          <input class="crop-inp" type="number" id="cr-y" value="0" min="0" oninput="updateCropFromInputs()">
-        </div>
-        <div class="crop-inp-row">
-          <label>Width</label>
-          <input class="crop-inp" type="number" id="cr-w" min="1" oninput="updateCropFromInputs()">
-          <label style="margin-left:.5rem">Height</label>
-          <input class="crop-inp" type="number" id="cr-h" min="1" oninput="updateCropFromInputs()">
-        </div>
-        <div style="font-size:.7rem;color:var(--muted2);margin-bottom:.5rem">💡 Drag on image above to select area, or type values manually</div>
       </div>
 
       <div class="ci" style="background:rgba(168,85,247,0.05);border-color:rgba(168,85,247,0.2)">
@@ -537,26 +580,26 @@ footer p{font-size:.74rem;color:var(--muted2)}
     <div class="pc">
       <div class="pn">Free</div><div class="pp2"><sup>$</sup>0<sub>/mo</sub></div>
       <div class="pcr">⚡ 5 Credits/Day</div><div class="pd">Try all tools free — forever</div>
-      <ul class="pfl"><li>5 credits/day</li><li>BG Remove — Unlimited!</li><li>Resize, Convert, PDF, Crop — Free!</li><li>Low quality output</li><li>imgChamp watermark</li><li class="no">HD downloads</li><li class="no">No watermark</li></ul>
+      <ul class="pfl"><li>5 credits/day</li><li>BG Remove — Unlimited!</li><li>Resize, Convert, PDF, Crop — Free!</li><li>Low quality output</li><li class="no">HD downloads</li><li class="no">No watermark</li></ul>
       <button class="pb" onclick="showAuth('signup')">Start Free</button>
     </div>
     <div class="pc">
       <div class="pn">Starter</div><div class="pp2"><sup>$</sup>9<sub>/mo</sub></div>
       <div class="pcr">50 Upscale + 30 Face Restore</div><div class="pd">For casual users & creators</div>
-      <ul class="pfl"><li>50 Upscale/month HD</li><li>30 Face Restore/month HD</li><li>BG Remove — Unlimited HD</li><li>All free tools — Unlimited</li><li>No watermark</li><li class="no">API access</li></ul>
+      <ul class="pfl"><li>50 Upscale/month 2x HD</li><li>30 Face Restore/month HD</li><li>BG Remove — 100/day HD</li><li>Compress — Unlimited HD</li><li>No watermark</li><li class="no">HD Resize/Convert/Crop</li><li class="no">API access</li></ul>
       <button class="pb" onclick="showUpgrade()">Get Starter</button>
     </div>
     <div class="pc pop">
       <div class="popt">⭐ Most Popular</div>
       <div class="pn">Pro</div><div class="pp2"><sup>$</sup>19<sub>/mo</sub></div>
       <div class="pcr">200 Upscale + 100 Face Restore</div><div class="pd">For designers & professionals</div>
-      <ul class="pfl"><li>200 Upscale/month HD</li><li>100 Face Restore/month HD</li><li>BG Remove — Unlimited HD</li><li>All free tools — Unlimited</li><li>No watermark</li><li>Priority processing</li><li class="no">API access</li></ul>
+      <ul class="pfl"><li>200 Upscale/month 4x HD</li><li>100 Face Restore/month HD</li><li>BG Remove — Unlimited HD</li><li>All tools — Unlimited HD fast</li><li>No watermark</li><li>Priority processing</li><li class="no">API access</li></ul>
       <button class="pb fill" onclick="showUpgrade()">Get Pro</button>
     </div>
     <div class="pc">
       <div class="pn">Business</div><div class="pp2"><sup>$</sup>49<sub>/mo</sub></div>
       <div class="pcr">500 Upscale + 300 Face Restore</div><div class="pd">For agencies & developers</div>
-      <ul class="pfl"><li>500 Upscale/month HD</li><li>300 Face Restore/month HD</li><li>BG Remove — Unlimited HD</li><li>All free tools — Unlimited</li><li>No watermark</li><li>Full API access</li><li>Priority support</li></ul>
+      <ul class="pfl"><li>500 Upscale/month 4x HD</li><li>300 Face Restore/month HD</li><li>BG Remove — Unlimited HD fast</li><li>All tools — Unlimited HD fast</li><li>No watermark</li><li>Full API access</li><li>Priority support</li></ul>
       <button class="pb" onclick="showUpgrade()">Get Business</button>
     </div>
   </div>
@@ -649,34 +692,34 @@ const BACKEND='https://imgchamp-backend.onrender.com';
 let credits=5,curTab=0,curPlan='pro';
 let rzOrigW=0,rzOrigH=0,rzAspect=1;
 let selFmtVal='jpeg';
-let cropImg=null,cropOrigW=0,cropOrigH=0;
-let cropDragging=false,cropStartX=0,cropStartY=0;
-let cropX=0,cropY=0,cropW=0,cropH=0;
+let compressLevel='max';
+let cropperInstance=null;
+let cropOrigW=0,cropOrigH=0;
 const MAX=5;
 const pPrices={starter:'$9/mo',pro:'$19/mo',business:'$49/mo'};
 const tN=['Upscaling image','Restoring face','Removing background','Compressing image'];
-const tD=['Image Upscaled! 🔍','Face Restored! 😊','Background Removed! ✂️','Image Compressed! 📦'];
+const tD=['Image Upscaled!','Face Restored!','Background Removed!','Image Compressed!'];
 const endpoints=['upscale','face-restore','bg-remove','compress'];
+// Jobs system
+let jobs={};
+let jobCounter=0;
 
-const panelHTML={};
-window.addEventListener('DOMContentLoaded',()=>{
-  for(let i=0;i<8;i++){
-    const p=document.getElementById('p'+i);
-    if(p)panelHTML[i]=p.innerHTML;
-  }
-});
-
+// ── NAV ──
 function updateNav(session){
   const navR=document.getElementById('nav-r');
   if(session){
     const user=session.user;
     const name=user.user_metadata?.full_name||user.email?.split('@')[0]||'User';
     const avatar=user.user_metadata?.avatar_url||'';
+    const plan=user.user_metadata?.plan||'free';
+    const badgeClass={'free':'free','starter':'starter','pro':'pro','business':'business'}[plan]||'free';
+    const badgeText={'free':'FREE','starter':'STARTER','pro':'PRO','business':'BUSINESS'}[plan]||'FREE';
     navR.innerHTML=`
       <div class="nav-cr">⚡ <span id="ncr">${credits}</span> Credits</div>
       <div class="user-btn">
         ${avatar?`<img src="${avatar}" alt="avatar">`:'<span>👤</span>'}
         <span>${name}</span>
+        <span class="plan-badge ${badgeClass}">${badgeText}</span>
       </div>
       <button class="signout-btn" onclick="signOut()">Sign Out</button>`;
   }else{
@@ -690,6 +733,7 @@ async function signOut(){await _supabase.auth.signOut();location.reload();}
 _supabase.auth.getSession().then(({data:{session}})=>{updateNav(session);});
 _supabase.auth.onAuthStateChange((event,session)=>{updateNav(session);});
 
+// ── CREDITS ──
 function updCr(){
   const el=document.getElementById('ncr');if(el)el.textContent=credits;
   const pct=(credits/MAX*100)+'%';
@@ -698,25 +742,15 @@ function updCr(){
 }
 updCr();
 
+// ── TAB SWITCH — no popup ──
 function switchTab(i){
-  if(curTab===i)return;
-  const activePanel=document.getElementById('p'+curTab);
-  const hasDZ=activePanel&&activePanel.querySelector('.dz input');
-  const hasFile=hasDZ&&hasDZ.files&&hasDZ.files[0];
-  if(hasFile){
-    if(!confirm('Tab switch karoge toh current image reset ho jaegi. Continue?'))return;
-  }
   curTab=i;
   document.querySelectorAll('.tb').forEach((b,x)=>b.classList.toggle('active',x===i));
   document.querySelectorAll('.panel').forEach((p,x)=>{
     p.classList.toggle('active',x===i);
-    if(x===i && panelHTML[i]){
-      p.innerHTML=panelHTML[i];
-      attachDZ(i);
-      if(i===7)initCropCanvas();
-    }
   });
   document.getElementById('tools').scrollIntoView({behavior:'smooth',block:'start'});
+  if(i===7&&cropperInstance){cropperInstance.destroy();cropperInstance=null;}
 }
 
 function tFile(i){
@@ -724,25 +758,36 @@ function tFile(i){
   if(inp)inp.click();
 }
 
-// ✅ FIX: multiple files toast
+// ── DROPZONE — bottom bar after upload ──
 function onFile(t,inp){
-  if(inp.files&&inp.files.length){
-    const count=inp.files.length;
-    toast('🖼️',count>1?count+' images ready!':'"'+inp.files[0].name+'" ready!');
-    const reader=new FileReader();
-    reader.onload=function(e){
-      const dz=document.getElementById('dz'+t);
-      if(!dz)return;
-      dz.style.backgroundImage='url('+e.target.result+')';
-      dz.style.backgroundSize='cover';
-      dz.style.backgroundPosition='center';
-      dz.style.borderColor='var(--accent)';
-    };
-    reader.readAsDataURL(inp.files[0]);
-  }
+  if(!inp.files||!inp.files.length)return;
+  const count=inp.files.length;
+  const fname=count>1?count+' images selected':inp.files[0].name;
+  toast('🖼️',count>1?count+' images ready!':'"'+inp.files[0].name+'" ready!');
+  const reader=new FileReader();
+  reader.onload=function(e){
+    const dz=document.getElementById('dz'+t);
+    if(!dz)return;
+    // Show image preview + bottom bar
+    const existingInput=dz.querySelector('input');
+    dz.innerHTML='';
+    dz.appendChild(existingInput);
+    const preview=document.createElement('img');
+    preview.className='dz-preview';
+    preview.src=e.target.result;
+    const bottom=document.createElement('div');
+    bottom.className='dz-bottom';
+    bottom.innerHTML=`<span class="dz-fname">${fname}</span><button class="dz-change" onclick="tFile(${t})">Change Image</button>`;
+    dz.appendChild(preview);
+    dz.appendChild(bottom);
+    dz.style.borderColor='var(--accent)';
+    // Re-attach input events
+    existingInput.onchange=function(){onFile(t,this);};
+  };
+  reader.readAsDataURL(inp.files[0]);
 }
 
-// ✅ FIX: multiple drag & drop for tabs 3, 5, 6
+// ── DRAG & DROP ──
 function attachDZ(i){
   const d=document.getElementById('dz'+i);
   if(!d)return;
@@ -765,9 +810,43 @@ function attachDZ(i){
     }
   });
 }
-
 [0,1,2,3,4,5,6,7].forEach(i=>attachDZ(i));
 
+// ── JOBS BAR ──
+function addJob(title,subtitle){
+  const id=++jobCounter;
+  jobs[id]={id,title,cancelled:false};
+  const bar=document.getElementById('jobs-bar');
+  const div=document.createElement('div');
+  div.className='job-item';
+  div.id='job-'+id;
+  div.innerHTML=`<span class="job-spin">🥊</span><div class="job-info"><div class="job-title">${title}</div><div class="job-sub">${subtitle}</div></div><button class="job-cancel" onclick="cancelJob(${id})">✕</button>`;
+  bar.appendChild(div);
+  return id;
+}
+function cancelJob(id){
+  if(jobs[id])jobs[id].cancelled=true;
+  removeJob(id);
+}
+function removeJob(id){
+  const el=document.getElementById('job-'+id);
+  if(el)el.remove();
+  delete jobs[id];
+}
+function completeJob(id,title,downloadUrl,filename){
+  const el=document.getElementById('job-'+id);
+  if(!el)return;
+  el.innerHTML=`<span class="job-done">✅</span><div class="job-info"><div class="job-title">${title}</div><a class="job-dl" href="${downloadUrl}" download="${filename}">⬇ Download</a></div><button class="job-cancel" onclick="removeJob(${id})">✕</button>`;
+  setTimeout(()=>removeJob(id),15000);
+}
+function errorJob(id,msg){
+  const el=document.getElementById('job-'+id);
+  if(!el)return;
+  el.innerHTML=`<span class="job-done">❌</span><div class="job-info"><div class="job-title">Failed</div><div class="job-sub">${msg}</div></div><button class="job-cancel" onclick="removeJob(${id})">✕</button>`;
+  setTimeout(()=>removeJob(id),5000);
+}
+
+// ── PROGRESS ──
 function startProgress(id){
   let w=0;
   const iv=setInterval(()=>{
@@ -787,44 +866,98 @@ function finishProgress(id,iv){
   if(pc)pc.textContent='100%';
 }
 
+// ── PROCESSING UI with boxing animation ──
+function showProcessing(panelEl,tabIdx,imgSrc,msgText,subText){
+  const imgHtml=imgSrc?`<div class="proc-overlay"><img class="proc-img-blur" src="${imgSrc}"><div class="boxing-anim"><span class="glove-l">🥊</span><span style="font-size:1.5rem">💥</span><span class="glove-r" style="transform:scaleX(-1)">🥊</span></div></div>`:`<div class="ps">⚙️</div>`;
+  panelEl.innerHTML=`<div class="proc">${imgHtml}<div class="pt">${msgText}</div><div class="pp">${subText}</div><div class="pgt"><div class="pgf" id="pgf${tabIdx}"></div></div><p class="ppc" id="ppc${tabIdx}">0%</p></div>`;
+}
+
+// ── DOWNLOAD DROPDOWN ──
+function makeDownloadBtn(url,filename,previewUrl,previewSize,maxSize){
+  return `<div class="dl-wrap">
+    <a class="dlh" href="${url}" download="${filename}">⬇ Download</a>
+    <button class="dl-arr" onclick="toggleDlDropdown(this)">▾</button>
+    <div class="dl-dropdown">
+      <a class="dl-opt" href="${url}" download="${filename}">
+        <div class="dl-opt-l"><span class="dl-opt-icon">👁️</span><div><div class="dl-opt-name">Preview</div><div class="dl-opt-size">${previewSize}</div></div></div>
+        <span class="dl-opt-badge free">Free</span>
+      </a>
+      <div class="dl-opt" onclick="showUpgrade();toggleDlDropdown(this.parentElement.querySelector('.dl-arr'))">
+        <div class="dl-opt-l"><span class="dl-opt-icon">⚡</span><div><div class="dl-opt-name">Max HD</div><div class="dl-opt-size">${maxSize}</div></div></div>
+        <span class="dl-opt-badge lock">Unlock</span>
+      </div>
+    </div>
+  </div>`;
+}
+function toggleDlDropdown(btn){
+  const dd=btn.nextElementSibling;
+  dd.classList.toggle('show');
+  document.addEventListener('click',function close(e){
+    if(!btn.parentElement.contains(e.target)){dd.classList.remove('show');document.removeEventListener('click',close);}
+  });
+}
+
+// ── BG REMOVE ──
 async function runBG(){
   const input=document.querySelector('#dz2 input');
   if(!input||!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
+  const imgSrc=URL.createObjectURL(input.files[0]);
   const p=document.getElementById('p2');
-  p.innerHTML=`<div class="proc"><div class="ps">⚙️</div><div class="pt">Removing background...</div><div class="pp">AI is working — no credit used!</div><div class="pgt"><div class="pgf" id="pgf2"></div></div><p class="ppc" id="ppc2">0%</p></div>`;
+  showProcessing(p,2,imgSrc,'Removing background...','AI is working — no credit used!');
   const iv=startProgress(2);
+  const jobId=addJob('BG Remove','Processing...');
   try{
     const fd=new FormData();fd.append('file',input.files[0]);
     const res=await fetch(BACKEND+'/bg-remove',{method:'POST',body:fd});
     const blob=await res.blob();finishProgress(2,iv);
     const url=URL.createObjectURL(blob);
-    setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Background Removed! ✂️</div><div class="rs">Done! Download below.</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_bg_removed.png">⬇ Download</a></div><button class="rl" onclick="switchTab(2)">↺ Remove another</button></div>`;},400);
+    completeJob(jobId,'Background Removed!',url,'imgchamp_bg_removed.png');
+    setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Background Removed! ✂️</div><div class="rs">Done! Download below.</div><div class="rbs">${makeDownloadBtn(url,'imgchamp_bg_removed.png','preview','Standard quality','Full HD PNG')}</div><button class="rl" onclick="switchTab(2)">↺ Remove another</button></div>`;},400);
   }catch(e){
     finishProgress(2,iv);
-    p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Try again.</div><button class="rl" onclick="switchTab(2)">↺ Try Again</button></div>`;
+    errorJob(jobId,'Server error');
+    p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Please try again.</div><button class="rl" onclick="switchTab(2)">↺ Try Again</button></div>`;
   }
 }
 
+// ── RUN AI TOOLS (Upscale, Face Restore, Compress) ──
 async function run(t){
   if(credits<=0){showUpgrade();return}
   const input=document.querySelector('#dz'+t+' input');
   if(!input||!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
+  const imgSrc=URL.createObjectURL(input.files[0]);
   credits--;updCr();
   const p=document.getElementById('p'+t);
-  p.innerHTML=`<div class="proc"><div class="ps">⚙️</div><div class="pt">${tN[t]}...</div><div class="pp">AI is working on your image</div><div class="pgt"><div class="pgf" id="pgf${t}"></div></div><p class="ppc" id="ppc${t}">0%</p></div>`;
+  showProcessing(p,t,imgSrc,tN[t]+'...','AI is working on your image');
   const iv=startProgress(t);
+  const jobId=addJob(tN[t],'Processing...');
   try{
-    const fd=new FormData();fd.append('file',input.files[0]);
+    const fd=new FormData();
+    fd.append('file',input.files[0]);
+    if(t===3){
+      const qMap={light:92,medium:82,max:70};
+      fd.append('quality',qMap[compressLevel]);
+    }
     const res=await fetch(BACKEND+'/'+endpoints[t],{method:'POST',body:fd});
     const blob=await res.blob();finishProgress(t,iv);
     const url=URL.createObjectURL(blob);
-    setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">${tD[t]}</div><div class="rs">Done! Your processed image is ready.</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_result.png">⬇ Download</a></div><button class="rl" onclick="switchTab(${t})">↺ Process another</button></div>`;},400);
+    completeJob(jobId,tD[t],url,'imgchamp_result.png');
+    setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">${tD[t]}</div><div class="rs">Done! Your processed image is ready.</div><div class="rbs">${makeDownloadBtn(url,'imgchamp_result.png','preview','Standard quality','Full HD')}</div><button class="rl" onclick="switchTab(${t})">↺ Process another</button></div>`;},400);
   }catch(e){
     finishProgress(t,iv);credits++;updCr();
-    p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Credit refunded. Try again.</div><button class="rl" onclick="switchTab(${t})">↺ Try Again</button></div>`;
+    errorJob(jobId,'Server error — credit refunded');
+    p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Credit refunded. Please try again.</div><button class="rl" onclick="switchTab(${t})">↺ Try Again</button></div>`;
   }
 }
 
+// ── COMPRESS PRESET ──
+function selCompress(el,level){
+  compressLevel=level;
+  document.querySelectorAll('#p3 .sz-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ── RESIZE ──
 function onFileResize(inp){
   if(!inp.files||!inp.files[0])return;
   toast('🖼️','"'+inp.files[0].name+'" ready!');
@@ -838,14 +971,25 @@ function onFileResize(inp){
     if(rw)rw.value=rzOrigW;if(rh)rh.value=rzOrigH;
     const ro=document.getElementById('resize-options');if(ro)ro.style.display='block';
     const dz=document.getElementById('dz4');
-    if(dz){dz.style.backgroundImage='url('+url+')';dz.style.backgroundSize='cover';dz.style.backgroundPosition='center';dz.style.borderColor='var(--accent)';}
+    if(dz){
+      const existingInput=dz.querySelector('input');
+      dz.innerHTML='';dz.appendChild(existingInput);
+      existingInput.onchange=function(){onFileResize(this);};
+      const preview=document.createElement('img');
+      preview.className='dz-preview';preview.src=url;
+      const bottom=document.createElement('div');
+      bottom.className='dz-bottom';
+      bottom.innerHTML=`<span class="dz-fname">${inp.files[0].name}</span><button class="dz-change" onclick="tFile(4)">Change Image</button>`;
+      dz.appendChild(preview);dz.appendChild(bottom);
+      dz.style.borderColor='var(--accent)';
+    }
   };
   img.src=url;
 }
 
-function applyPreset(size){
-  document.querySelectorAll('.sz-btn').forEach(b=>b.classList.remove('active'));
-  event.target.closest('.sz-btn').classList.add('active');
+function applyPreset(btn,size){
+  document.querySelectorAll('#resize-preset-btns .sz-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
   const presetW={small:640,hd:1080,medium:1280,large:1920,'2k':2560,'4k':3840};
   let w=presetW[size]||640;
   w=Math.min(w,rzOrigW||w);
@@ -872,34 +1016,39 @@ async function runResize(){
   const w=parseInt(document.getElementById('rz-w').value);
   const h=parseInt(document.getElementById('rz-h').value);
   if(!w||!h||w<1||h<1){toast('⚠️','Please enter valid width & height!');return}
+  const imgSrc=URL.createObjectURL(input.files[0]);
   const p=document.getElementById('p4');
-  p.innerHTML=`<div class="proc"><div class="ps">⚙️</div><div class="pt">Resizing image...</div><div class="pp">Processing — no credit used!</div><div class="pgt"><div class="pgf" id="pgf4"></div></div><p class="ppc" id="ppc4">0%</p></div>`;
+  showProcessing(p,4,imgSrc,'Resizing image...','Processing — no credit used!');
   const iv=startProgress(4);
+  const jobId=addJob('Resize','Processing...');
   try{
     const fd=new FormData();fd.append('file',input.files[0]);fd.append('width',w);fd.append('height',h);
     const res=await fetch(BACKEND+'/resize',{method:'POST',body:fd});
     const blob=await res.blob();finishProgress(4,iv);
     const url=URL.createObjectURL(blob);
+    completeJob(jobId,'Image Resized!',url,'imgchamp_resized.png');
     setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Image Resized! 📐</div><div class="rs">New size: ${w} × ${h} px</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_resized.png">⬇ Download</a></div><button class="rl" onclick="switchTab(4)">↺ Resize another</button></div>`;},400);
   }catch(e){
-    finishProgress(4,iv);
-    p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Try again.</div><button class="rl" onclick="switchTab(4)">↺ Try Again</button></div>`;
+    finishProgress(4,iv);errorJob(jobId,'Server error');
+    p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Please try again.</div><button class="rl" onclick="switchTab(4)">↺ Try Again</button></div>`;
   }
 }
 
+// ── FORMAT CONVERT ──
 function selFmt(el,fmt){
   document.querySelectorAll('.fmt-btn').forEach(b=>b.classList.remove('active'));
   el.classList.add('active');selFmtVal=fmt;
 }
 
-// ✅ FIX: Convert multiple files — each file converted separately, all download links shown
 async function runConvert(){
   const input=document.querySelector('#dz5 input');
   if(!input||!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
   const files=Array.from(input.files);
+  const imgSrc=URL.createObjectURL(files[0]);
   const p=document.getElementById('p5');
-  p.innerHTML=`<div class="proc"><div class="ps">⚙️</div><div class="pt">Converting ${files.length} image(s) to ${selFmtVal.toUpperCase()}...</div><div class="pp">Processing — no credit used!</div><div class="pgt"><div class="pgf" id="pgf5"></div></div><p class="ppc" id="ppc5">0%</p></div>`;
+  showProcessing(p,5,imgSrc,'Converting '+files.length+' image(s) to '+selFmtVal.toUpperCase()+'...','Processing — no credit used!');
   const iv=startProgress(5);
+  const jobId=addJob('Convert','Processing...');
   try{
     const ext=selFmtVal==='jpeg'?'jpg':selFmtVal;
     const urls=[];
@@ -910,149 +1059,106 @@ async function runConvert(){
       urls.push({url:URL.createObjectURL(blob),name:f.name.replace(/\.[^.]+$/,'.'+ext)});
     }
     finishProgress(5,iv);
+    completeJob(jobId,'Format Converted!',urls[0].url,urls[0].name);
     const dlLinks=urls.map(u=>`<a class="dlh" href="${u.url}" download="${u.name}">⬇ ${u.name}</a>`).join('');
     setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Format Converted! 🔄</div><div class="rs">${urls.length} file(s) converted to ${ext.toUpperCase()}</div><div class="rbs" style="flex-direction:column;align-items:center;gap:.4rem">${dlLinks}</div><button class="rl" onclick="switchTab(5)">↺ Convert another</button></div>`;},400);
   }catch(e){
-    finishProgress(5,iv);
-    p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Try again.</div><button class="rl" onclick="switchTab(5)">↺ Try Again</button></div>`;
+    finishProgress(5,iv);errorJob(jobId,'Server error');
+    p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Please try again.</div><button class="rl" onclick="switchTab(5)">↺ Try Again</button></div>`;
   }
 }
 
+// ── PDF ──
 async function runPDF(){
   const input=document.querySelector('#dz6 input');
   if(!input||!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
+  const imgSrc=URL.createObjectURL(input.files[0]);
   const p=document.getElementById('p6');
-  p.innerHTML=`<div class="proc"><div class="ps">⚙️</div><div class="pt">Converting ${input.files.length} image(s) to PDF...</div><div class="pp">Processing — no credit used!</div><div class="pgt"><div class="pgf" id="pgf6"></div></div><p class="ppc" id="ppc6">0%</p></div>`;
+  showProcessing(p,6,imgSrc,'Converting '+input.files.length+' image(s) to PDF...','Processing — no credit used!');
   const iv=startProgress(6);
+  const jobId=addJob('Image to PDF','Processing...');
   try{
     const fd=new FormData();Array.from(input.files).forEach(f=>fd.append('files',f));
     const res=await fetch(BACKEND+'/image-to-pdf',{method:'POST',body:fd});
     const blob=await res.blob();finishProgress(6,iv);
     const url=URL.createObjectURL(blob);
+    completeJob(jobId,'PDF Created!',url,'imgchamp_document.pdf');
     setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">PDF Created! 📄</div><div class="rs">Your PDF is ready.</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_document.pdf">⬇ Download PDF</a></div><button class="rl" onclick="switchTab(6)">↺ Convert another</button></div>`;},400);
   }catch(e){
-    finishProgress(6,iv);
-    p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Try again.</div><button class="rl" onclick="switchTab(6)">↺ Try Again</button></div>`;
+    finishProgress(6,iv);errorJob(jobId,'Server error');
+    p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Please try again.</div><button class="rl" onclick="switchTab(6)">↺ Try Again</button></div>`;
   }
 }
 
-function initCropCanvas(){
-  const canvas=document.getElementById('crop-canvas');
-  if(!canvas)return;
-  canvas.addEventListener('mousedown',cropMouseDown);
-  canvas.addEventListener('mousemove',cropMouseMove);
-  canvas.addEventListener('mouseup',cropMouseUp);
-  canvas.addEventListener('touchstart',e=>{e.preventDefault();cropMouseDown(e.touches[0]);},{passive:false});
-  canvas.addEventListener('touchmove',e=>{e.preventDefault();cropMouseMove(e.touches[0]);},{passive:false});
-  canvas.addEventListener('touchend',e=>{e.preventDefault();cropMouseUp(e.changedTouches[0]);},{passive:false});
-}
-
+// ── CROP with Cropper.js ──
 function onFileCrop(inp){
   if(!inp.files||!inp.files[0])return;
   toast('🖼️','"'+inp.files[0].name+'" ready!');
-  cropImg=new Image();
   const url=URL.createObjectURL(inp.files[0]);
-  cropImg.onload=function(){
-    cropOrigW=cropImg.width;cropOrigH=cropImg.height;
+  cropOrigW=0;cropOrigH=0;
+  const ce=document.getElementById('crop-editor');if(ce)ce.style.display='block';
+  const imgEl=document.getElementById('crop-img-el');
+  if(!imgEl)return;
+  imgEl.src=url;
+  imgEl.onload=function(){
+    cropOrigW=imgEl.naturalWidth;cropOrigH=imgEl.naturalHeight;
     const oi=document.getElementById('crop-orig-info');
     if(oi)oi.textContent='Original: '+cropOrigW+' × '+cropOrigH+' px';
-    const ce=document.getElementById('crop-editor');if(ce)ce.style.display='block';
-    cropX=0;cropY=0;cropW=cropOrigW;cropH=cropOrigH;
-    updateCropInputs();drawCropCanvas();
-    const dz=document.getElementById('dz7');
-    if(dz){dz.style.backgroundImage='url('+url+')';dz.style.backgroundSize='cover';dz.style.backgroundPosition='center';dz.style.borderColor='var(--accent)';}
-    initCropCanvas();
+    if(cropperInstance){cropperInstance.destroy();cropperInstance=null;}
+    cropperInstance=new Cropper(imgEl,{viewMode:1,movable:true,zoomable:false,scalable:false,autoCropArea:1,responsive:true});
   };
-  cropImg.src=url;
-}
-
-function drawCropCanvas(){
-  const canvas=document.getElementById('crop-canvas');
-  if(!canvas||!cropImg)return;
-  const maxW=Math.min(canvas.parentElement.clientWidth||500,700);
-  const scale=maxW/cropOrigW;
-  canvas.width=maxW;canvas.height=cropOrigH*scale;
-  const ctx=canvas.getContext('2d');
-  ctx.drawImage(cropImg,0,0,canvas.width,canvas.height);
-  ctx.fillStyle='rgba(0,0,0,0.5)';ctx.fillRect(0,0,canvas.width,canvas.height);
-  const sx=cropX*scale,sy=cropY*scale,sw=cropW*scale,sh=cropH*scale;
-  ctx.drawImage(cropImg,cropX,cropY,cropW,cropH,sx,sy,sw,sh);
-  ctx.strokeStyle='#6366f1';ctx.lineWidth=2;ctx.setLineDash([6,3]);
-  ctx.strokeRect(sx,sy,sw,sh);ctx.setLineDash([]);
-  const hs=8;ctx.fillStyle='#6366f1';
-  [[sx,sy],[sx+sw,sy],[sx,sy+sh],[sx+sw,sy+sh]].forEach(([hx,hy])=>{ctx.fillRect(hx-hs/2,hy-hs/2,hs,hs);});
-}
-
-function getCanvasPos(e){
-  const canvas=document.getElementById('crop-canvas');
-  const rect=canvas.getBoundingClientRect();
-  const scale=cropOrigW/canvas.width;
-  return{x:Math.max(0,Math.min(cropOrigW,(e.clientX-rect.left)*scale)),y:Math.max(0,Math.min(cropOrigH,(e.clientY-rect.top)*scale))};
-}
-
-function cropMouseDown(e){if(!cropImg)return;cropDragging=true;const pos=getCanvasPos(e);cropStartX=pos.x;cropStartY=pos.y;cropX=pos.x;cropY=pos.y;cropW=1;cropH=1;}
-function cropMouseMove(e){
-  if(!cropDragging||!cropImg)return;
-  const pos=getCanvasPos(e);
-  cropX=Math.min(cropStartX,pos.x);cropY=Math.min(cropStartY,pos.y);
-  cropW=Math.abs(pos.x-cropStartX)||1;cropH=Math.abs(pos.y-cropStartY)||1;
-  updateCropInputs();drawCropCanvas();
-}
-function cropMouseUp(e){if(!cropDragging)return;cropDragging=false;cropMouseMove(e);}
-
-function updateCropInputs(){
-  const cx=document.getElementById('cr-x');const cy=document.getElementById('cr-y');
-  const cw=document.getElementById('cr-w');const ch=document.getElementById('cr-h');
-  if(cx)cx.value=Math.round(cropX);if(cy)cy.value=Math.round(cropY);
-  if(cw)cw.value=Math.round(cropW);if(ch)ch.value=Math.round(cropH);
-}
-
-function updateCropFromInputs(){
-  cropX=parseInt(document.getElementById('cr-x').value)||0;
-  cropY=parseInt(document.getElementById('cr-y').value)||0;
-  cropW=parseInt(document.getElementById('cr-w').value)||cropOrigW;
-  cropH=parseInt(document.getElementById('cr-h').value)||cropOrigH;
-  drawCropCanvas();
+  const dz=document.getElementById('dz7');
+  if(dz){
+    const existingInput=dz.querySelector('input');
+    dz.innerHTML='';dz.appendChild(existingInput);
+    existingInput.onchange=function(){onFileCrop(this);};
+    const preview=document.createElement('img');
+    preview.className='dz-preview';preview.src=url;
+    const bottom=document.createElement('div');
+    bottom.className='dz-bottom';
+    bottom.innerHTML=`<span class="dz-fname">${inp.files[0].name}</span><button class="dz-change" onclick="tFile(7)">Change Image</button>`;
+    dz.appendChild(preview);dz.appendChild(bottom);
+    dz.style.borderColor='var(--accent)';
+  }
 }
 
 function applyCropPreset(preset){
   document.querySelectorAll('.crop-preset-btn').forEach(b=>b.classList.remove('active'));
   event.target.classList.add('active');
-  if(!cropOrigW)return;
-  let w,h;
-  if(preset==='square'){w=Math.min(cropOrigW,cropOrigH);h=w;}
-  else if(preset==='portrait'){h=cropOrigH;w=Math.round(h*3/4);if(w>cropOrigW){w=cropOrigW;h=Math.round(w*4/3);}}
-  else if(preset==='landscape'){w=cropOrigW;h=Math.round(w*9/16);if(h>cropOrigH){h=cropOrigH;w=Math.round(h*16/9);}}
-  else if(preset==='banner'){w=cropOrigW;h=Math.round(w/3);if(h>cropOrigH){h=cropOrigH;w=h*3;}}
-  else{cropX=0;cropY=0;cropW=cropOrigW;cropH=cropOrigH;updateCropInputs();drawCropCanvas();return;}
-  cropX=Math.round((cropOrigW-w)/2);cropY=Math.round((cropOrigH-h)/2);
-  cropW=w;cropH=h;updateCropInputs();drawCropCanvas();
+  if(!cropperInstance)return;
+  const ratios={free:NaN,square:1,portrait:3/4,landscape:16/9,banner:3/1};
+  cropperInstance.setAspectRatio(ratios[preset]||NaN);
 }
 
 async function runCrop(){
+  if(!cropperInstance){toast('⚠️','Please select an image first!');return}
   const input=document.querySelector('#dz7 input');
   if(!input||!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
-  const x=parseInt(document.getElementById('cr-x').value)||0;
-  const y=parseInt(document.getElementById('cr-y').value)||0;
-  const w=parseInt(document.getElementById('cr-w').value);
-  const h=parseInt(document.getElementById('cr-h').value);
-  if(!w||!h||w<1||h<1){toast('⚠️','Please select crop area first!');return}
+  const data=cropperInstance.getData(true);
+  if(!data.width||!data.height||data.width<1||data.height<1){toast('⚠️','Please select a crop area first!');return}
   const p=document.getElementById('p7');
-  p.innerHTML=`<div class="proc"><div class="ps">⚙️</div><div class="pt">Cropping image...</div><div class="pp">Processing — no credit used!</div><div class="pgt"><div class="pgf" id="pgf7"></div></div><p class="ppc" id="ppc7">0%</p></div>`;
+  const imgSrc=URL.createObjectURL(input.files[0]);
+  showProcessing(p,7,imgSrc,'Cropping image...','Processing — no credit used!');
   const iv=startProgress(7);
+  const jobId=addJob('Crop','Processing...');
   try{
     const fd=new FormData();
-    fd.append('file',input.files[0]);fd.append('x',x);fd.append('y',y);fd.append('width',w);fd.append('height',h);
+    fd.append('file',input.files[0]);
+    fd.append('x',Math.round(data.x));fd.append('y',Math.round(data.y));
+    fd.append('width',Math.round(data.width));fd.append('height',Math.round(data.height));
     const res=await fetch(BACKEND+'/crop',{method:'POST',body:fd});
     const blob=await res.blob();finishProgress(7,iv);
     const url=URL.createObjectURL(blob);
-    setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Image Cropped! ✂️</div><div class="rs">Crop: ${w} × ${h} px</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_cropped.png">⬇ Download</a></div><button class="rl" onclick="switchTab(7)">↺ Crop another</button></div>`;},400);
+    cropperInstance.destroy();cropperInstance=null;
+    completeJob(jobId,'Image Cropped!',url,'imgchamp_cropped.png');
+    setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Image Cropped! ✂️</div><div class="rs">Crop: ${Math.round(data.width)} × ${Math.round(data.height)} px</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_cropped.png">⬇ Download</a></div><button class="rl" onclick="switchTab(7)">↺ Crop another</button></div>`;},400);
   }catch(e){
-    finishProgress(7,iv);
-    p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Try again.</div><button class="rl" onclick="switchTab(7)">↺ Try Again</button></div>`;
+    finishProgress(7,iv);errorJob(jobId,'Server error');
+    p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Please try again.</div><button class="rl" onclick="switchTab(7)">↺ Try Again</button></div>`;
   }
 }
 
+// ── AUTH ──
 function showAuth(type){
   const cfg={login:{t:'Welcome Back 👋',d:'Sign in to your imgChamp account.',btn:'Sign In',sp:false},signup:{t:'Create Free Account 🚀',d:'Get 5 free AI image credits every day.',btn:'Create Account',sp:true}};
   const c=cfg[type]||cfg.signup;
@@ -1068,6 +1174,7 @@ async function social(p){
 }
 function authDone(){closeAuth();toast('✅','Welcome to imgChamp! 5 credits ready.')}
 
+// ── UPGRADE ──
 function showUpgrade(){document.getElementById('um').classList.add('show')}
 function closeUpgrade(){document.getElementById('um').classList.remove('show')}
 function selP(el,plan){
@@ -1078,6 +1185,7 @@ function selP(el,plan){
 }
 function goPay(){closeUpgrade();toast('🔒','Redirecting to secure payment...')}
 
+// ── PAGES ──
 function showPage(id){
   document.querySelectorAll('.pg-s').forEach(p=>p.classList.remove('show'));
   document.getElementById(id).classList.add('show');
@@ -1087,6 +1195,8 @@ function hidePage(){
   document.querySelectorAll('.pg-s').forEach(p=>p.classList.remove('show'));
   window.scrollTo({top:0,behavior:'smooth'});
 }
+
+// ── TOAST ──
 function toast(icon,msg){
   const t=document.getElementById('toast');
   document.getElementById('ti').textContent=icon+' ';
