@@ -387,8 +387,11 @@ footer p{font-size:.74rem;color:var(--muted2)}
         <div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem;font-weight:600;">⚡ Quick Select:</div>
         <div class="sz-btns">
           <button class="sz-btn" onclick="applyPreset('small')">📱 Small<br><span style="font-size:.65rem;color:var(--muted2)">640×auto</span></button>
+          <button class="sz-btn" onclick="applyPreset('hd')">📸 HD<br><span style="font-size:.65rem;color:var(--muted2)">1080×auto</span></button>
           <button class="sz-btn" onclick="applyPreset('medium')">💻 Medium<br><span style="font-size:.65rem;color:var(--muted2)">1280×auto</span></button>
           <button class="sz-btn" onclick="applyPreset('large')">🖥️ Large<br><span style="font-size:.65rem;color:var(--muted2)">1920×auto</span></button>
+          <button class="sz-btn" onclick="applyPreset('2k')">🖥️ 2K<br><span style="font-size:.65rem;color:var(--muted2)">2560×auto</span></button>
+          <button class="sz-btn" onclick="applyPreset('4k')">🎬 4K<br><span style="font-size:.65rem;color:var(--muted2)">3840×auto</span></button>
         </div>
         <div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem;font-weight:600;margin-top:.5rem">✏️ Custom Size:</div>
         <div class="sz-inp-row">
@@ -451,7 +454,7 @@ footer p{font-size:.74rem;color:var(--muted2)}
       <button class="ab ab6" onclick="runPDF()">📄 Convert to PDF — Free!</button>
     </div>
 
-    <!-- Panel 7: Crop — Drag & Presets -->
+    <!-- Panel 7: Crop -->
     <div class="panel" id="p7">
       <div class="th"><div class="thi ic7">✂️</div>
         <div><h3>Image Crop <span class="bf">✅ Free!</span></h3>
@@ -464,7 +467,6 @@ footer p{font-size:.74rem;color:var(--muted2)}
 
       <div id="crop-editor" style="display:none;margin-top:1rem">
         <div class="orig-info" id="crop-orig-info">Original: — × —</div>
-
         <div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem;font-weight:600;">⚡ Quick Presets:</div>
         <div class="crop-preset-btns">
           <button class="crop-preset-btn" onclick="applyCropPreset('square')">⬛ Square</button>
@@ -473,12 +475,10 @@ footer p{font-size:.74rem;color:var(--muted2)}
           <button class="crop-preset-btn" onclick="applyCropPreset('banner')">📰 Banner (3:1)</button>
           <button class="crop-preset-btn" onclick="applyCropPreset('custom')">✏️ Custom</button>
         </div>
-
         <div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem;font-weight:600;">🖱️ Drag to select crop area:</div>
         <div class="crop-canvas-wrap" id="crop-canvas-wrap">
           <canvas id="crop-canvas"></canvas>
         </div>
-
         <div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem;font-weight:600;">✏️ Or enter exact values:</div>
         <div class="crop-inp-row">
           <label>Left X</label>
@@ -659,7 +659,6 @@ const tN=['Upscaling image','Restoring face','Removing background','Compressing 
 const tD=['Image Upscaled! 🔍','Face Restored! 😊','Background Removed! ✂️','Image Compressed! 📦'];
 const endpoints=['upscale','face-restore','bg-remove','compress'];
 
-// Panel HTML store — for "another" reset
 const panelHTML={};
 window.addEventListener('DOMContentLoaded',()=>{
   for(let i=0;i<8;i++){
@@ -701,16 +700,21 @@ function updCr(){
 }
 updCr();
 
-// ✅ switchTab — resets panel HTML
+// ✅ FIX: switchTab — confirms before reset if image loaded
 function switchTab(i){
+  if(curTab===i)return;
+  const activePanel=document.getElementById('p'+curTab);
+  const hasDZ=activePanel&&activePanel.querySelector('.dz input');
+  const hasFile=hasDZ&&hasDZ.files&&hasDZ.files[0];
+  if(hasFile){
+    if(!confirm('Tab switch karoge toh current image reset ho jaegi. Continue?'))return;
+  }
   curTab=i;
   document.querySelectorAll('.tb').forEach((b,x)=>b.classList.toggle('active',x===i));
   document.querySelectorAll('.panel').forEach((p,x)=>{
     p.classList.toggle('active',x===i);
-    // Reset panel to original HTML when switching back
     if(x===i && panelHTML[i]){
       p.innerHTML=panelHTML[i];
-      // Re-attach drag events for new 8 dropzones
       attachDZ(i);
       if(i===7)initCropCanvas();
     }
@@ -758,10 +762,8 @@ function attachDZ(i){
   });
 }
 
-// Attach drag events on load
 [0,1,2,3,4,5,6,7].forEach(i=>attachDZ(i));
 
-// ✅ Progress
 function startProgress(id){
   let w=0;
   const iv=setInterval(()=>{
@@ -781,7 +783,6 @@ function finishProgress(id,iv){
   if(pc)pc.textContent='100%';
 }
 
-// ✅ BG Remove
 async function runBG(){
   const input=document.querySelector('#dz2 input');
   if(!input||!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
@@ -800,7 +801,6 @@ async function runBG(){
   }
 }
 
-// ✅ AI Tools run
 async function run(t){
   if(credits<=0){showUpgrade();return}
   const input=document.querySelector('#dz'+t+' input');
@@ -840,10 +840,12 @@ function onFileResize(inp){
   img.src=url;
 }
 
+// ✅ 6 presets
 function applyPreset(size){
   document.querySelectorAll('.sz-btn').forEach(b=>b.classList.remove('active'));
   event.target.closest('.sz-btn').classList.add('active');
-  let w=size==='small'?640:size==='medium'?1280:1920;
+  const presetW={small:640,hd:1080,medium:1280,large:1920,'2k':2560,'4k':3840};
+  let w=presetW[size]||640;
   w=Math.min(w,rzOrigW||w);
   const h=Math.round(w/(rzAspect||1));
   const rw=document.getElementById('rz-w');const rh=document.getElementById('rz-h');
@@ -927,7 +929,7 @@ async function runPDF(){
   }
 }
 
-// ✅ CROP TOOL — Drag + Presets
+// ✅ CROP TOOL
 function initCropCanvas(){
   const canvas=document.getElementById('crop-canvas');
   if(!canvas)return;
@@ -968,17 +970,13 @@ function drawCropCanvas(){
   canvas.height=cropOrigH*scale;
   const ctx=canvas.getContext('2d');
   ctx.drawImage(cropImg,0,0,canvas.width,canvas.height);
-  // Dark overlay
   ctx.fillStyle='rgba(0,0,0,0.5)';
   ctx.fillRect(0,0,canvas.width,canvas.height);
-  // Clear crop area
   const sx=cropX*scale,sy=cropY*scale,sw=cropW*scale,sh=cropH*scale;
   ctx.drawImage(cropImg,cropX,cropY,cropW,cropH,sx,sy,sw,sh);
-  // Border
   ctx.strokeStyle='#6366f1';ctx.lineWidth=2;ctx.setLineDash([6,3]);
   ctx.strokeRect(sx,sy,sw,sh);
   ctx.setLineDash([]);
-  // Corner handles
   const hs=8;ctx.fillStyle='#6366f1';
   [[sx,sy],[sx+sw,sy],[sx,sy+sh],[sx+sw,sy+sh]].forEach(([hx,hy])=>{
     ctx.fillRect(hx-hs/2,hy-hs/2,hs,hs);
