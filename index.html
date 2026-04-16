@@ -913,6 +913,10 @@ footer p{font-size:.74rem;color:var(--muted2)}
 
 <script>
 const BACKEND='https://imgchamp-backend.onrender.com';
+const originalPanels={};
+document.querySelectorAll('.panel').forEach((p,i)=>{
+  originalPanels[i]=p.innerHTML;
+});
 let credits=5,curTab=0,curPlan='pro';
 let rzOrigW=0,rzOrigH=0,rzAspect=1;
 let selFmtVal='jpeg';
@@ -1015,9 +1019,12 @@ function switchTab(i){
   if(i===7&&cropperInstance){cropperInstance.destroy();cropperInstance=null;}
 }
 
-// resetTab — called by "Process another" buttons — resets same tab
 function resetTab(i){
-  location.reload();
+  const panel=document.getElementById(panelIds[i]);
+  if(!panel)return;
+  panel.innerHTML=originalPanels[i];
+  switchTab(i);
+  attachDZ(i);
 }
 
 function initPanel(i){
