@@ -1228,6 +1228,7 @@ async function runBG(){
     setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Background Removed! ✂️</div><div class="rs">Done! Download below.</div><div class="rbs">${makeDownloadBtn(url,'imgchamp_bg_removed.png','Standard PNG','Full HD PNG')}</div><button class="rl" onclick="resetTab(2)">↺ Remove another</button></div>`;},400);
   }catch(e){
     finishProgress(2,iv);
+    if(e.name==='AbortError'){resetTab(2);return;}
     errorJob(jobId,'Server error');
     p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Please try again.</div><button class="rl" onclick="resetTab(2)">↺ Try Again</button></div>`;
   }
@@ -1255,7 +1256,9 @@ async function run(t){
     completeJob(jobId,tD[t],url,'imgchamp_result.png');
     setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">${tD[t]}</div><div class="rs">Done! Your processed image is ready.</div><div class="rbs">${makeDownloadBtn(url,'imgchamp_result.png','Standard quality','Full HD')}</div><button class="rl" onclick="resetTab(${t})">↺ Process another</button></div>`;},400);
   }catch(e){
-    finishProgress(t,iv);credits++;updCr();
+    finishProgress(t,iv);
+    if(e.name==='AbortError'){resetTab(t);return;}
+    credits++;updCr();
     errorJob(jobId,'Server error — credit refunded');
     p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Credit refunded. Please try again.</div><button class="rl" onclick="resetTab(${t})">↺ Try Again</button></div>`;
   }
@@ -1370,7 +1373,9 @@ async function runResize(){
     completeJob(jobId,'Image Resized!',url,'imgchamp_resized.png');
     setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Image Resized! 📐</div><div class="rs">New size: ${w} × ${h} px</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_resized.png">⬇ Download</a></div><button class="rl" onclick="resetTab(4)">↺ Resize another</button></div>`;},400);
   }catch(e){
-    finishProgress(4,iv);errorJob(jobId,'Server error');
+    finishProgress(4,iv);
+    if(e.name==='AbortError'){resetTab(4);return;}
+    errorJob(jobId,'Server error');
     p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Please try again.</div><button class="rl" onclick="resetTab(4)">↺ Try Again</button></div>`;
   }
 }
@@ -1403,7 +1408,9 @@ async function runConvert(){
     const dlLinks=urls.map(u=>`<a class="dlh" href="${u.url}" download="${u.name}">⬇ ${u.name}</a>`).join('');
     setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Format Converted! 🔄</div><div class="rs">${urls.length} file(s) converted to ${ext.toUpperCase()}</div><div class="rbs" style="flex-direction:column;align-items:center;gap:.4rem">${dlLinks}</div><button class="rl" onclick="resetTab(5)">↺ Convert another</button></div>`;},400);
   }catch(e){
-    finishProgress(5,iv);errorJob(jobId,'Server error');
+    finishProgress(5,iv);
+    if(e.name==='AbortError'){resetTab(5);return;}
+    errorJob(jobId,'Server error');
     p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Please try again.</div><button class="rl" onclick="resetTab(5)">↺ Try Again</button></div>`;
   }
 }
@@ -1449,7 +1456,9 @@ async function runPDF(){
       setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">PDF Created! 📄</div><div class="rs">Your PDF is ready.</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_document.pdf">⬇ Download PDF</a></div><button class="rl" onclick="resetTab(6)">↺ Convert another</button></div>`;},400);
     }
   }catch(e){
-    finishProgress(6,iv);errorJob(jobId,'Server error');
+    finishProgress(6,iv);
+    if(e.name==='AbortError'){resetTab(6);return;}
+    errorJob(jobId,'Server error');
     p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Please try again.</div><button class="rl" onclick="resetTab(6)">↺ Try Again</button></div>`;
   }
 }
@@ -1517,12 +1526,14 @@ async function runCrop(){
     completeJob(jobId,'Image Cropped!',url,'imgchamp_cropped.png');
     setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Image Cropped! ✂️</div><div class="rs">Crop: ${Math.round(data.width)} × ${Math.round(data.height)} px</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_cropped.png">⬇ Download</a></div><button class="rl" onclick="resetTab(7)">↺ Crop another</button></div>`;},400);
   }catch(e){
-    finishProgress(7,iv);errorJob(jobId,'Server error');
+    finishProgress(7,iv);
+    if(e.name==='AbortError'){resetTab(7);return;}
+    errorJob(jobId,'Server error');
     p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Please try again.</div><button class="rl" onclick="resetTab(7)">↺ Try Again</button></div>`;
   }
 }
 
-// ── FLIP & ROTATE — Frontend only, real-time canvas preview ──
+// ── FLIP & ROTATE ── Frontend only, real-time canvas preview ──
 function onFileFlip(inp){
   if(!inp.files||!inp.files[0])return;
   toast('🖼️','"'+inp.files[0].name+'" ready!');
