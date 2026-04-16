@@ -71,7 +71,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-
   background-size:50px 50px}
 
 /* NAV */
-nav{position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:66px;background:rgba(9,9,15,0.85);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);box-shadow:0 1px 30px rgba(0,0,0,0.4)}
+nav{position:sticky;top:0;z-index:200;position:relative;display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:66px;background:rgba(9,9,15,0.85);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);box-shadow:0 1px 30px rgba(0,0,0,0.4)}
 .logo{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.45rem;background:linear-gradient(135deg,#818cf8,#a78bfa,#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-0.5px;cursor:pointer;display:flex;align-items:center;gap:0.3rem}
 .logo-icon{width:28px;height:28px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.9rem;box-shadow:0 0 15px var(--glow);flex-shrink:0}
 .nav-r{display:flex;gap:.6rem;align-items:center}
@@ -80,7 +80,7 @@ nav{position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-co
 .btn-lo:hover{border-color:var(--accent);color:var(--text)}
 .btn-su{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#fff;padding:.43rem 1.1rem;border-radius:8px;font-size:.82rem;cursor:pointer;font-family:'Outfit',sans-serif;font-weight:600;transition:all .2s;box-shadow:0 0 20px var(--glow)}
 .btn-su:hover{transform:translateY(-1px);box-shadow:0 0 30px var(--glow)}
-.user-btn{display:flex;align-items:center;gap:.5rem;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);border-radius:8px;padding:.33rem .8rem;cursor:default;position:relative}
+.user-btn{display:flex;align-items:center;gap:.5rem;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);border-radius:8px;padding:.33rem .8rem;cursor:pointer;position:relative}
 .user-btn img{width:22px;height:22px;border-radius:50%;object-fit:cover}
 .user-name{font-size:.78rem;font-weight:700;color:#818cf8;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .plan-badge{position:absolute;top:-8px;right:-8px;font-size:.55rem;font-weight:800;padding:.15rem .4rem;border-radius:50px;white-space:nowrap;letter-spacing:.3px}
@@ -90,6 +90,25 @@ nav{position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-co
 .plan-badge.business{background:linear-gradient(135deg,#d97706,#f59e0b);color:#fff}
 .signout-btn{background:transparent;border:1px solid var(--border2);color:var(--muted);padding:.33rem .7rem;border-radius:8px;font-size:.75rem;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .2s}
 .signout-btn:hover{border-color:var(--danger);color:var(--danger)}
+
+/* Profile Dropdown */
+.profile-dropdown{display:none;position:absolute;top:calc(100% + 10px);right:0;background:var(--card);border:1px solid var(--border);border-radius:16px;min-width:220px;box-shadow:0 20px 60px rgba(0,0,0,0.5);z-index:999;overflow:hidden;animation:popIn .2s ease}
+.profile-dropdown.show{display:block}
+.pd-header{padding:1rem 1rem .75rem;border-bottom:1px solid var(--border)}
+.pd-name{font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:.15rem}
+.pd-email{font-size:.72rem;color:var(--muted)}
+.pd-upgrade{display:flex;align-items:center;gap:.5rem;padding:.75rem 1rem;cursor:pointer;transition:background .2s;text-decoration:none;border:none;background:none;width:100%;font-family:'Outfit',sans-serif}
+.pd-upgrade:hover{background:rgba(99,102,241,0.08)}
+.pd-upgrade-ic{width:30px;height:30px;background:linear-gradient(135deg,rgba(99,102,241,0.2),rgba(139,92,246,0.2));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+.pd-upgrade-t{font-size:.78rem;font-weight:700;color:var(--text)}
+.pd-upgrade-s{font-size:.68rem;color:var(--muted)}
+.pd-signout{display:flex;align-items:center;gap:.5rem;padding:.7rem 1rem;cursor:pointer;transition:background .2s;border:none;background:none;width:100%;font-family:'Outfit',sans-serif;border-top:1px solid var(--border)}
+.pd-signout:hover{background:rgba(239,68,68,0.06)}
+.pd-signout-ic{font-size:.9rem}
+.pd-signout-t{font-size:.78rem;font-weight:600;color:var(--danger)}
+.pd-plan-row{padding:.6rem 1rem;background:rgba(99,102,241,0.05);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.5rem}
+.pd-plan-label{font-size:.68rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.pd-plan-badge{font-size:.65rem;font-weight:800;padding:.18rem .55rem;border-radius:50px}
 
 /* Jobs bar */
 .jobs-bar{position:fixed;bottom:1.5rem;left:1.5rem;z-index:9998;display:flex;flex-direction:column;gap:.5rem;max-width:280px}
@@ -423,6 +442,28 @@ footer p{font-size:.74rem;color:var(--muted2)}
   </div>
 </div>
 
+<!-- Profile Dropdown — nav ke andar move karo -->
+  <div class="pd-header">
+    <div class="pd-name" id="pd-name">User</div>
+    <div class="pd-email" id="pd-email">user@email.com</div>
+  </div>
+  <div class="pd-plan-row">
+    <span class="pd-plan-label">Current Plan:</span>
+    <span class="pd-plan-badge" id="pd-plan-badge">FREE</span>
+  </div>
+  <button class="pd-upgrade" id="pd-upgrade-btn" onclick="profileUpgradeClick()">
+    <div class="pd-upgrade-ic">⚡</div>
+    <div>
+      <div class="pd-upgrade-t" id="pd-upgrade-t">Upgrade Plan</div>
+      <div class="pd-upgrade-s" id="pd-upgrade-s">Get HD quality & more credits</div>
+    </div>
+  </button>
+  <button class="pd-signout" onclick="signOut()">
+    <span class="pd-signout-ic">🚪</span>
+    <span class="pd-signout-t">Sign Out</span>
+  </button>
+</div>
+
 <!-- Jobs bar -->
 <div class="jobs-bar" id="jobs-bar"></div>
 
@@ -430,6 +471,27 @@ footer p{font-size:.74rem;color:var(--muted2)}
   <div class="logo" onclick="hidePage()">
     <div class="logo-icon">🏆</div>
     imgChamp
+  </div>
+  <div class="profile-dropdown" id="profile-dropdown">
+    <div class="pd-header">
+      <div class="pd-name" id="pd-name">User</div>
+      <div class="pd-email" id="pd-email">user@email.com</div>
+    </div>
+    <div class="pd-plan-row">
+      <span class="pd-plan-label">Current Plan:</span>
+      <span class="pd-plan-badge" id="pd-plan-badge">FREE</span>
+    </div>
+    <button class="pd-upgrade" id="pd-upgrade-btn" onclick="profileUpgradeClick()">
+      <div class="pd-upgrade-ic">⚡</div>
+      <div>
+        <div class="pd-upgrade-t" id="pd-upgrade-t">Upgrade Plan</div>
+        <div class="pd-upgrade-s" id="pd-upgrade-s">Get HD quality & more credits</div>
+      </div>
+    </button>
+    <button class="pd-signout" onclick="signOut()">
+      <span class="pd-signout-ic">🚪</span>
+      <span class="pd-signout-t">Sign Out</span>
+    </button>
   </div>
   <div class="nav-r" id="nav-r">
     <div class="nav-cr">⚡ <span id="ncr">5</span> Credits</div>
@@ -983,18 +1045,53 @@ function updateNav(session){
   if(session){
     const user=session.user;
     const name=user.user_metadata?.full_name||user.email?.split('@')[0]||'User';
+    const email=user.email||'';
     const avatar=user.user_metadata?.avatar_url||'';
     const plan=user.user_metadata?.plan||'free';
     const badgeClass={'free':'free','starter':'starter','pro':'pro','business':'business'}[plan]||'free';
     const badgeText={'free':'FREE','starter':'STARTER','pro':'PRO','business':'BUSINESS'}[plan]||'FREE';
+
+    // Update dropdown content
+    const pdName=document.getElementById('pd-name');
+    const pdEmail=document.getElementById('pd-email');
+    const pdBadge=document.getElementById('pd-plan-badge');
+    const pdUpgradeBtn=document.getElementById('pd-upgrade-btn');
+    const pdUpgradeT=document.getElementById('pd-upgrade-t');
+    const pdUpgradeS=document.getElementById('pd-upgrade-s');
+    if(pdName)pdName.textContent=name;
+    if(pdEmail)pdEmail.textContent=email;
+    if(pdBadge){
+      pdBadge.textContent=badgeText;
+      pdBadge.className='pd-plan-badge '+badgeClass;
+      // badge colors matching plan
+      const bColors={free:'background:#374151;color:#9ca3af',starter:'background:linear-gradient(135deg,#059669,#10b981);color:#fff',pro:'background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff',business:'background:linear-gradient(135deg,#d97706,#f59e0b);color:#fff'};
+      pdBadge.style.cssText=(bColors[plan]||bColors.free)+';font-size:.65rem;font-weight:800;padding:.18rem .55rem;border-radius:50px';
+    }
+    // Upgrade button: agar business plan hai toh hide karo, warna show karo
+    // Agar plan liya hua hai toh sirf higher plans dikhao
+    const planOrder=['free','starter','pro','business'];
+    const currentPlanIndex=planOrder.indexOf(plan);
+    if(pdUpgradeBtn){
+      if(plan==='business'){
+        pdUpgradeBtn.style.display='none';
+      }else{
+        pdUpgradeBtn.style.display='flex';
+        if(pdUpgradeT)pdUpgradeT.textContent=plan==='free'?'Upgrade Plan':'Upgrade to Higher Plan';
+        if(pdUpgradeS){
+          const nextPlan=planOrder[currentPlanIndex+1];
+          const nextPlanText={starter:'Pro — $19/mo',pro:'Business — $49/mo'}[nextPlan]||'Get HD quality & more credits';
+          pdUpgradeS.textContent=nextPlanText;
+        }
+      }
+    }
+
     navR.innerHTML=`
       <div class="nav-cr">⚡ <span id="ncr">${credits}</span> Credits</div>
-      <div class="user-btn">
+      <div class="user-btn" onclick="toggleProfileDropdown(event)" id="user-btn-el">
         ${avatar?`<img src="${avatar}" alt="avatar">`:'<span style="font-size:1rem">👤</span>'}
         <span class="user-name">${name}</span>
         <span class="plan-badge ${badgeClass}">${badgeText}</span>
-      </div>
-      <button class="signout-btn" onclick="signOut()">Sign Out</button>`;
+      </div>`;
   }else{
     navR.innerHTML=`
       <div class="nav-cr">⚡ <span id="ncr">${credits}</span> Credits</div>
@@ -1002,6 +1099,35 @@ function updateNav(session){
       <button class="btn-su" onclick="showAuth('signup')">Sign Up Free</button>`;
   }
 }
+
+function toggleProfileDropdown(e){
+  e.stopPropagation();
+  const dd=document.getElementById('profile-dropdown');
+  if(!dd)return;
+  // Position dropdown under user-btn
+  const btn=document.getElementById('user-btn-el');
+  if(btn){
+    const rect=btn.getBoundingClientRect();
+    dd.style.top=(rect.bottom+window.scrollY+8)+'px';
+    dd.style.right=(window.innerWidth-rect.right)+'px';
+    dd.style.position='absolute';
+  }
+  dd.classList.toggle('show');
+}
+
+function profileUpgradeClick(){
+  document.getElementById('profile-dropdown').classList.remove('show');
+  showUpgrade();
+}
+
+// Dropdown bahar click karne pe band ho
+document.addEventListener('click',function(e){
+  const dd=document.getElementById('profile-dropdown');
+  const btn=document.getElementById('user-btn-el');
+  if(dd&&dd.classList.contains('show')&&!dd.contains(e.target)&&e.target!==btn){
+    dd.classList.remove('show');
+  }
+});
 async function signOut(){await _supabase.auth.signOut();location.reload();}
 _supabase.auth.getSession().then(({data:{session}})=>{updateNav(session);});
 _supabase.auth.onAuthStateChange((event,session)=>{updateNav(session);});
