@@ -944,6 +944,7 @@ let jobs={};
 let jobCounter=0;
 let pendingCancelId=null;
 let isProcessing=false;
+let abortControllers={};
 
 // ── REFRESH WARNING ──
 window.addEventListener('beforeunload',function(e){
@@ -966,6 +967,10 @@ function closeCancelPopup(){
 function confirmCancel(){
   if(pendingCancelId!==null){
     if(jobs[pendingCancelId])jobs[pendingCancelId].cancelled=true;
+    if(abortControllers[pendingCancelId]){
+      abortControllers[pendingCancelId].abort();
+      delete abortControllers[pendingCancelId];
+    }
     removeJob(pendingCancelId);
     isProcessing=false;
   }
@@ -1122,6 +1127,7 @@ function attachDZ(i){
 function addJob(title,subtitle){
   const id=++jobCounter;
   jobs[id]={id,title,cancelled:false};
+  abortControllers[id]=new AbortController();
   isProcessing=true;
   const bar=document.getElementById('jobs-bar');
   const div=document.createElement('div');
@@ -1214,7 +1220,7 @@ async function runBG(){
   const jobId=addJob('BG Remove','Processing...');
   try{
     const fd=new FormData();fd.append('file',input.files[0]);
-    const res=await fetch(BACKEND+'/bg-remove',{method:'POST',body:fd});
+    const res=await fetch(BACKEND+'/bg-remove',{method:'POST',body:fd,signal:abortControllers[jobId]?.signal});
     if(jobs[jobId]&&jobs[jobId].cancelled)return;
     const blob=await res.blob();finishProgress(2,iv);
     const url=URL.createObjectURL(blob);
@@ -1242,7 +1248,7 @@ async function run(t){
     const fd=new FormData();
     fd.append('file',input.files[0]);
     if(t===3){const qMap={light:92,medium:82,max:70};fd.append('quality',qMap[compressLevel]);}
-    const res=await fetch(BACKEND+'/'+endpoints[t],{method:'POST',body:fd});
+    const res=await fetch(BACKEND+'/'+endpoints[t],{method:'POST',body:fd,signal:abortControllers[jobId]?.signal});
     if(jobs[jobId]&&jobs[jobId].cancelled)return;
     const blob=await res.blob();finishProgress(t,iv);
     const url=URL.createObjectURL(blob);
@@ -1357,7 +1363,7 @@ async function runResize(){
   const jobId=addJob('Resize','Processing...');
   try{
     const fd=new FormData();fd.append('file',input.files[0]);fd.append('width',w);fd.append('height',h);
-    const res=await fetch(BACKEND+'/resize',{method:'POST',body:fd});
+    const res=await fetch(BACKEND+'/resize',{method:'POST',body:fd,signal:abortControllers[jobId]?.signal});
     if(jobs[jobId]&&jobs[jobId].cancelled)return;
     const blob=await res.blob();finishProgress(4,iv);
     const url=URL.createObjectURL(blob);
@@ -1388,7 +1394,7 @@ async function runConvert(){
     const urls=[];
     for(const f of files){
       const fd=new FormData();fd.append('file',f);fd.append('format',selFmtVal);
-      const res=await fetch(BACKEND+'/convert',{method:'POST',body:fd});
+      const res=await fetch(BACKEND+'/convert',{method:'POST',body:fd,signal:abortControllers[jobId]?.signal});
       const blob=await res.blob();
       urls.push({url:URL.createObjectURL(blob),name:f.name.replace(/\.[^.]+$/,'.'+ext)});
     }
@@ -1425,7 +1431,7 @@ async function runPDF(){
       const pdfUrls=[];
       for(const f of files){
         const fd=new FormData();fd.append('files',f);
-        const res=await fetch(BACKEND+'/image-to-pdf',{method:'POST',body:fd});
+        const res=await fetch(BACKEND+'/image-to-pdf',{method:'POST',body:fd,signal:abortControllers[jobId]?.signal});
         const blob=await res.blob();
         pdfUrls.push({url:URL.createObjectURL(blob),name:f.name.replace(/\.[^.]+$/,'.pdf')});
       }
@@ -1435,7 +1441,7 @@ async function runPDF(){
       setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Separate PDFs Created! 📑</div><div class="rs">${pdfUrls.length} PDF files ready.</div><div class="rbs" style="flex-direction:column;align-items:center;gap:.4rem">${dlLinks}</div><button class="rl" onclick="resetTab(6)">↺ Convert another</button></div>`;},400);
     }else{
       const fd=new FormData();files.forEach(f=>fd.append('files',f));
-      const res=await fetch(BACKEND+'/image-to-pdf',{method:'POST',body:fd});
+      const res=await fetch(BACKEND+'/image-to-pdf',{method:'POST',body:fd,signal:abortControllers[jobId]?.signal});
       if(jobs[jobId]&&jobs[jobId].cancelled)return;
       const blob=await res.blob();finishProgress(6,iv);
       const url=URL.createObjectURL(blob);
@@ -1503,7 +1509,7 @@ async function runCrop(){
     fd.append('file',input.files[0]);
     fd.append('x',Math.round(data.x));fd.append('y',Math.round(data.y));
     fd.append('width',Math.round(data.width));fd.append('height',Math.round(data.height));
-    const res=await fetch(BACKEND+'/crop',{method:'POST',body:fd});
+    const res=await fetch(BACKEND+'/crop',{method:'POST',body:fd,signal:abortControllers[jobId]?.signal});
     if(jobs[jobId]&&jobs[jobId].cancelled)return;
     const blob=await res.blob();finishProgress(7,iv);
     const url=URL.createObjectURL(blob);
