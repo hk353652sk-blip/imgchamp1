@@ -1048,25 +1048,51 @@ function onFile(t,inp){
   const count=inp.files.length;
   const fname=count>1?count+' images selected':inp.files[0].name;
   toast('🖼️',count>1?count+' images ready!':'"'+inp.files[0].name+'" ready!');
-  const reader=new FileReader();
-  reader.onload=function(e){
-    const dz=document.getElementById('dz'+t);
-    if(!dz)return;
-    const existingInput=dz.querySelector('input');
-    dz.innerHTML='';
-    dz.appendChild(existingInput);
-    const preview=document.createElement('img');
-    preview.className='dz-preview';
-    preview.src=e.target.result;
+  const dz=document.getElementById('dz'+t);
+  if(!dz)return;
+  const existingInput=dz.querySelector('input');
+  dz.innerHTML='';
+  dz.appendChild(existingInput);
+  existingInput.onchange=function(){onFile(t,this);};
+  if(count>1){
+    const grid=document.createElement('div');
+    grid.style.cssText='display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:6px;padding:10px;max-height:200px;overflow-y:auto;';
+    Array.from(inp.files).forEach((file,idx)=>{
+      const wrapper=document.createElement('div');
+      wrapper.style.cssText='position:relative;border-radius:8px;overflow:hidden;aspect-ratio:1;background:rgba(0,0,0,0.3);';
+      const img=document.createElement('img');
+      img.style.cssText='width:100%;height:100%;object-fit:cover;display:block;border-radius:8px;';
+      const num=document.createElement('span');
+      num.style.cssText='position:absolute;bottom:3px;right:4px;font-size:.58rem;font-weight:700;color:#fff;background:rgba(0,0,0,0.6);border-radius:4px;padding:1px 4px;';
+      num.textContent=idx+1;
+      const reader=new FileReader();
+      reader.onload=function(e){img.src=e.target.result;};
+      reader.readAsDataURL(file);
+      wrapper.appendChild(img);
+      wrapper.appendChild(num);
+      grid.appendChild(wrapper);
+    });
     const bottom=document.createElement('div');
     bottom.className='dz-bottom';
-    bottom.innerHTML=`<span class="dz-fname">${fname}</span><button class="dz-change" onclick="tFile(${t})">Change Image</button>`;
-    dz.appendChild(preview);
+    bottom.innerHTML=`<span class="dz-fname">📁 ${fname}</span><button class="dz-change" onclick="tFile(${t})">Change Images</button>`;
+    dz.appendChild(grid);
     dz.appendChild(bottom);
     dz.style.borderColor='var(--accent)';
-    existingInput.onchange=function(){onFile(t,this);};
-  };
-  reader.readAsDataURL(inp.files[0]);
+  }else{
+    const reader=new FileReader();
+    reader.onload=function(e){
+      const preview=document.createElement('img');
+      preview.className='dz-preview';
+      preview.src=e.target.result;
+      const bottom=document.createElement('div');
+      bottom.className='dz-bottom';
+      bottom.innerHTML=`<span class="dz-fname">${fname}</span><button class="dz-change" onclick="tFile(${t})">Change Image</button>`;
+      dz.appendChild(preview);
+      dz.appendChild(bottom);
+      dz.style.borderColor='var(--accent)';
+    };
+    reader.readAsDataURL(inp.files[0]);
+  }
 }
 
 // ── DRAG & DROP ──
