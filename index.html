@@ -666,11 +666,11 @@ footer p{font-size:.74rem;color:var(--muted2)}
         <div class="orig-info" id="crop-orig-info">Original: — × —</div>
         <div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem;font-weight:600;">⚡ Quick Presets:</div>
         <div class="crop-preset-btns">
-          <button class="crop-preset-btn" onclick="applyCropPreset('free')">✏️ Free</button>
-          <button class="crop-preset-btn" onclick="applyCropPreset('square')">⬛ Square (1:1)</button>
-          <button class="crop-preset-btn" onclick="applyCropPreset('portrait')">📱 Portrait (3:4)</button>
-          <button class="crop-preset-btn" onclick="applyCropPreset('landscape')">🖼️ Landscape (16:9)</button>
-          <button class="crop-preset-btn" onclick="applyCropPreset('banner')">📰 Banner (3:1)</button>
+          <button class="crop-preset-btn" onclick="applyCropPreset('free',this)">✏️ Free</button>
+          <button class="crop-preset-btn" onclick="applyCropPreset('square',this)">⬛ Square (1:1)</button>
+          <button class="crop-preset-btn" onclick="applyCropPreset('portrait',this)">📱 Portrait (3:4)</button>
+          <button class="crop-preset-btn" onclick="applyCropPreset('landscape',this)">🖼️ Landscape (16:9)</button>
+          <button class="crop-preset-btn" onclick="applyCropPreset('banner',this)">📰 Banner (3:1)</button>
         </div>
         <div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem;font-weight:600;">🖱️ Drag to crop — works on mobile too:</div>
         <div class="crop-wrap" id="crop-wrap">
@@ -1479,12 +1479,13 @@ function onFileCrop(inp){
     dz.style.borderColor='var(--accent)';
   }
 }
-function applyCropPreset(preset){
+function applyCropPreset(preset,btn){
   document.querySelectorAll('.crop-preset-btn').forEach(b=>b.classList.remove('active'));
-  event.target.classList.add('active');
+  if(btn)btn.classList.add('active');
   if(!cropperInstance)return;
   const ratios={free:NaN,square:1,portrait:3/4,landscape:16/9,banner:3/1};
-  cropperInstance.setAspectRatio(ratios[preset]||NaN);
+  const ratio=ratios[preset];
+  cropperInstance.setAspectRatio(isNaN(ratio)?NaN:ratio);
 }
 async function runCrop(){
   if(!cropperInstance){toast('⚠️','Please select an image first!');return}
