@@ -56,6 +56,12 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-
   0%,100%{opacity:1;transform:scale(1)}
   50%{opacity:0.7;transform:scale(1.03)}
 }
+/* Dragon breathing fire effect */
+.bg-dragon{position:fixed;bottom:-60px;right:-40px;pointer-events:none;z-index:0;font-size:7rem;opacity:0.07;animation:dragonBreath 4s ease-in-out infinite;transform-origin:bottom right}
+@keyframes dragonBreath{
+  0%,100%{transform:scale(1) rotate(-5deg);opacity:0.07;filter:drop-shadow(0 0 0px rgba(99,102,241,0))}
+  50%{transform:scale(1.08) rotate(5deg);opacity:0.13;filter:drop-shadow(0 0 30px rgba(99,102,241,0.4))}
+}
 .bg-glow-pulse{position:fixed;inset:0;pointer-events:none;z-index:0;
   background:radial-gradient(ellipse 50% 40% at 50% 50%,rgba(99,102,241,0.04) 0%,transparent 70%);
   animation:pulseGlow 8s ease-in-out infinite alternate}
@@ -250,6 +256,10 @@ h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2rem,5.5vw,3.8rem)
 .fr-btn{padding:.55rem .4rem;border-radius:10px;border:1px solid var(--border2);background:var(--surface);color:var(--muted);font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s;text-align:center}
 .fr-btn:hover{border-color:var(--accent);color:var(--text);background:rgba(99,102,241,0.06)}
 
+/* Color Picker */
+.color-val-row{display:flex;align-items:center;gap:.5rem;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.4rem .7rem;cursor:pointer;transition:border-color .2s}
+.color-val-row:hover{border-color:var(--accent)}
+
 /* Sections */
 .feat-s{position:relative;z-index:1;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:55px 5%}
 .fi{max-width:1000px;margin:0 auto}
@@ -399,6 +409,7 @@ footer p{font-size:.74rem;color:var(--muted2)}
 <div class="bg-mesh"></div>
 <div class="bg-glow-pulse"></div>
 <div class="bg-grid"></div>
+<div class="bg-dragon">🐉</div>
 
 <!-- Cancel confirm popup -->
 <div class="cancel-popup" id="cancel-popup">
@@ -456,6 +467,7 @@ footer p{font-size:.74rem;color:var(--muted2)}
     <button class="tb" onclick="switchTab(6)" id="tab-pdf"><span class="ti">📄</span>Image→PDF</button>
     <button class="tb" onclick="switchTab(7)" id="tab-crop"><span class="ti">✂️</span>Crop</button>
     <button class="tb" onclick="switchTab(8)" id="tab-flip"><span class="ti">🔃</span>Flip/Rotate</button>
+    <button class="tb" onclick="switchTab(9)" id="tab-color"><span class="ti">🎨</span>Color Pick</button>
   </div>
 
   <div class="tc">
@@ -551,6 +563,18 @@ footer p{font-size:.74rem;color:var(--muted2)}
         <button class="ob" style="background:linear-gradient(135deg,#0891b2,#06b6d4);box-shadow:0 0 20px rgba(6,182,212,0.3)" type="button" onclick="tFile(4)">📁 Open Gallery / Folder</button></div></div>
       <div id="resize-options" style="display:none;margin-top:1rem">
         <div class="orig-info" id="orig-info">Original: — × —</div>
+        <div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem;font-weight:600;">📏 Unit:</div>
+        <div class="fmt-btns" id="rz-unit-btns">
+          <button class="fmt-btn active" onclick="selUnit(this,'px')">Pixels</button>
+          <button class="fmt-btn" onclick="selUnit(this,'in')">Inches</button>
+          <button class="fmt-btn" onclick="selUnit(this,'cm')">CM</button>
+          <button class="fmt-btn" onclick="selUnit(this,'pct')">Percent</button>
+        </div>
+        <div class="sz-inp-row" id="dpi-row" style="display:none">
+          <label>DPI</label>
+          <input class="sz-inp" type="number" id="rz-dpi" value="72" min="1" max="600">
+          <span style="font-size:.75rem;color:var(--muted2)">dpi</span>
+        </div>
         <div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem;font-weight:600;">⚡ Quick Select:</div>
         <div class="sz-btns" id="resize-preset-btns">
           <button class="sz-btn" onclick="applyPreset(this,'small')">📱 Small<br><span style="font-size:.65rem;color:var(--muted2)">640×auto</span></button>
@@ -564,12 +588,12 @@ footer p{font-size:.74rem;color:var(--muted2)}
         <div class="sz-inp-row">
           <label>Width</label>
           <input class="sz-inp" type="number" id="rz-w" placeholder="e.g. 800" oninput="syncAspect('w')">
-          <span style="font-size:.75rem;color:var(--muted2)">px</span>
+          <span style="font-size:.75rem;color:var(--muted2)" id="rz-w-unit">px</span>
         </div>
         <div class="sz-inp-row">
           <label>Height</label>
           <input class="sz-inp" type="number" id="rz-h" placeholder="e.g. 600" oninput="syncAspect('h')">
-          <span style="font-size:.75rem;color:var(--muted2)">px</span>
+          <span style="font-size:.75rem;color:var(--muted2)" id="rz-h-unit">px</span>
         </div>
         <label class="sz-lock"><input type="checkbox" id="rz-lock" checked> 🔒 Lock Aspect Ratio</label>
       </div>
@@ -689,6 +713,57 @@ footer p{font-size:.74rem;color:var(--muted2)}
       <button class="ab ab8" onclick="runFlip()">🔃 Download Flipped/Rotated Image</button>
     </div>
 
+    <!-- Panel 9: Color Picker — anchor: #color-picker -->
+    <div class="panel" id="color-picker">
+      <div class="th"><div class="thi" style="background:linear-gradient(135deg,rgba(236,72,153,0.2),rgba(239,68,68,0.2));box-shadow:0 0 20px rgba(236,72,153,0.15)">🎨</div>
+        <div><h3>Image Color Picker <span class="bf">✅ Free!</span></h3>
+        <p>Click anywhere on image to pick color. Get HEX, RGB, HSL instantly.</p></div>
+      </div>
+      <div class="dz" id="dz9" style="border-color:rgba(236,72,153,0.25)"><input type="file" accept="image/*" onchange="onFileColor(this)">
+        <div class="dz-empty"><span class="dz-ic">🎨</span><div class="dz-t">Drop your image here</div>
+        <div class="dz-s">PNG · JPG · WEBP · Max 20MB · <b>or</b></div>
+        <button class="ob" style="background:linear-gradient(135deg,#db2777,#ec4899);box-shadow:0 0 20px rgba(236,72,153,0.3)" type="button" onclick="tFile(9)">📁 Open Gallery / Folder</button></div></div>
+      <div id="color-editor" style="display:none;margin-top:1rem">
+        <div style="display:grid;grid-template-columns:1fr 180px;gap:1rem;align-items:start">
+          <div>
+            <div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem;font-weight:600;">🖱️ Click on image to pick color:</div>
+            <div style="position:relative;border-radius:12px;overflow:hidden;cursor:crosshair;border:1px solid var(--border)">
+              <canvas id="color-canvas" style="width:100%;display:block;border-radius:12px"></canvas>
+              <div id="color-crosshair" style="display:none;position:absolute;width:16px;height:16px;border:2px solid #fff;border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);box-shadow:0 0 0 1px rgba(0,0,0,0.5)"></div>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem;font-weight:600;">🎯 Picked Color:</div>
+            <div id="color-preview" style="width:100%;height:80px;border-radius:12px;background:#6366f1;border:1px solid var(--border);margin-bottom:.8rem;transition:background .2s"></div>
+            <div style="display:flex;flex-direction:column;gap:.4rem">
+              <div class="color-val-row" onclick="copyColor('hex')">
+                <span style="font-size:.65rem;color:var(--muted);font-weight:700;width:30px">HEX</span>
+                <span id="color-hex" style="font-size:.75rem;font-weight:700;color:var(--text);flex:1">#6366f1</span>
+                <span style="font-size:.65rem;color:#818cf8">Copy</span>
+              </div>
+              <div class="color-val-row" onclick="copyColor('rgb')">
+                <span style="font-size:.65rem;color:var(--muted);font-weight:700;width:30px">RGB</span>
+                <span id="color-rgb" style="font-size:.72rem;color:var(--text);flex:1">99, 102, 241</span>
+                <span style="font-size:.65rem;color:#818cf8">Copy</span>
+              </div>
+              <div class="color-val-row" onclick="copyColor('hsl')">
+                <span style="font-size:.65rem;color:var(--muted);font-weight:700;width:30px">HSL</span>
+                <span id="color-hsl" style="font-size:.72rem;color:var(--text);flex:1">239°, 84%, 67%</span>
+                <span style="font-size:.65rem;color:#818cf8">Copy</span>
+              </div>
+            </div>
+            <div style="margin-top:.8rem">
+              <div style="font-size:.65rem;color:var(--muted);margin-bottom:.4rem;font-weight:600">🌈 Gradient</div>
+              <div id="color-gradient" style="height:40px;border-radius:8px;border:1px solid var(--border)"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ci" style="background:rgba(236,72,153,0.05);border-color:rgba(236,72,153,0.2)">
+        <div class="ci-l">✅ <b>Unlimited Free</b> · <b style="color:#ec4899">No credit needed!</b></div>
+      </div>
+    </div>
+
   </div><!-- end .tc -->
 </div><!-- end .tw -->
 
@@ -727,26 +802,26 @@ footer p{font-size:.74rem;color:var(--muted2)}
     <div class="pc">
       <div class="pn">Free</div><div class="pp2"><sup>$</sup>0<sub>/mo</sub></div>
       <div class="pcr">⚡ 5 Credits/Day</div><div class="pd">Try all tools free — forever</div>
-      <ul class="pfl"><li>5 credits/day</li><li>BG Remove — Unlimited!</li><li>Resize, Convert, PDF, Crop, Flip — Free!</li><li>Low quality output</li><li class="no">HD downloads</li><li class="no">No watermark</li></ul>
+      <ul class="pfl"><li>5 credits/day</li><li>BG Remove — Unlimited!</li><li>Resize, Convert, PDF, Crop, Flip, Color Picker — Free!</li><li>Max file size: <b>5MB</b></li><li>Low quality output</li><li class="no">HD downloads</li><li class="no">No watermark</li></ul>
       <button class="pb" onclick="showAuth('signup')">Start Free</button>
     </div>
     <div class="pc">
       <div class="pn">Starter</div><div class="pp2"><sup>$</sup>9<sub>/mo</sub></div>
       <div class="pcr">50 Upscale + 30 Face Restore</div><div class="pd">For casual users & creators</div>
-      <ul class="pfl"><li>50 Upscale/month 2x HD</li><li>30 Face Restore/month HD</li><li>BG Remove — 100/day HD</li><li>Compress — Unlimited HD</li><li>No watermark</li><li class="no">HD Resize/Convert/Crop</li><li class="no">API access</li></ul>
+      <ul class="pfl"><li>50 Upscale/month 2x HD</li><li>30 Face Restore/month HD</li><li>BG Remove — 100/day HD</li><li>Compress — Unlimited HD</li><li>No watermark</li><li>Max file size: <b>15MB</b></li><li class="no">HD Resize/Convert/Crop</li><li class="no">API access</li></ul>
       <button class="pb" onclick="showUpgrade()">Get Starter</button>
     </div>
     <div class="pc pop">
       <div class="popt">⭐ Most Popular</div>
       <div class="pn">Pro</div><div class="pp2"><sup>$</sup>19<sub>/mo</sub></div>
       <div class="pcr">200 Upscale + 100 Face Restore</div><div class="pd">For designers & professionals</div>
-      <ul class="pfl"><li>200 Upscale/month 4x HD</li><li>100 Face Restore/month HD</li><li>BG Remove — Unlimited HD</li><li>All tools — Unlimited HD fast</li><li>No watermark</li><li>Priority processing</li><li class="no">API access</li></ul>
+      <ul class="pfl"><li>200 Upscale/month 4x HD</li><li>100 Face Restore/month HD</li><li>BG Remove — Unlimited HD</li><li>All tools — Unlimited HD fast</li><li>No watermark</li><li>Priority processing</li><li>Max file size: <b>40MB</b></li><li class="no">API access</li></ul>
       <button class="pb fill" onclick="showUpgrade()">Get Pro</button>
     </div>
     <div class="pc">
       <div class="pn">Business</div><div class="pp2"><sup>$</sup>49<sub>/mo</sub></div>
       <div class="pcr">500 Upscale + 300 Face Restore</div><div class="pd">For agencies & developers</div>
-      <ul class="pfl"><li>500 Upscale/month 4x HD</li><li>300 Face Restore/month HD</li><li>BG Remove — Unlimited HD fast</li><li>All tools — Unlimited HD fast</li><li>No watermark</li><li>Full API access</li><li>Priority support</li></ul>
+      <ul class="pfl"><li>500 Upscale/month 4x HD</li><li>300 Face Restore/month HD</li><li>BG Remove — Unlimited HD fast</li><li>All tools — Unlimited HD fast</li><li>No watermark</li><li>Full API access</li><li>Priority support</li><li>Max file size: <b>100MB</b></li></ul>
       <button class="pb" onclick="showUpgrade()">Get Business</button>
     </div>
   </div>
@@ -858,7 +933,7 @@ const tD=['Image Upscaled!','Face Restored!','Background Removed!','Image Compre
 const endpoints=['upscale','face-restore','bg-remove','compress'];
 
 // Panel IDs map (tab index → panel element id)
-const panelIds=['upscale-image','face-restore','remove-background','compress-image','resize-image','convert-image','image-to-pdf','crop-image','flip-rotate-image'];
+const panelIds=['upscale-image','face-restore','remove-background','compress-image','resize-image','convert-image','image-to-pdf','crop-image','flip-rotate-image','color-picker'];
 
 // Jobs
 let jobs={};
@@ -942,24 +1017,7 @@ function switchTab(i){
 
 // resetTab — called by "Process another" buttons — resets same tab
 function resetTab(i){
-  // Reset the panel to original state by switching away and back
-  const dzId='dz'+i;
-  const dz=document.getElementById(dzId);
-  if(dz){
-    const inputAccept=dz.querySelector('input')?dz.querySelector('input').accept:'image/*';
-    const isMultiple=i===3||i===5||i===6;
-    dz.innerHTML=`<input type="file" accept="${inputAccept}"${isMultiple?' multiple':''}>`;
-    const inp=dz.querySelector('input');
-    if(i===4)inp.onchange=function(){onFileResize(this);};
-    else if(i===7)inp.onchange=function(){onFileCrop(this);};
-    else if(i===8)inp.onchange=function(){onFileFlip(this);};
-    else inp.onchange=function(){onFile(i,this);};
-    dz.style.borderColor='';
-  }
-  // Restore panel original HTML
   switchTab(i);
-  // Re-init the panel
-  initPanel(i);
 }
 
 function initPanel(i){
@@ -1025,7 +1083,7 @@ function attachDZ(i){
     }
   });
 }
-[0,1,2,3,4,5,6,7,8].forEach(i=>attachDZ(i));
+[0,1,2,3,4,5,6,7,8,9].forEach(i=>attachDZ(i));
 
 // ── JOBS BAR ──
 function addJob(title,subtitle){
@@ -1171,6 +1229,39 @@ function selCompress(el,level){
   el.classList.add('active');
 }
 
+// ── RESIZE UNIT ──
+let rzUnit='px';
+function selUnit(el,unit){
+  rzUnit=unit;
+  document.querySelectorAll('#rz-unit-btns .fmt-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  const dpiRow=document.getElementById('dpi-row');
+  dpiRow.style.display=(unit==='in'||unit==='cm')?'flex':'none';
+  const uLabel={'px':'px','in':'in','cm':'cm','pct':'%'}[unit];
+  document.getElementById('rz-w-unit').textContent=uLabel;
+  document.getElementById('rz-h-unit').textContent=uLabel;
+  // Convert current values
+  if(rzOrigW){
+    const dpi=parseInt(document.getElementById('rz-dpi').value)||72;
+    let w=rzOrigW,h=rzOrigH;
+    if(unit==='in'){w=+(rzOrigW/dpi).toFixed(2);h=+(rzOrigH/dpi).toFixed(2);}
+    else if(unit==='cm'){w=+(rzOrigW/dpi*2.54).toFixed(2);h=+(rzOrigH/dpi*2.54).toFixed(2);}
+    else if(unit==='pct'){w=100;h=100;}
+    document.getElementById('rz-w').value=w;
+    document.getElementById('rz-h').value=h;
+  }
+}
+function getPixelDimensions(){
+  const dpi=parseInt(document.getElementById('rz-dpi').value)||72;
+  let w=parseFloat(document.getElementById('rz-w').value)||0;
+  let h=parseFloat(document.getElementById('rz-h').value)||0;
+  if(rzUnit==='in'){w=Math.round(w*dpi);h=Math.round(h*dpi);}
+  else if(rzUnit==='cm'){w=Math.round(w/2.54*dpi);h=Math.round(h/2.54*dpi);}
+  else if(rzUnit==='pct'){w=Math.round(rzOrigW*w/100);h=Math.round(rzOrigH*h/100);}
+  else{w=Math.round(w);h=Math.round(h);}
+  return{w,h};
+}
+
 // ── RESIZE ──
 function onFileResize(inp){
   if(!inp.files||!inp.files[0])return;
@@ -1224,9 +1315,8 @@ function syncAspect(changed){
 async function runResize(){
   const input=document.querySelector('#dz4 input');
   if(!input||!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
-  const w=parseInt(document.getElementById('rz-w').value);
-  const h=parseInt(document.getElementById('rz-h').value);
-  if(!w||!h||w<1||h<1){toast('⚠️','Please enter valid width & height!');return}
+  const{w,h}=getPixelDimensions();
+  if(!w||!h||w<1||h<1){toast('⚠️','Please enter valid dimensions!');return}
   const imgSrc=URL.createObjectURL(input.files[0]);
   const p=document.getElementById('resize-image');
   showProcessing(p,4,imgSrc,'Resizing image...','Processing — no credit used!');
@@ -1487,6 +1577,80 @@ function runFlip(){
     document.body.removeChild(a);
     toast('✅','Image downloaded!');
   },'image/png');
+}
+
+// ── COLOR PICKER ──
+let colorCanvas=null,colorCtx=null,colorImg=null;
+function onFileColor(inp){
+  if(!inp.files||!inp.files[0])return;
+  toast('🎨','"'+inp.files[0].name+'" ready!');
+  const url=URL.createObjectURL(inp.files[0]);
+  const ce=document.getElementById('color-editor');if(ce)ce.style.display='block';
+  const img=new Image();
+  img.onload=function(){
+    colorImg=img;
+    colorCanvas=document.getElementById('color-canvas');
+    colorCtx=colorCanvas.getContext('2d');
+    colorCanvas.width=img.width;
+    colorCanvas.height=img.height;
+    colorCtx.drawImage(img,0,0);
+    colorCanvas.onclick=function(e){
+      const rect=colorCanvas.getBoundingClientRect();
+      const scaleX=colorCanvas.width/rect.width;
+      const scaleY=colorCanvas.height/rect.height;
+      const x=Math.floor((e.clientX-rect.left)*scaleX);
+      const y=Math.floor((e.clientY-rect.top)*scaleY);
+      const px=colorCtx.getImageData(x,y,1,1).data;
+      const r=px[0],g=px[1],b=px[2];
+      updateColorDisplay(r,g,b,e.clientX-rect.left,e.clientY-rect.top);
+      // crosshair
+      const ch=document.getElementById('color-crosshair');
+      if(ch){ch.style.display='block';ch.style.left=(e.clientX-rect.left)+'px';ch.style.top=(e.clientY-rect.top)+'px';}
+    };
+  };
+  img.src=url;
+  const dz=document.getElementById('dz9');
+  if(dz){
+    const existingInput=dz.querySelector('input');
+    dz.innerHTML='';dz.appendChild(existingInput);
+    existingInput.onchange=function(){onFileColor(this);};
+    const preview=document.createElement('img');
+    preview.className='dz-preview';preview.src=url;
+    const bottom=document.createElement('div');
+    bottom.className='dz-bottom';
+    bottom.innerHTML=`<span class="dz-fname">${inp.files[0].name}</span><button class="dz-change" onclick="tFile(9)">Change Image</button>`;
+    dz.appendChild(preview);dz.appendChild(bottom);
+    dz.style.borderColor='var(--accent)';
+  }
+}
+function updateColorDisplay(r,g,b){
+  const hex='#'+[r,g,b].map(x=>x.toString(16).padStart(2,'0')).join('');
+  const hsl=rgbToHsl(r,g,b);
+  document.getElementById('color-preview').style.background=hex;
+  document.getElementById('color-hex').textContent=hex;
+  document.getElementById('color-rgb').textContent=`${r}, ${g}, ${b}`;
+  document.getElementById('color-hsl').textContent=`${hsl.h}°, ${hsl.s}%, ${hsl.l}%`;
+  document.getElementById('color-gradient').style.background=`linear-gradient(90deg, #000, ${hex}, #fff)`;
+}
+function rgbToHsl(r,g,b){
+  r/=255;g/=255;b/=255;
+  const max=Math.max(r,g,b),min=Math.min(r,g,b);
+  let h,s,l=(max+min)/2;
+  if(max===min){h=s=0;}
+  else{
+    const d=max-min;
+    s=l>0.5?d/(2-max-min):d/(max+min);
+    switch(max){case r:h=(g-b)/d+(g<b?6:0);break;case g:h=(b-r)/d+2;break;case b:h=(r-g)/d+4;break;}
+    h/=6;
+  }
+  return{h:Math.round(h*360),s:Math.round(s*100),l:Math.round(l*100)};
+}
+function copyColor(type){
+  let text='';
+  if(type==='hex')text=document.getElementById('color-hex').textContent;
+  else if(type==='rgb')text=document.getElementById('color-rgb').textContent;
+  else if(type==='hsl')text=document.getElementById('color-hsl').textContent;
+  navigator.clipboard.writeText(text).then(()=>toast('✅',type.toUpperCase()+' copied!'));
 }
 
 // ── AUTH ──
