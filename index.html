@@ -140,9 +140,16 @@ h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2rem,5.5vw,3.8rem)
 .tn{display:grid;grid-template-columns:repeat(4,1fr);gap:.45rem;margin-bottom:.6rem;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:.45rem;box-shadow:0 4px 30px rgba(0,0,0,0.3);animation:fu .5s .25s ease both}
 .tn2{display:grid;grid-template-columns:repeat(5,1fr);gap:.45rem;margin-bottom:1.2rem;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:.45rem;box-shadow:0 4px 30px rgba(0,0,0,0.3);animation:fu .5s .28s ease both}
 .tb{display:flex;flex-direction:column;align-items:center;gap:.25rem;padding:.68rem .3rem;border-radius:12px;border:1px solid transparent;background:transparent;color:var(--muted);cursor:pointer;font-family:'Outfit',sans-serif;font-size:.7rem;font-weight:600;transition:all .25s;letter-spacing:.2px}
-.ti{font-size:1.3rem;transition:transform .25s}
-.tb:hover{color:var(--text);background:rgba(99,102,241,0.06)}
+.ti{width:22px;height:22px;transition:transform .25s;display:flex;align-items:center;justify-content:center}
 .tb:hover .ti{transform:scale(1.12)}
+.tool-preview-box{width:100%;height:160px;border-radius:14px;overflow:hidden;margin-bottom:0;position:relative;background:#0a0a12;border:1px solid var(--border)}
+.tool-preview-box canvas{width:100%;height:160px;display:block}
+.prev-label-b{position:absolute;bottom:7px;left:8px;background:rgba(0,0,0,0.7);color:#aaa;font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px;pointer-events:none}
+.prev-label-a{position:absolute;bottom:7px;right:8px;font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px;pointer-events:none}
+.div-line{position:absolute;top:0;bottom:0;width:2px;background:#818cf8;pointer-events:none}
+.div-handle{position:absolute;top:50%;transform:translate(-50%,-50%);width:24px;height:24px;border-radius:50%;background:#818cf8;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;cursor:ew-resize;user-select:none}
+.tb:hover{color:var(--text);background:rgba(99,102,241,0.06)}
+
 .tb.active{background:rgba(99,102,241,0.1);color:#818cf8;border-color:rgba(99,102,241,0.2);box-shadow:0 0 20px rgba(99,102,241,0.1)}
 .tc{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:2rem;box-shadow:0 8px 50px rgba(0,0,0,0.4),0 0 0 1px rgba(255,255,255,0.02);animation:fu .5s .3s ease both}
 .panel{display:none}.panel.active{display:block}
@@ -500,30 +507,31 @@ footer p{font-size:.74rem;color:var(--muted2)}
 <!-- TOOLS SECTION with anchor IDs for SEO -->
 <div class="tw" id="tools">
   <div class="tn">
-    <button class="tb active" onclick="switchTab(0)" id="tab-upscale"><span class="ti">🔍</span>Upscale</button>
-    <button class="tb" onclick="switchTab(1)" id="tab-face"><span class="ti">😊</span>Face Restore</button>
-    <button class="tb" onclick="switchTab(2)" id="tab-bg"><span class="ti">✂️</span>BG Remove</button>
-    <button class="tb" onclick="switchTab(3)" id="tab-compress"><span class="ti">📦</span>Compress</button>
+    <button class="tb active" onclick="switchTab(0)" id="tab-upscale"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg></span>Upscale</button>
+    <button class="tb" onclick="switchTab(1)" id="tab-face"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>Face Restore</button>
+    <button class="tb" onclick="switchTab(2)" id="tab-bg"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 3 9 15"/><path d="m6 6 4.5 4.5"/><path d="m15 15 4.5 4.5"/><path d="M3 21 15 9"/></svg></span>BG Remove</button>
+    <button class="tb" onclick="switchTab(3)" id="tab-compress"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></span>Compress</button>
   </div>
   <div class="tn2">
-    <button class="tb" onclick="switchTab(4)" id="tab-resize"><span class="ti">📐</span>Resize</button>
-    <button class="tb" onclick="switchTab(5)" id="tab-convert"><span class="ti">🔄</span>Convert</button>
-    <button class="tb" onclick="switchTab(6)" id="tab-pdf"><span class="ti">📄</span>Image→PDF</button>
-    <button class="tb" onclick="switchTab(7)" id="tab-crop"><span class="ti">✂️</span>Crop</button>
-    <button class="tb" onclick="switchTab(8)" id="tab-flip"><span class="ti">🔃</span>Flip/Rotate</button>
-    <button class="tb" onclick="switchTab(9)" id="tab-color"><span class="ti">🎨</span>Color Pick</button>
+    <button class="tb" onclick="switchTab(4)" id="tab-resize"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></span>Resize</button>
+    <button class="tb" onclick="switchTab(5)" id="tab-convert"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></span>Convert</button>
+    <button class="tb" onclick="switchTab(6)" id="tab-pdf"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>Image→PDF</button>
+    <button class="tb" onclick="switchTab(7)" id="tab-crop"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2v14a2 2 0 0 0 2 2h14"/><path d="M18 22V8a2 2 0 0 0-2-2H2"/></svg></span>Crop</button>
+    <button class="tb" onclick="switchTab(8)" id="tab-flip"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></span>Flip/Rotate</button>
+    <button class="tb" onclick="switchTab(9)" id="tab-color"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="10.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="12.5" r="2.5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg></span>Color Pick</button>
   </div>
 
   <div class="tc">
 
     <!-- Panel 0: Upscale — anchor: #upscale-image -->
     <div class="panel active" id="upscale-image">
-      <div class="th"><div class="thi ic0">🔍</div>
+      <div class="tool-preview-box" style="margin-bottom:1rem"><canvas id="cv-upscale"></canvas><div class="div-line" id="dl-upscale"><div class="div-handle">⟷</div></div><div class="prev-label-b">Before</div><div class="prev-label-a" style="background:rgba(99,102,241,0.85);color:#fff">After — 8× Sharp</div></div>
+      <div class="th"><div class="thi ic0"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg></div>
         <div><h3>AI Image Upscaler <span class="bf">1 Credit/Image</span></h3>
         <p>Enhance and upscale images up to 8×. Free = low quality + watermark. <span class="bp">⭐ HD = Upgrade</span></p></div>
       </div>
       <div class="dz" id="dz0"><input type="file" accept="image/*" onchange="onFile(0,this)">
-        <div class="dz-empty"><span class="dz-ic">🖼️</span><div class="dz-t">Drop your image here</div>
+        <div class="dz-empty"><span class="dz-ic"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span><div class="dz-t">Drop your image here</div>
         <div class="dz-s">PNG · JPG · WEBP · Max 10MB · <b>or</b></div>
         <button class="ob" type="button" onclick="tFile(0)">📁 Open Gallery / Folder</button></div></div>
       <div class="ci">
@@ -531,17 +539,18 @@ footer p{font-size:.74rem;color:var(--muted2)}
         <div class="ci-r"><div class="cbt"><div class="cbf" id="cb0" style="width:100%"></div></div>
         <button class="ul" onclick="showUpgrade()">Get More ↗</button></div>
       </div>
-      <button class="ab ab0" onclick="run(0)">🔍 Upscale Image — 1 Credit</button>
+      <button class="ab ab0" onclick="run(0)">Upscale Image — 1 Credit</button>
     </div>
 
     <!-- Panel 1: Face Restore — anchor: #face-restore -->
     <div class="panel" id="face-restore">
-      <div class="th"><div class="thi ic1">😊</div>
+      <div class="tool-preview-box" style="margin-bottom:1rem"><canvas id="cv-face"></canvas><div class="div-line" id="dl-face"><div class="div-handle">⟷</div></div><div class="prev-label-b">Before — Damaged</div><div class="prev-label-a" style="background:rgba(245,158,11,0.85);color:#fff">After — Restored</div></div>
+      <div class="th"><div class="thi ic1"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
         <div><h3>AI Face Restore <span class="bf">1 Credit/Image</span></h3>
         <p>Restore old, blurry or damaged face photos with AI. <span class="bp">⭐ HD = Upgrade</span></p></div>
       </div>
       <div class="dz" id="dz1" style="border-color:rgba(245,158,11,0.25)"><input type="file" accept="image/*" onchange="onFile(1,this)">
-        <div class="dz-empty"><span class="dz-ic">👤</span><div class="dz-t">Drop face photo here</div>
+        <div class="dz-empty"><span class="dz-ic"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.4"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span><div class="dz-t">Drop face photo here</div>
         <div class="dz-s">Best with portrait photos · Max 10MB · <b>or</b></div>
         <button class="ob" style="background:linear-gradient(135deg,#d97706,#f59e0b);box-shadow:0 0 20px rgba(245,158,11,0.3)" type="button" onclick="tFile(1)">📁 Open Gallery / Folder</button></div></div>
       <div class="ci">
@@ -549,34 +558,36 @@ footer p{font-size:.74rem;color:var(--muted2)}
         <div class="ci-r"><div class="cbt"><div class="cbf" id="cb1" style="width:100%;background:linear-gradient(90deg,#d97706,#f59e0b)"></div></div>
         <button class="ul" onclick="showUpgrade()">Get More ↗</button></div>
       </div>
-      <button class="ab ab1" onclick="run(1)">😊 Restore Face — 1 Credit</button>
+      <button class="ab ab1" onclick="run(1)">Restore Face — 1 Credit</button>
     </div>
 
     <!-- Panel 2: BG Remove — anchor: #remove-background -->
     <div class="panel" id="remove-background">
-      <div class="th"><div class="thi ic2">✂️</div>
+      <div class="tool-preview-box" style="margin-bottom:1rem"><canvas id="cv-bg"></canvas><div class="div-line" id="dl-bg"><div class="div-handle">⟷</div></div><div class="prev-label-b">Before</div><div class="prev-label-a" style="background:rgba(16,185,129,0.85);color:#fff">After — BG Removed</div></div>
+      <div class="th"><div class="thi ic2"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M21 3 9 15"/><path d="m6 6 4.5 4.5"/><path d="m15 15 4.5 4.5"/><path d="M3 21 15 9"/></svg></div>
         <div><h3>Background Remover <span class="bf">✅ Unlimited Free!</span></h3>
         <p>Remove image backgrounds instantly — unlimited & free! <span class="bp">⭐ HD = Upgrade</span></p></div>
       </div>
       <div class="dz" id="dz2" style="border-color:rgba(16,185,129,0.25)"><input type="file" accept="image/*" onchange="onFile(2,this)">
-        <div class="dz-empty"><span class="dz-ic">🌅</span><div class="dz-t">Drop your image here</div>
+        <div class="dz-empty"><span class="dz-ic"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span><div class="dz-t">Drop your image here</div>
         <div class="dz-s">Products · Portraits · Objects · Max 15MB · <b>or</b></div>
         <button class="ob" style="background:linear-gradient(135deg,#059669,#10b981);box-shadow:0 0 20px rgba(16,185,129,0.25)" type="button" onclick="tFile(2)">📁 Open Gallery / Folder</button></div></div>
       <div class="ci" style="background:rgba(16,185,129,0.05);border-color:rgba(16,185,129,0.2)">
         <div class="ci-l">✅ <b>Unlimited Free</b> · <b style="color:#34d399">No credit needed!</b></div>
         <div class="ci-r"><button class="ul" style="color:#10b981" onclick="showUpgrade()">Get HD ↗</button></div>
       </div>
-      <button class="ab ab2" onclick="runBG()">✂️ Remove Background — Free!</button>
+      <button class="ab ab2" onclick="runBG()">Remove Background — Free!</button>
     </div>
 
     <!-- Panel 3: Compress — anchor: #compress-image -->
     <div class="panel" id="compress-image">
-      <div class="th"><div class="thi ic3">📦</div>
+      <div class="tool-preview-box" style="margin-bottom:1rem"><canvas id="cv-compress"></canvas><div class="prev-label-b">Original size</div><div class="prev-label-a" style="background:rgba(139,92,246,0.85);color:#fff">Up to 70% smaller</div></div>
+      <div class="th"><div class="thi ic3"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
         <div><h3>Image Compressor <span class="bf">1 Credit/Image</span></h3>
         <p>Reduce image file size up to 70% online. <span class="bp">⭐ Best quality = Upgrade</span></p></div>
       </div>
       <div class="dz" id="dz3" style="border-color:rgba(139,92,246,0.25)"><input type="file" accept="image/*" multiple onchange="onFile(3,this)">
-        <div class="dz-empty"><span class="dz-ic">📦</span><div class="dz-t">Drop image(s) here</div>
+        <div class="dz-empty"><span class="dz-ic"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.4"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></span><div class="dz-t">Drop image(s) here</div>
         <div class="dz-s">Multiple files OK · Max 20MB each · <b>or</b></div>
         <button class="ob" style="background:linear-gradient(135deg,#7c3aed,#a78bfa);box-shadow:0 0 20px rgba(124,58,237,0.3)" type="button" onclick="tFile(3)">📁 Open Gallery / Folder</button></div></div>
       <div style="margin-top:1rem">
@@ -592,17 +603,18 @@ footer p{font-size:.74rem;color:var(--muted2)}
         <div class="ci-r"><div class="cbt"><div class="cbf" id="cb3" style="width:100%;background:linear-gradient(90deg,#7c3aed,#a78bfa)"></div></div>
         <button class="ul" onclick="showUpgrade()">Get More ↗</button></div>
       </div>
-      <button class="ab ab3" onclick="run(3)">📦 Compress Image — 1 Credit</button>
+      <button class="ab ab3" onclick="run(3)">Compress Image — 1 Credit</button>
     </div>
 
     <!-- Panel 4: Resize — anchor: #resize-image -->
     <div class="panel" id="resize-image">
-      <div class="th"><div class="thi ic4">📐</div>
+      <div class="tool-preview-box" style="margin-bottom:1rem"><canvas id="cv-resize"></canvas><div class="prev-label-b">Any size</div><div class="prev-label-a" style="background:rgba(6,182,212,0.85);color:#fff">4K · HD · Custom</div></div>
+      <div class="th"><div class="thi ic4"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></div>
         <div><h3>Image Resizer <span class="bf">✅ Free!</span></h3>
         <p>Resize images to any size online. Quick presets or custom dimensions.</p></div>
       </div>
       <div class="dz" id="dz4" style="border-color:rgba(6,182,212,0.25)"><input type="file" accept="image/*" onchange="onFileResize(this)">
-        <div class="dz-empty"><span class="dz-ic">📐</span><div class="dz-t">Drop your image here</div>
+        <div class="dz-empty"><span class="dz-ic"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" stroke-width="1.4"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></span><div class="dz-t">Drop your image here</div>
         <div class="dz-s">PNG · JPG · WEBP · Max 20MB · <b>or</b></div>
         <button class="ob" style="background:linear-gradient(135deg,#0891b2,#06b6d4);box-shadow:0 0 20px rgba(6,182,212,0.3)" type="button" onclick="tFile(4)">📁 Open Gallery / Folder</button></div></div>
       <div id="resize-options" style="display:none;margin-top:1rem">
@@ -644,17 +656,18 @@ footer p{font-size:.74rem;color:var(--muted2)}
       <div class="ci" style="background:rgba(6,182,212,0.05);border-color:rgba(6,182,212,0.2)">
         <div class="ci-l">✅ <b>Unlimited Free</b> · <b style="color:#06b6d4">No credit needed!</b></div>
       </div>
-      <button class="ab ab4" onclick="runResize()">📐 Resize Image — Free!</button>
+      <button class="ab ab4" onclick="runResize()">Resize Image — Free!</button>
     </div>
 
     <!-- Panel 5: Convert — anchor: #convert-image -->
     <div class="panel" id="convert-image">
-      <div class="th"><div class="thi ic5">🔄</div>
+      <div class="tool-preview-box" style="margin-bottom:1rem"><canvas id="cv-convert"></canvas><div class="prev-label-b">Any format</div><div class="prev-label-a" style="background:rgba(239,68,68,0.85);color:#fff">JPG · PNG · WEBP</div></div>
+      <div class="th"><div class="thi ic5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></div>
         <div><h3>Format Converter <span class="bf">✅ Free!</span></h3>
         <p>Convert images to JPG, PNG, WEBP, BMP, GIF online instantly.</p></div>
       </div>
       <div class="dz" id="dz5" style="border-color:rgba(239,68,68,0.25)"><input type="file" accept="image/*" multiple onchange="onFile(5,this)">
-        <div class="dz-empty"><span class="dz-ic">🔄</span><div class="dz-t">Drop image(s) here</div>
+        <div class="dz-empty"><span class="dz-ic"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="1.4"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></span><div class="dz-t">Drop image(s) here</div>
         <div class="dz-s">Multiple files OK · PNG · JPG · WEBP · BMP · GIF · Max 20MB · <b>or</b></div>
         <button class="ob" style="background:linear-gradient(135deg,#dc2626,#ef4444);box-shadow:0 0 20px rgba(239,68,68,0.3)" type="button" onclick="tFile(5)">📁 Open Gallery / Folder</button></div></div>
       <div style="margin-top:1rem">
@@ -670,17 +683,18 @@ footer p{font-size:.74rem;color:var(--muted2)}
       <div class="ci" style="background:rgba(239,68,68,0.05);border-color:rgba(239,68,68,0.2)">
         <div class="ci-l">✅ <b>Unlimited Free</b> · <b style="color:#ef4444">No credit needed!</b></div>
       </div>
-      <button class="ab ab5" onclick="runConvert()">🔄 Convert Format — Free!</button>
+      <button class="ab ab5" onclick="runConvert()">Convert Format — Free!</button>
     </div>
 
     <!-- Panel 6: Image to PDF — anchor: #image-to-pdf -->
     <div class="panel" id="image-to-pdf">
-      <div class="th"><div class="thi ic6">📄</div>
+      <div class="tool-preview-box" style="margin-bottom:1rem"><canvas id="cv-pdf"></canvas><div class="prev-label-b">Images</div><div class="prev-label-a" style="background:rgba(234,179,8,0.85);color:#000">One PDF file</div></div>
+      <div class="th"><div class="thi ic6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
         <div><h3>Image to PDF <span class="bf">✅ Free!</span></h3>
         <p>Convert JPG, PNG, WEBP and other images to PDF online free.</p></div>
       </div>
       <div class="dz" id="dz6" style="border-color:rgba(234,179,8,0.25)"><input type="file" accept="image/*" multiple onchange="onFile(6,this)">
-        <div class="dz-empty"><span class="dz-ic">📄</span><div class="dz-t">Drop image(s) here</div>
+        <div class="dz-empty"><span class="dz-ic"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="1.4"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span><div class="dz-t">Drop image(s) here</div>
         <div class="dz-s">JPG · PNG · WEBP · BMP · GIF · HEIC · Max 20MB · <b>or</b></div>
         <button class="ob" style="background:linear-gradient(135deg,#ca8a04,#eab308);box-shadow:0 0 20px rgba(234,179,8,0.3)" type="button" onclick="tFile(6)">📁 Open Gallery / Folder</button></div></div>
       <div style="margin-top:1rem">
@@ -693,17 +707,18 @@ footer p{font-size:.74rem;color:var(--muted2)}
       <div class="ci" style="background:rgba(234,179,8,0.05);border-color:rgba(234,179,8,0.2)">
         <div class="ci-l">✅ <b>Unlimited Free</b> · <b style="color:#eab308">No credit needed!</b></div>
       </div>
-      <button class="ab ab6" onclick="runPDF()">📄 Convert to PDF — Free!</button>
+      <button class="ab ab6" onclick="runPDF()">Convert to PDF — Free!</button>
     </div>
 
     <!-- Panel 7: Crop — anchor: #crop-image -->
     <div class="panel" id="crop-image">
-      <div class="th"><div class="thi ic7">✂️</div>
+      <div class="tool-preview-box" style="margin-bottom:1rem"><canvas id="cv-crop"></canvas><div class="prev-label-b">Full image</div><div class="prev-label-a" style="background:rgba(168,85,247,0.85);color:#fff">Cropped area</div></div>
+      <div class="th"><div class="thi ic7"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2"><path d="M6 2v14a2 2 0 0 0 2 2h14"/><path d="M18 22V8a2 2 0 0 0-2-2H2"/></svg></div>
         <div><h3>Image Crop <span class="bf">✅ Free!</span></h3>
         <p>Crop images online with drag, presets or custom values. Mobile friendly.</p></div>
       </div>
       <div class="dz" id="dz7" style="border-color:rgba(168,85,247,0.25)"><input type="file" accept="image/*" onchange="onFileCrop(this)">
-        <div class="dz-empty"><span class="dz-ic">✂️</span><div class="dz-t">Drop your image here</div>
+        <div class="dz-empty"><span class="dz-ic"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="1.4"><path d="M6 2v14a2 2 0 0 0 2 2h14"/><path d="M18 22V8a2 2 0 0 0-2-2H2"/></svg></span><div class="dz-t">Drop your image here</div>
         <div class="dz-s">PNG · JPG · WEBP · Max 20MB · <b>or</b></div>
         <button class="ob" style="background:linear-gradient(135deg,#7c3aed,#a855f7);box-shadow:0 0 20px rgba(168,85,247,0.3)" type="button" onclick="tFile(7)">📁 Open Gallery / Folder</button></div></div>
       <div id="crop-editor" style="display:none;margin-top:1rem">
@@ -724,17 +739,18 @@ footer p{font-size:.74rem;color:var(--muted2)}
       <div class="ci" style="background:rgba(168,85,247,0.05);border-color:rgba(168,85,247,0.2)">
         <div class="ci-l">✅ <b>Unlimited Free</b> · <b style="color:#a855f7">No credit needed!</b></div>
       </div>
-      <button class="ab ab7" onclick="runCrop()">✂️ Crop Image — Free!</button>
+      <button class="ab ab7" onclick="runCrop()">Crop Image — Free!</button>
     </div>
 
     <!-- Panel 8: Flip & Rotate — anchor: #flip-rotate-image -->
     <div class="panel" id="flip-rotate-image">
-      <div class="th"><div class="thi ic8">🔃</div>
+      <div class="tool-preview-box" style="margin-bottom:1rem"><canvas id="cv-flip"></canvas><div class="prev-label-b">Original</div><div class="prev-label-a" style="background:rgba(20,184,166,0.85);color:#fff">Flipped / Rotated</div></div>
+      <div class="th"><div class="thi ic8"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#14b8a6" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></div>
         <div><h3>Flip &amp; Rotate <span class="bf">✅ Free!</span></h3>
         <p>Flip image horizontally or vertically, rotate 90°/180°/270° online free.</p></div>
       </div>
       <div class="dz" id="dz8" style="border-color:rgba(20,184,166,0.25)"><input type="file" accept="image/*" onchange="onFileFlip(this)">
-        <div class="dz-empty"><span class="dz-ic">🔃</span><div class="dz-t">Drop your image here</div>
+        <div class="dz-empty"><span class="dz-ic"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#14b8a6" stroke-width="1.4"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></span><div class="dz-t">Drop your image here</div>
         <div class="dz-s">PNG · JPG · WEBP · Max 20MB · <b>or</b></div>
         <button class="ob" style="background:linear-gradient(135deg,#0d9488,#06b6d4);box-shadow:0 0 20px rgba(20,184,166,0.3)" type="button" onclick="tFile(8)">📁 Open Gallery / Folder</button></div></div>
       <div id="flip-editor" style="display:none;margin-top:1rem">
@@ -754,17 +770,18 @@ footer p{font-size:.74rem;color:var(--muted2)}
       <div class="ci" style="background:rgba(20,184,166,0.05);border-color:rgba(20,184,166,0.2)">
         <div class="ci-l">✅ <b>Unlimited Free</b> · <b style="color:#14b8a6">No credit needed!</b></div>
       </div>
-      <button class="ab ab8" onclick="runFlip()">🔃 Download Flipped/Rotated Image</button>
+      <button class="ab ab8" onclick="runFlip()">Download Flipped / Rotated Image</button>
     </div>
 
     <!-- Panel 9: Color Picker — anchor: #color-picker -->
     <div class="panel" id="color-picker">
-      <div class="th"><div class="thi" style="background:linear-gradient(135deg,rgba(236,72,153,0.2),rgba(239,68,68,0.2));box-shadow:0 0 20px rgba(236,72,153,0.15)">🎨</div>
+      <div class="tool-preview-box" style="margin-bottom:1rem"><canvas id="cv-color"></canvas><div class="prev-label-b">Pick any color</div><div class="prev-label-a" style="background:rgba(236,72,153,0.85);color:#fff">HEX · RGB · HSL</div></div>
+      <div class="th"><div class="thi" style="background:linear-gradient(135deg,rgba(236,72,153,0.2),rgba(239,68,68,0.2));box-shadow:0 0 20px rgba(236,72,153,0.15)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="10.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="12.5" r="2.5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg></div>
         <div><h3>Image Color Picker <span class="bf">✅ Free!</span></h3>
         <p>Click anywhere on image to pick color. Get HEX, RGB, HSL instantly.</p></div>
       </div>
       <div class="dz" id="dz9" style="border-color:rgba(236,72,153,0.25)"><input type="file" accept="image/*" onchange="onFileColor(this)">
-        <div class="dz-empty"><span class="dz-ic">🎨</span><div class="dz-t">Drop your image here</div>
+        <div class="dz-empty"><span class="dz-ic"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="1.4"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="10.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="12.5" r="2.5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg></span><div class="dz-t">Drop your image here</div>
         <div class="dz-s">PNG · JPG · WEBP · Max 20MB · <b>or</b></div>
         <button class="ob" style="background:linear-gradient(135deg,#db2777,#ec4899);box-shadow:0 0 20px rgba(236,72,153,0.3)" type="button" onclick="tFile(9)">📁 Open Gallery / Folder</button></div></div>
       <div id="color-editor" style="display:none;margin-top:1rem">
@@ -1853,6 +1870,238 @@ function hidePage(){
   document.querySelectorAll('.pg-s').forEach(p=>p.classList.remove('show'));
   window.scrollTo({top:0,behavior:'smooth'});
 }
+
+// ── TOOL PREVIEWS ANIMATION ──
+(function(){
+const W=500,H=160;
+let anims={};
+
+function drawChecker(ctx,x,y,w,h,s){
+  for(let r=0;r<h;r+=s)for(let c=0;c<w;c+=s){
+    ctx.fillStyle=((Math.floor(r/s)+Math.floor(c/s))%2===0)?'#888':'#fff';
+    ctx.fillRect(x+c,y+r,Math.min(s,w-c),Math.min(s,h-r));
+  }
+}
+function drawPerson(ctx,x,y,w,h,blur,bgCol){
+  ctx.save();
+  if(bgCol){const g=ctx.createLinearGradient(x,y,x,y+h);g.addColorStop(0,'#87CEEB');g.addColorStop(1,'#e0f0ff');ctx.fillStyle=g;ctx.fillRect(x,y,w,h);}
+  if(blur>0)ctx.filter=`blur(${blur}px)`;
+  ctx.fillStyle='#f4c2a1';ctx.beginPath();ctx.ellipse(x+w/2,y+h*.28,w*.11,w*.13,0,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#fff';ctx.fillRect(x+w*.36,y+h*.42,w*.28,h*.35);
+  ctx.fillStyle='#f4c2a1';ctx.fillRect(x+w*.28,y+h*.42,w*.09,h*.22);ctx.fillRect(x+w*.63,y+h*.42,w*.09,h*.22);
+  ctx.fillStyle='#8B6914';ctx.beginPath();ctx.ellipse(x+w/2,y+h*.18,w*.13,w*.1,0,0,Math.PI*2);ctx.fill();
+  ctx.filter='none';ctx.restore();
+}
+function makeSlider(canvasId,lineId,drawFn,accentColor){
+  const cv=document.getElementById(canvasId);
+  const ln=document.getElementById(lineId);
+  if(!cv||!ln)return;
+  const ctx=cv.getContext('2d');
+  cv.width=W;cv.height=H;
+  let pos=0.5,dir=1,dragging=false;
+  const wrap=cv.parentElement;
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    drawFn(ctx,pos);
+    ln.style.left=(pos*100)+'%';
+  }
+  function anim(){
+    if(!dragging){pos+=0.004*dir;if(pos>0.88)dir=-1;if(pos<0.12)dir=1;}
+    draw();anims[canvasId]=requestAnimationFrame(anim);
+  }
+  wrap.addEventListener('mousedown',()=>{dragging=true;});
+  document.addEventListener('mouseup',()=>{dragging=false;});
+  wrap.addEventListener('mousemove',e=>{if(!dragging)return;const r=wrap.getBoundingClientRect();pos=Math.max(0.02,Math.min(0.98,(e.clientX-r.left)/r.width));});
+  wrap.addEventListener('touchmove',e=>{e.preventDefault();const r=wrap.getBoundingClientRect();pos=Math.max(0.02,Math.min(0.98,(e.touches[0].clientX-r.left)/r.width));},{passive:false});
+  anim();
+}
+
+function initUpscale(){
+  makeSlider('cv-upscale','dl-upscale',function(ctx,pos){
+    const sp=Math.round(pos*W);
+    ctx.save();ctx.beginPath();ctx.rect(0,0,sp,H);ctx.clip();drawPerson(ctx,0,0,W,H,6,true);ctx.restore();
+    ctx.save();ctx.beginPath();ctx.rect(sp,0,W-sp,H);ctx.clip();drawPerson(ctx,0,0,W,H,0,true);ctx.restore();
+    ctx.strokeStyle='#818cf8';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(sp,0);ctx.lineTo(sp,H);ctx.stroke();
+  });
+}
+function initFace(){
+  makeSlider('cv-face','dl-face',function(ctx,pos){
+    const sp=Math.round(pos*W);
+    ctx.save();ctx.beginPath();ctx.rect(0,0,sp,H);ctx.clip();
+    const g=ctx.createLinearGradient(0,0,W,H);g.addColorStop(0,'#c47a50');g.addColorStop(1,'#a05030');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+    ctx.filter='blur(4px)';ctx.fillStyle='rgba(150,80,40,0.4)';for(let i=0;i<15;i++){ctx.beginPath();ctx.arc(Math.random()*W,Math.random()*H,2+Math.random()*3,0,Math.PI*2);ctx.fill();}
+    ctx.filter='none';ctx.fillStyle='#5a2a0a';ctx.fillRect(W*.15,H*.12,W*.7,H*.1);ctx.fillRect(W*.2,H*.32,W*.6,H*.1);
+    ctx.restore();
+    ctx.save();ctx.beginPath();ctx.rect(sp,0,W-sp,H);ctx.clip();
+    const g2=ctx.createLinearGradient(0,0,W,H);g2.addColorStop(0,'#d4956a');g2.addColorStop(1,'#c07050');ctx.fillStyle=g2;ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='rgba(180,100,60,0.2)';for(let i=0;i<10;i++){ctx.beginPath();ctx.arc(Math.random()*W,Math.random()*H,1+Math.random()*2,0,Math.PI*2);ctx.fill();}
+    ctx.fillStyle='#3a1a00';ctx.fillRect(W*.15,H*.12,W*.7,H*.1);ctx.fillRect(W*.2,H*.32,W*.6,H*.1);
+    ctx.beginPath();ctx.arc(W*.42,H*.55,W*.1,0,Math.PI*2);ctx.strokeStyle='#1a6a8a';ctx.lineWidth=2;ctx.stroke();
+    ctx.fillStyle='#1a6a8a';ctx.beginPath();ctx.arc(W*.42,H*.55,W*.06,0,Math.PI*2);ctx.fill();
+    ctx.restore();
+    ctx.strokeStyle='#f59e0b';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(sp,0);ctx.lineTo(sp,H);ctx.stroke();
+  });
+}
+function initBG(){
+  makeSlider('cv-bg','dl-bg',function(ctx,pos){
+    const sp=Math.round(pos*W);
+    ctx.save();ctx.beginPath();ctx.rect(0,0,sp,H);ctx.clip();drawPerson(ctx,0,0,W,H,0,true);ctx.restore();
+    ctx.save();ctx.beginPath();ctx.rect(sp,0,W-sp,H);ctx.clip();drawChecker(ctx,sp,0,W-sp,H,12);drawPerson(ctx,0,0,W,H,0,false);ctx.restore();
+    ctx.strokeStyle='#10b981';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(sp,0);ctx.lineTo(sp,H);ctx.stroke();
+  });
+}
+function initCompress(){
+  const cv=document.getElementById('cv-compress');if(!cv)return;
+  const ctx=cv.getContext('2d');cv.width=W;cv.height=H;let t=0;
+  function draw(){
+    ctx.clearRect(0,0,W,H);ctx.fillStyle='#111118';ctx.fillRect(0,0,W,H);
+    const p=(Math.sin(t*.025)+1)/2;
+    const orig=4.2,ns=+(orig*(1-p*.72)).toFixed(1);
+    ctx.fillStyle='#1e1e2e';ctx.beginPath();ctx.roundRect(W*.08,H*.12,W*.28,H*.75,8);ctx.fill();
+    ctx.fillStyle='#ef4444';ctx.font='bold 11px system-ui';ctx.textAlign='center';ctx.fillText('JPG',W*.22,H*.48);
+    ctx.fillStyle='#f87171';ctx.font='bold 12px system-ui';ctx.fillText(orig+' MB',W*.22,H*.65);
+    ctx.fillStyle='#a78bfa';ctx.font='18px system-ui';ctx.fillText('→',W*.5,H*.55);
+    const sc=Math.max(0.45,ns/orig);
+    const rw=W*.28*sc,rh=H*.75*sc,rx=W*.65-rw/2,ry=H/2-rh/2;
+    ctx.fillStyle='#1a1a2e';ctx.beginPath();ctx.roundRect(rx,ry,rw,rh,8);ctx.fill();
+    ctx.strokeStyle='#a78bfa';ctx.lineWidth=1.5;ctx.stroke();
+    ctx.fillStyle='#a78bfa';ctx.font='bold '+Math.round(8+3*sc)+'px system-ui';ctx.textAlign='center';ctx.fillText('JPG',rx+rw/2,ry+rh*.48);
+    ctx.fillStyle='#34d399';ctx.font='bold '+Math.round(9+3*sc)+'px system-ui';ctx.fillText(ns+' MB',rx+rw/2,ry+rh*.68);
+    const pct=Math.round(p*72);
+    ctx.fillStyle='rgba(52,211,153,0.15)';ctx.beginPath();ctx.roundRect(W*.5-35,H*.04,70,18,9);ctx.fill();
+    ctx.fillStyle='#34d399';ctx.font='bold 10px system-ui';ctx.fillText('-'+pct+'%',W*.5,H*.16);
+    t++;anims['cv-compress']=requestAnimationFrame(draw);
+  }draw();
+}
+function initResize(){
+  const cv=document.getElementById('cv-resize');if(!cv)return;
+  const ctx=cv.getContext('2d');cv.width=W;cv.height=H;let t=0;
+  const sizes=[{w:3840,l:'4K'},{w:1920,l:'Full HD'},{w:1280,l:'HD'},{w:640,l:'Small'}];
+  function draw(){
+    ctx.clearRect(0,0,W,H);ctx.fillStyle='#0a0a12';ctx.fillRect(0,0,W,H);
+    const si=Math.floor(t/90)%sizes.length,pr=(t%90)/90;
+    const nxt=(si+1)%sizes.length;
+    const curS=Math.min(W*.65/3840,H*.8/2160),nxtS=Math.min(W*.65/sizes[nxt].w,H*.8/2160);
+    const sc=curS+(nxtS-curS)*pr;
+    const rw=3840*sc,rh=2160*sc,rx=(W-rw)/2,ry=(H-rh)/2;
+    ctx.strokeStyle='#06b6d4';ctx.lineWidth=1.5;ctx.setLineDash([5,3]);ctx.strokeRect(rx,ry,rw,rh);ctx.setLineDash([]);
+    ctx.fillStyle='rgba(6,182,212,0.07)';ctx.fillRect(rx,ry,rw,rh);
+    [[rx,ry],[rx+rw,ry],[rx,ry+rh],[rx+rw,ry+rh]].forEach(([hx,hy])=>{ctx.fillStyle='#06b6d4';ctx.beginPath();ctx.arc(hx,hy,4,0,Math.PI*2);ctx.fill();});
+    const lbl=pr<0.5?sizes[si].l:sizes[nxt].l,ww=pr<0.5?sizes[si].w:sizes[nxt].w;
+    ctx.fillStyle='#06b6d4';ctx.font='bold 12px system-ui';ctx.textAlign='center';ctx.fillText(lbl+' — '+ww+'px',W/2,H*.92);
+    t++;anims['cv-resize']=requestAnimationFrame(draw);
+  }draw();
+}
+function initConvert(){
+  const cv=document.getElementById('cv-convert');if(!cv)return;
+  const ctx=cv.getContext('2d');cv.width=W;cv.height=H;let t=0;
+  const fmts=['JPG','PNG','WEBP','BMP','GIF'],cols=['#ef4444','#3b82f6','#8b5cf6','#f59e0b','#10b981'];
+  function draw(){
+    ctx.clearRect(0,0,W,H);ctx.fillStyle='#0a0a12';ctx.fillRect(0,0,W,H);
+    const idx=Math.floor(t/70)%fmts.length,pr=(t%70)/70;
+    ctx.fillStyle='#1e1e2e';ctx.beginPath();ctx.roundRect(W*.08,H*.15,W*.22,H*.7,8);ctx.fill();
+    ctx.fillStyle='#ef4444';ctx.font='bold 12px system-ui';ctx.textAlign='center';ctx.fillText('JPG',W*.19,H*.56);
+    const ax=W*.38+pr*W*.08;ctx.fillStyle='#7070a0';ctx.font='18px system-ui';ctx.fillText('→',ax,H*.57);
+    ctx.globalAlpha=Math.min(1,pr*3);
+    ctx.fillStyle='#1a1a2e';ctx.beginPath();ctx.roundRect(W*.62,H*.15,W*.28,H*.7,8);ctx.fill();
+    ctx.strokeStyle=cols[idx];ctx.lineWidth=2;ctx.stroke();
+    ctx.fillStyle=cols[idx];ctx.font='bold 13px system-ui';ctx.textAlign='center';ctx.fillText(fmts[idx],W*.76,H*.56);
+    ctx.globalAlpha=1;
+    t++;anims['cv-convert']=requestAnimationFrame(draw);
+  }draw();
+}
+function initPDF(){
+  const cv=document.getElementById('cv-pdf');if(!cv)return;
+  const ctx=cv.getContext('2d');cv.width=W;cv.height=H;let t=0;
+  function draw(){
+    ctx.clearRect(0,0,W,H);ctx.fillStyle='#0a0a12';ctx.fillRect(0,0,W,H);
+    const pr=(t%120)/120;
+    const imgs=[{x:W*.05,c:'#3b82f6'},{x:W*.28,c:'#10b981'},{x:W*.51,c:'#8b5cf6'}];
+    imgs.forEach((img,i)=>{
+      const delay=i*.15,p=Math.max(0,Math.min(1,(pr-delay)*2)),ty=H*.08+(1-p)*H*.3;
+      ctx.globalAlpha=p;ctx.fillStyle=img.c+'33';ctx.beginPath();ctx.roundRect(img.x,ty,W*.2,H*.55,6);ctx.fill();
+      ctx.strokeStyle=img.c;ctx.lineWidth=1;ctx.stroke();
+      ctx.fillStyle=img.c;ctx.font='bold 9px system-ui';ctx.textAlign='center';ctx.fillText('IMG',img.x+W*.1,ty+H*.3);
+      ctx.globalAlpha=1;
+    });
+    if(pr>.5){
+      const ap=Math.min(1,(pr-.5)*4);ctx.globalAlpha=ap;
+      ctx.fillStyle='#eab308';ctx.font='18px system-ui';ctx.textAlign='center';ctx.fillText('↓',W*.84,H*.38);
+      ctx.fillStyle='#1a1200';ctx.beginPath();ctx.roundRect(W*.74,H*.48,W*.2,H*.44,8);ctx.fill();
+      ctx.strokeStyle='#eab308';ctx.lineWidth=2;ctx.stroke();
+      ctx.fillStyle='#eab308';ctx.font='bold 11px system-ui';ctx.fillText('PDF',W*.84,H*.74);
+      ctx.globalAlpha=1;
+    }
+    t++;anims['cv-pdf']=requestAnimationFrame(draw);
+  }draw();
+}
+function initCrop(){
+  const cv=document.getElementById('cv-crop');if(!cv)return;
+  const ctx=cv.getContext('2d');cv.width=W;cv.height=H;let t=0;
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    const bg=ctx.createLinearGradient(0,0,W,H);bg.addColorStop(0,'#1a0a2e');bg.addColorStop(1,'#0a1a2e');
+    ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='rgba(0,0,0,0.55)';ctx.fillRect(0,0,W,H);
+    const p=(Math.sin(t*.018)+1)/2;
+    const cw=W*.3+p*W*.35,ch=H*.3+p*H*.45,cx=(W-cw)/2,cy=(H-ch)/2;
+    ctx.clearRect(cx,cy,cw,ch);
+    const gi=ctx.createLinearGradient(cx,cy,cx+cw,cy+ch);gi.addColorStop(0,'#2d1b69');gi.addColorStop(1,'#1a3a6a');
+    ctx.fillStyle=gi;ctx.fillRect(cx,cy,cw,ch);
+    ctx.strokeStyle='#c084fc';ctx.lineWidth=2;ctx.strokeRect(cx,cy,cw,ch);
+    const hs=7;[[cx,cy],[cx+cw,cy],[cx,cy+ch],[cx+cw,cy+ch]].forEach(([hx,hy])=>{ctx.fillStyle='#c084fc';ctx.fillRect(hx-hs/2,hy-hs/2,hs,hs);});
+    ctx.strokeStyle='rgba(192,132,252,0.3)';ctx.lineWidth=1;ctx.setLineDash([3,3]);
+    [1/3,2/3].forEach(f=>{ctx.beginPath();ctx.moveTo(cx+cw*f,cy);ctx.lineTo(cx+cw*f,cy+ch);ctx.stroke();ctx.beginPath();ctx.moveTo(cx,cy+ch*f);ctx.lineTo(cx+cw,cy+ch*f);ctx.stroke();});
+    ctx.setLineDash([]);
+    ctx.fillStyle='rgba(192,132,252,0.9)';ctx.font='bold 11px system-ui';ctx.textAlign='center';
+    ctx.fillText(Math.round(cw/W*1920)+' × '+Math.round(ch/H*1080),cx+cw/2,cy+ch/2+4);
+    t++;anims['cv-crop']=requestAnimationFrame(draw);
+  }draw();
+}
+function initFlip(){
+  const cv=document.getElementById('cv-flip');if(!cv)return;
+  const ctx=cv.getContext('2d');cv.width=W;cv.height=H;let t=0;
+  const steps=['Flip Horizontal','Flip Vertical','Rotate 90°','Rotate 180°'];
+  function draw(){
+    ctx.clearRect(0,0,W,H);ctx.fillStyle='#0a1218';ctx.fillRect(0,0,W,H);
+    const si=Math.floor(t/80)%steps.length,pr=(t%80)/80;
+    ctx.save();ctx.translate(W/2,H/2);
+    if(si===0)ctx.scale(1-2*pr,1);else if(si===1)ctx.scale(1,1-2*pr);
+    else if(si===2)ctx.rotate(pr*Math.PI/2);else ctx.rotate(pr*Math.PI);
+    const rw=W*.42,rh=H*.72;
+    const bg2=ctx.createLinearGradient(-rw/2,-rh/2,rw/2,rh/2);bg2.addColorStop(0,'#0d4a6e');bg2.addColorStop(1,'#0a2a4a');
+    ctx.fillStyle=bg2;ctx.beginPath();ctx.roundRect(-rw/2,-rh/2,rw,rh,10);ctx.fill();
+    ctx.strokeStyle='#14b8a6';ctx.lineWidth=2;ctx.stroke();
+    ctx.fillStyle='#14b8a6';ctx.beginPath();ctx.arc(0,-rh*.22,rh*.1,0,Math.PI*2);ctx.fill();
+    ctx.fillRect(-rh*.06,-rh*.12,rh*.12,rh*.22);ctx.fillRect(-rh*.15,-rh*.12,rh*.09,rh*.16);ctx.fillRect(rh*.06,-rh*.12,rh*.09,rh*.16);
+    ctx.restore();
+    ctx.fillStyle='rgba(20,184,166,0.9)';ctx.font='bold 11px system-ui';ctx.textAlign='center';ctx.fillText(steps[si],W/2,H*.93);
+    t++;anims['cv-flip']=requestAnimationFrame(draw);
+  }draw();
+}
+function initColor(){
+  const cv=document.getElementById('cv-color');if(!cv)return;
+  const ctx=cv.getContext('2d');cv.width=W;cv.height=H;let t=0;
+  const palette=['#e63946','#2a9d8f','#e9c46a','#f4a261','#264653','#6366f1','#ec4899','#10b981'];
+  function draw(){
+    ctx.clearRect(0,0,W,H);ctx.fillStyle='#111118';ctx.fillRect(0,0,W,H);
+    const cols=4,rows=2,sw=W*.55,bw=sw/cols,bh=H*.85/rows;
+    palette.forEach((c,i)=>{const row=Math.floor(i/cols),col=i%cols;ctx.fillStyle=c;ctx.beginPath();ctx.roundRect(W*.02+col*bw,H*.08+row*bh,bw-4,bh-4,5);ctx.fill();});
+    const ci=Math.floor(t/50)%palette.length,row=Math.floor(ci/cols),col=ci%cols;
+    const mx=W*.02+col*bw+bw/2,my=H*.08+row*bh+bh/2;
+    ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.beginPath();ctx.arc(mx,my,11,0,Math.PI*2);ctx.stroke();
+    ctx.fillStyle='#1a1a2e';ctx.beginPath();ctx.roundRect(W*.6,H*.05,W*.38,H*.9,10);ctx.fill();ctx.strokeStyle='#333';ctx.lineWidth=1;ctx.stroke();
+    ctx.fillStyle=palette[ci];ctx.beginPath();ctx.roundRect(W*.63,H*.1,W*.32,H*.38,8);ctx.fill();
+    ctx.fillStyle='#fff';ctx.font='bold 10px monospace';ctx.textAlign='center';ctx.fillText(palette[ci].toUpperCase(),W*.79,H*.58);
+    ctx.fillStyle='#7070a0';ctx.font='9px system-ui';ctx.fillText('HEX · RGB · HSL',W*.79,H*.7);
+    t++;anims['cv-color']=requestAnimationFrame(draw);
+  }draw();
+}
+
+window.addEventListener('load',function(){
+  initUpscale();initFace();initBG();initCompress();initResize();initConvert();initPDF();initCrop();initFlip();initColor();
+});
+})();
 
 // ── TOAST ──
 function toast(icon,msg){
