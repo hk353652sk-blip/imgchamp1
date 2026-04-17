@@ -1329,7 +1329,7 @@ function initRealSlider(wrapperId,afterId,lineId){
   document.addEventListener('touchmove',e=>{if(dragging)setPosMouse(e.touches[0].clientX);},{passive:true});
 }
 
-(function(){let p=10,d=1;function a(){p+=d*0.6;if(p>90)d=-1;if(p<10)d=1;const af=document.getElementById('tab-sl-after');const ln=document.getElementById('tab-sl-line');if(af){af.style.clipPath=`inset(0 ${100-p}% 0 0)`;}if(ln){ln.style.left=p+'%';}requestAnimationFrame(a);}a();})();
+(function(){let p=10,d=1;function a(){p+=d*2.5;if(p>90)d=-1;if(p<10)d=1;const af=document.getElementById('tab-sl-after');const ln=document.getElementById('tab-sl-line');if(af){af.style.clipPath=`inset(0 ${100-p}% 0 0)`;}if(ln){ln.style.left=p+'%';}requestAnimationFrame(a);}a();})();
 function toast(icon,msg){
   const t=document.getElementById('toast');document.getElementById('ti').textContent=icon+' ';document.getElementById('tm').textContent=msg;
   t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500);
