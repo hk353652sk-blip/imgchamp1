@@ -71,7 +71,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-
   background-size:50px 50px}
 
 /* NAV */
-nav{position:sticky;top:0;z-index:200;position:relative;display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:66px;background:rgba(9,9,15,0.85);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);box-shadow:0 1px 30px rgba(0,0,0,0.4)}
+nav{position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:66px;background:rgba(9,9,15,0.85);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);box-shadow:0 1px 30px rgba(0,0,0,0.4)}
 .logo{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.45rem;background:linear-gradient(135deg,#818cf8,#a78bfa,#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-0.5px;cursor:pointer;display:flex;align-items:center;gap:0.3rem}
 .logo-icon{width:28px;height:28px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.9rem;box-shadow:0 0 15px var(--glow);flex-shrink:0}
 .nav-r{display:flex;gap:.6rem;align-items:center}
@@ -442,27 +442,7 @@ footer p{font-size:.74rem;color:var(--muted2)}
   </div>
 </div>
 
-<!-- Profile Dropdown — nav ke andar move karo -->
-  <div class="pd-header">
-    <div class="pd-name" id="pd-name">User</div>
-    <div class="pd-email" id="pd-email">user@email.com</div>
-  </div>
-  <div class="pd-plan-row">
-    <span class="pd-plan-label">Current Plan:</span>
-    <span class="pd-plan-badge" id="pd-plan-badge">FREE</span>
-  </div>
-  <button class="pd-upgrade" id="pd-upgrade-btn" onclick="profileUpgradeClick()">
-    <div class="pd-upgrade-ic">⚡</div>
-    <div>
-      <div class="pd-upgrade-t" id="pd-upgrade-t">Upgrade Plan</div>
-      <div class="pd-upgrade-s" id="pd-upgrade-s">Get HD quality & more credits</div>
-    </div>
-  </button>
-  <button class="pd-signout" onclick="signOut()">
-    <span class="pd-signout-ic">🚪</span>
-    <span class="pd-signout-t">Sign Out</span>
-  </button>
-</div>
+
 
 <!-- Jobs bar -->
 <div class="jobs-bar" id="jobs-bar"></div>
@@ -472,7 +452,12 @@ footer p{font-size:.74rem;color:var(--muted2)}
     <div class="logo-icon">🏆</div>
     imgChamp
   </div>
-  <div class="profile-dropdown" id="profile-dropdown">
+  <div class="nav-r" id="nav-r">
+    <div class="nav-cr">⚡ <span id="ncr">5</span> Credits</div>
+    <button class="btn-lo" onclick="showAuth('login')">Login</button>
+    <button class="btn-su" onclick="showAuth('signup')">Sign Up Free</button>
+  </div>
+<div class="profile-dropdown" id="profile-dropdown">
     <div class="pd-header">
       <div class="pd-name" id="pd-name">User</div>
       <div class="pd-email" id="pd-email">user@email.com</div>
@@ -492,11 +477,6 @@ footer p{font-size:.74rem;color:var(--muted2)}
       <span class="pd-signout-ic">🚪</span>
       <span class="pd-signout-t">Sign Out</span>
     </button>
-  </div>
-  <div class="nav-r" id="nav-r">
-    <div class="nav-cr">⚡ <span id="ncr">5</span> Credits</div>
-    <button class="btn-lo" onclick="showAuth('login')">Login</button>
-    <button class="btn-su" onclick="showAuth('signup')">Sign Up Free</button>
   </div>
 </nav>
 
