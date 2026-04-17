@@ -1307,9 +1307,9 @@ function initColor(){const cv=document.getElementById('cv-color');if(!cv)return;
 
 window.addEventListener('load',function(){
   initFace();initBG();initCompress();initResize();initConvert();initPDF();initCrop();initFlip();initColor();
-  initRealSlider('slider-upscale','after-upscale','line-upscale');
+  // initRealSlider removed - not used
   // ✅ Page load pe Upscale tab active hai toh slider show karo
-  document.getElementById('slider-upscale').style.display='block';
+  const _sl=document.getElementById('slider-upscale');if(_sl)_sl.style.display='block';
 });
 })();
 
