@@ -521,23 +521,26 @@ footer p{font-size:.74rem;color:var(--muted2)}
     <button class="tb" onclick="switchTab(9)" id="tab-color"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="10.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="12.5" r="2.5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg></span>Color Pick</button>
   </div>
 
+<!-- Real Slider — tabs ke neeche, card ke upar -->
+  <div id="slider-upscale" style="margin-bottom:1rem;height:220px;cursor:ew-resize;user-select:none;position:relative;border-radius:18px;overflow:hidden;border:1px solid var(--border);box-shadow:0 4px 30px rgba(0,0,0,0.3)">
+    <div style="position:absolute;inset:0">
+      <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800" style="width:100%;height:100%;object-fit:cover;object-position:center 30%;filter:blur(4px) brightness(0.85);display:block">
+    </div>
+    <div style="position:absolute;inset:0;clip-path:inset(0 50% 0 0)" id="after-upscale">
+      <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800" style="width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block">
+    </div>
+    <div style="position:absolute;top:0;bottom:0;left:50%;width:2px;background:#818cf8;transform:translateX(-50%)" id="line-upscale">
+      <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:28px;height:28px;border-radius:50%;background:#818cf8;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700">⟷</div>
+    </div>
+    <div class="prev-label-b">Before — Blurry</div>
+    <div class="prev-label-a" style="background:rgba(99,102,241,0.85);color:#fff">After — 8× Sharp</div>
+  </div>
+
   <div class="tc">
 
     <!-- Panel 0: Upscale — anchor: #upscale-image -->
     <div class="panel active" id="upscale-image">
-      <div class="tool-preview-box" style="margin-bottom:1rem;height:220px;cursor:ew-resize;user-select:none" id="slider-upscale">
-  <div style="position:absolute;inset:0;overflow:hidden;border-radius:14px">
-    <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800" style="width:100%;height:220px;object-fit:cover;object-position:center 30%;filter:blur(4px) brightness(0.85);display:block">
-  </div>
-  <div style="position:absolute;inset:0;overflow:hidden;border-radius:14px;clip-path:inset(0 50% 0 0)" id="after-upscale">
-    <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800" style="width:100%;height:220px;object-fit:cover;object-position:center 30%;display:block">
-  </div>
-  <div style="position:absolute;top:0;bottom:0;left:50%;width:2px;background:#818cf8;transform:translateX(-50%)" id="line-upscale">
-    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:28px;height:28px;border-radius:50%;background:#818cf8;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700">⟷</div>
-  </div>
-  <div class="prev-label-b">Before — Blurry</div>
-  <div class="prev-label-a" style="background:rgba(99,102,241,0.85);color:#fff">After — 8× Sharp</div>
-</div>
+  
       <div class="th"><div class="thi ic0"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg></div>
         <div><h3>AI Image Upscaler <span class="bf">1 Credit/Image</span></h3>
         <p>Enhance and upscale images up to 8×. Free = low quality + watermark. <span class="bp">⭐ HD = Upgrade</span></p></div>
