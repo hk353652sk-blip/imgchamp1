@@ -11,8 +11,6 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://imgchamp.com">
 <link rel="canonical" href="https://imgchamp.com">
-
-<!-- Schema Markup for Google -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -22,14 +20,9 @@
   "description": "Free AI image tools: upscale, face restore, background remove, compress, resize, convert, crop, flip, rotate, image to PDF.",
   "applicationCategory": "MultimediaApplication",
   "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
-  "featureList": [
-    "AI Image Upscaler", "Face Restore", "Background Remover",
-    "Image Compressor", "Image Resizer", "Format Converter",
-    "Image to PDF", "Image Crop", "Flip & Rotate"
-  ]
+  "featureList": ["AI Image Upscaler", "Face Restore", "Background Remover","Image Compressor", "Image Resizer", "Format Converter","Image to PDF", "Image Crop", "Flip & Rotate"]
 }
 </script>
-
 <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -45,32 +38,13 @@ const _supabase = window.supabase.createClient(
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
-
-/* Breathing glow background */
-.bg-mesh{position:fixed;inset:0;pointer-events:none;z-index:0;
-  background:radial-gradient(ellipse 80% 60% at 20% -10%,rgba(99,102,241,0.12) 0%,transparent 55%),
-  radial-gradient(ellipse 60% 50% at 85% 60%,rgba(139,92,246,0.08) 0%,transparent 50%),
-  radial-gradient(ellipse 40% 30% at 50% 100%,rgba(6,182,212,0.06) 0%,transparent 50%);
-  animation:breatheGlow 6s ease-in-out infinite}
-@keyframes breatheGlow{
-  0%,100%{opacity:1;transform:scale(1)}
-  50%{opacity:0.7;transform:scale(1.03)}
-}
-/* Dragon breathing fire effect */
+.bg-mesh{position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 80% 60% at 20% -10%,rgba(99,102,241,0.12) 0%,transparent 55%),radial-gradient(ellipse 60% 50% at 85% 60%,rgba(139,92,246,0.08) 0%,transparent 50%),radial-gradient(ellipse 40% 30% at 50% 100%,rgba(6,182,212,0.06) 0%,transparent 50%);animation:breatheGlow 6s ease-in-out infinite}
+@keyframes breatheGlow{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.7;transform:scale(1.03)}}
 .bg-dragon{position:fixed;bottom:-60px;right:-40px;pointer-events:none;z-index:0;font-size:7rem;opacity:0.07;animation:dragonBreath 4s ease-in-out infinite;transform-origin:bottom right}
-@keyframes dragonBreath{
-  0%,100%{transform:scale(1) rotate(-5deg);opacity:0.07;filter:drop-shadow(0 0 0px rgba(99,102,241,0))}
-  50%{transform:scale(1.08) rotate(5deg);opacity:0.13;filter:drop-shadow(0 0 30px rgba(99,102,241,0.4))}
-}
-.bg-glow-pulse{position:fixed;inset:0;pointer-events:none;z-index:0;
-  background:radial-gradient(ellipse 50% 40% at 50% 50%,rgba(99,102,241,0.04) 0%,transparent 70%);
-  animation:pulseGlow 8s ease-in-out infinite alternate}
+@keyframes dragonBreath{0%,100%{transform:scale(1) rotate(-5deg);opacity:0.07;filter:drop-shadow(0 0 0px rgba(99,102,241,0))}50%{transform:scale(1.08) rotate(5deg);opacity:0.13;filter:drop-shadow(0 0 30px rgba(99,102,241,0.4))}}
+.bg-glow-pulse{position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 50% 40% at 50% 50%,rgba(99,102,241,0.04) 0%,transparent 70%);animation:pulseGlow 8s ease-in-out infinite alternate}
 @keyframes pulseGlow{from{opacity:0.4}to{opacity:1}}
-.bg-grid{position:fixed;inset:0;pointer-events:none;z-index:0;
-  background-image:linear-gradient(rgba(99,102,241,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,0.04) 1px,transparent 1px);
-  background-size:50px 50px}
-
-/* NAV */
+.bg-grid{position:fixed;inset:0;pointer-events:none;z-index:0;background-image:linear-gradient(rgba(99,102,241,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,0.04) 1px,transparent 1px);background-size:50px 50px}
 nav{position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:66px;background:rgba(9,9,15,0.85);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);box-shadow:0 1px 30px rgba(0,0,0,0.4);overflow:visible}
 .logo{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.45rem;background:linear-gradient(135deg,#818cf8,#a78bfa,#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-0.5px;cursor:pointer;display:flex;align-items:center;gap:0.3rem}
 .logo-icon{width:28px;height:28px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.9rem;box-shadow:0 0 15px var(--glow);flex-shrink:0}
@@ -88,10 +62,6 @@ nav{position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-co
 .plan-badge.starter{background:linear-gradient(135deg,#059669,#10b981);color:#fff}
 .plan-badge.pro{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff}
 .plan-badge.business{background:linear-gradient(135deg,#d97706,#f59e0b);color:#fff}
-.signout-btn{background:transparent;border:1px solid var(--border2);color:var(--muted);padding:.33rem .7rem;border-radius:8px;font-size:.75rem;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .2s}
-.signout-btn:hover{border-color:var(--danger);color:var(--danger)}
-
-/* Profile Dropdown */
 .profile-dropdown{display:none;position:absolute;top:calc(100% + 10px);right:0;background:var(--card);border:1px solid var(--border);border-radius:16px;min-width:220px;box-shadow:0 20px 60px rgba(0,0,0,0.5);z-index:999;overflow:hidden;animation:popIn .2s ease}
 .profile-dropdown.show{display:block}
 .pd-header{padding:1rem 1rem .75rem;border-bottom:1px solid var(--border)}
@@ -109,8 +79,6 @@ nav{position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-co
 .pd-plan-row{padding:.6rem 1rem;background:rgba(99,102,241,0.05);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.5rem}
 .pd-plan-label{font-size:.68rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
 .pd-plan-badge{font-size:.65rem;font-weight:800;padding:.18rem .55rem;border-radius:50px}
-
-/* Jobs bar */
 .jobs-bar{position:fixed;bottom:1.5rem;left:1.5rem;z-index:9998;display:flex;flex-direction:column;gap:.5rem;max-width:280px}
 .job-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:.7rem 1rem;display:flex;align-items:center;gap:.6rem;box-shadow:0 8px 30px rgba(0,0,0,0.4);animation:slideIn .3s ease}
 @keyframes slideIn{from{transform:translateX(-100%);opacity:0}to{transform:translateX(0);opacity:1}}
@@ -122,8 +90,6 @@ nav{position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-co
 .job-cancel{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.8rem;padding:.1rem .3rem;border-radius:4px;flex-shrink:0;transition:color .2s}
 .job-cancel:hover{color:var(--danger)}
 .job-dl{display:inline-flex;align-items:center;gap:.25rem;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#fff;padding:.3rem .7rem;border-radius:7px;font-family:'Outfit',sans-serif;font-size:.68rem;font-weight:700;cursor:pointer;text-decoration:none;margin-top:.3rem}
-
-/* Hero */
 .hero{position:relative;z-index:1;text-align:center;padding:70px 5% 40px}
 .hero-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.2);border-radius:50px;padding:.28rem 1rem;font-size:.74rem;color:#818cf8;font-weight:600;letter-spacing:.3px;margin-bottom:1.3rem;animation:fu .5s ease both}
 h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2rem,5.5vw,3.8rem);font-weight:800;line-height:1.1;letter-spacing:-2px;margin-bottom:1rem;animation:fu .5s .08s ease both}
@@ -134,8 +100,6 @@ h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2rem,5.5vw,3.8rem)
 .cr-item{display:flex;align-items:center;gap:.38rem;font-size:.8rem;color:var(--muted)}
 .cr-item b{color:var(--text)}
 .cr-div{width:1px;height:14px;background:var(--border2)}
-
-/* Tools */
 .tw{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 4% 70px}
 .tn{display:grid;grid-template-columns:repeat(4,1fr);gap:.45rem;margin-bottom:.6rem;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:.45rem;box-shadow:0 4px 30px rgba(0,0,0,0.3);animation:fu .5s .25s ease both}
 .tn2{display:grid;grid-template-columns:repeat(5,1fr);gap:.45rem;margin-bottom:1.2rem;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:.45rem;box-shadow:0 4px 30px rgba(0,0,0,0.3);animation:fu .5s .28s ease both}
@@ -149,7 +113,6 @@ h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2rem,5.5vw,3.8rem)
 .div-line{position:absolute;top:0;bottom:0;width:2px;background:#818cf8;pointer-events:none}
 .div-handle{position:absolute;top:50%;transform:translate(-50%,-50%);width:24px;height:24px;border-radius:50%;background:#818cf8;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;cursor:ew-resize;user-select:none}
 .tb:hover{color:var(--text);background:rgba(99,102,241,0.06)}
-
 .tb.active{background:rgba(99,102,241,0.1);color:#818cf8;border-color:rgba(99,102,241,0.2);box-shadow:0 0 20px rgba(99,102,241,0.1)}
 .tc{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:2rem;box-shadow:0 8px 50px rgba(0,0,0,0.4),0 0 0 1px rgba(255,255,255,0.02);animation:fu .5s .3s ease both}
 .panel{display:none}.panel.active{display:block}
@@ -168,8 +131,6 @@ h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2rem,5.5vw,3.8rem)
 .th p{font-size:.77rem;color:var(--muted);line-height:1.5}
 .bf{display:inline-flex;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.25);border-radius:5px;padding:.1rem .45rem;font-size:.66rem;color:#34d399;font-weight:700;margin-left:.35rem}
 .bp{display:inline-flex;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);border-radius:5px;padding:.1rem .45rem;font-size:.66rem;color:#818cf8;font-weight:700}
-
-/* Dropzone */
 .dz{border:2px dashed var(--border2);border-radius:16px;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;background:linear-gradient(135deg,rgba(99,102,241,0.02),rgba(139,92,246,0.02));min-height:160px}
 .dz-empty{padding:2.5rem 1.5rem;text-align:center}
 .dz:hover,.dz.drag-over{border-color:var(--accent);background:rgba(99,102,241,0.05);box-shadow:0 0 30px rgba(99,102,241,0.08)}
@@ -180,8 +141,6 @@ h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2rem,5.5vw,3.8rem)
 .dz-s b{color:#818cf8}
 .ob{display:inline-flex;align-items:center;gap:.4rem;margin-top:.9rem;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:10px;padding:.55rem 1.3rem;font-size:.8rem;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .2s;box-shadow:0 0 20px var(--glow)}
 .ob:hover{transform:translateY(-1px);box-shadow:0 0 30px var(--glow)}
-
-/* Dropzone preview */
 .dz-preview{width:100%;height:180px;object-fit:contain;display:block;border-radius:14px 14px 0 0;background:rgba(0,0,0,0.3)}
 .dz-bottom{display:flex;align-items:center;justify-content:space-between;padding:.6rem .9rem;background:rgba(0,0,0,0.5);backdrop-filter:blur(8px);border-top:1px solid rgba(255,255,255,0.08);border-radius:0 0 14px 14px}
 .dz-fname{font-size:.72rem;color:var(--text);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px}
@@ -193,8 +152,6 @@ h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2rem,5.5vw,3.8rem)
 .cbt{width:85px;height:4px;background:var(--border2);border-radius:99px;overflow:hidden}
 .cbf{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s}
 .ul{font-size:.71rem;color:#818cf8;font-weight:700;cursor:pointer;background:none;border:none;font-family:'Outfit',sans-serif;text-decoration:underline}
-
-/* Action buttons — mobile friendly, smaller */
 .ab{width:100%;margin-top:1.2rem;padding:.78rem;font-size:.88rem;border-radius:12px;border:none;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;cursor:pointer;transition:all .2s;letter-spacing:.1px;position:relative;overflow:hidden}
 .ab::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.08),transparent);transform:translateX(-100%);transition:transform .6s}
 .ab:hover::before{transform:translateX(100%)}
@@ -208,8 +165,6 @@ h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2rem,5.5vw,3.8rem)
 .ab6{background:linear-gradient(135deg,#ca8a04,#eab308);box-shadow:0 0 20px rgba(234,179,8,0.3)}
 .ab7{background:linear-gradient(135deg,#7c3aed,#a855f7);box-shadow:0 0 20px rgba(168,85,247,0.3)}
 .ab8{background:linear-gradient(135deg,#0d9488,#06b6d4);box-shadow:0 0 20px rgba(20,184,166,0.3)}
-
-/* Processing */
 .proc{text-align:center;padding:2rem 1rem;position:relative}
 .proc-overlay{position:relative;display:inline-block;margin-bottom:1rem;width:100%;max-width:320px}
 .proc-img-blur{width:100%;max-height:160px;object-fit:contain;border-radius:12px;filter:blur(8px);opacity:0.7;display:block;background:rgba(0,0,0,0.3)}
@@ -231,8 +186,6 @@ h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2rem,5.5vw,3.8rem)
 .rt{font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:800;margin-bottom:.25rem}
 .rs{color:var(--muted);font-size:.78rem;margin-bottom:.9rem}
 .rbs{display:flex;gap:.55rem;justify-content:center;flex-wrap:wrap;margin-bottom:.7rem}
-
-/* Download dropdown */
 .dl-wrap{position:relative;display:inline-block}
 .dlh{display:inline-flex;align-items:center;gap:.35rem;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#fff;padding:.6rem 1.3rem;border-radius:10px 0 0 10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.79rem;font-weight:700;cursor:pointer;box-shadow:0 0 20px var(--glow);transition:all .2s;text-decoration:none}
 .dlh:hover{transform:translateY(-1px)}
@@ -249,8 +202,6 @@ h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2rem,5.5vw,3.8rem)
 .dl-opt-badge.free{background:rgba(16,185,129,0.15);color:#34d399;border:1px solid rgba(16,185,129,0.3)}
 .dl-opt-badge.lock{background:rgba(99,102,241,0.15);color:#818cf8;border:1px solid rgba(99,102,241,0.3)}
 .rl{font-size:.76rem;color:var(--muted);cursor:pointer;border:none;background:none;font-family:'Outfit',sans-serif;text-decoration:underline}
-
-/* Size buttons */
 .sz-btns{display:flex;gap:.5rem;margin-bottom:1rem;flex-wrap:wrap}
 .sz-btn{flex:1;min-width:75px;padding:.5rem .4rem;border-radius:10px;border:1px solid var(--border2);background:var(--surface);color:var(--muted);font-family:'Outfit',sans-serif;font-size:.72rem;font-weight:600;cursor:pointer;transition:all .2s;text-align:center}
 .sz-btn:hover{border-color:var(--accent);color:var(--text)}
@@ -266,27 +217,19 @@ h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2rem,5.5vw,3.8rem)
 .fmt-btn{padding:.45rem .9rem;border-radius:8px;border:1px solid var(--border2);background:var(--surface);color:var(--muted);font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s}
 .fmt-btn:hover{border-color:var(--accent);color:var(--text)}
 .fmt-btn.active{border-color:var(--accent);background:rgba(99,102,241,0.12);color:#818cf8}
-
-/* Cropper */
 .crop-wrap{max-width:100%;margin-bottom:.8rem;border-radius:10px;overflow:hidden;max-height:320px}
 .crop-wrap img{max-width:100%;display:block}
 .crop-preset-btns{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.8rem}
 .crop-preset-btn{padding:.4rem .7rem;border-radius:8px;border:1px solid var(--border2);background:var(--surface);color:var(--muted);font-family:'Outfit',sans-serif;font-size:.72rem;font-weight:600;cursor:pointer;transition:all .2s}
 .crop-preset-btn:hover{border-color:var(--accent);color:var(--text)}
 .crop-preset-btn.active{border-color:var(--accent);background:rgba(99,102,241,0.12);color:#818cf8}
-
-/* Flip/Rotate tool */
 .fr-canvas-wrap{width:100%;max-height:240px;overflow:hidden;border-radius:12px;background:rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;margin-bottom:.8rem}
 .fr-canvas-wrap canvas{max-width:100%;max-height:240px;object-fit:contain;border-radius:12px}
 .fr-btns{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:.8rem}
 .fr-btn{padding:.55rem .4rem;border-radius:10px;border:1px solid var(--border2);background:var(--surface);color:var(--muted);font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s;text-align:center}
 .fr-btn:hover{border-color:var(--accent);color:var(--text);background:rgba(99,102,241,0.06)}
-
-/* Color Picker */
 .color-val-row{display:flex;align-items:center;gap:.5rem;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.4rem .7rem;cursor:pointer;transition:border-color .2s}
 .color-val-row:hover{border-color:var(--accent)}
-
-/* Sections */
 .feat-s{position:relative;z-index:1;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:55px 5%}
 .fi{max-width:1000px;margin:0 auto}
 .st{text-align:center;font-size:.7rem;font-weight:700;letter-spacing:2px;color:#818cf8;text-transform:uppercase;margin-bottom:.5rem}
@@ -297,8 +240,6 @@ h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2rem,5.5vw,3.8rem)
 .fci{font-size:1.5rem;margin-bottom:.6rem;display:block}
 .fc h4{font-family:'Plus Jakarta Sans',sans-serif;font-size:.85rem;font-weight:700;margin-bottom:.25rem}
 .fc p{font-size:.75rem;color:var(--muted);line-height:1.6}
-
-/* Pricing */
 .ps-s{position:relative;z-index:1;padding:55px 5%;max-width:1060px;margin:0 auto}
 .pg{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1rem;margin-top:1rem}
 .pc{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:1.8rem 1.5rem;position:relative;transition:transform .25s,box-shadow .25s,border-color .25s}
@@ -319,8 +260,6 @@ h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2rem,5.5vw,3.8rem)
 .pb:hover{border-color:var(--accent);color:#818cf8}
 .pb.fill{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#fff;box-shadow:0 0 25px var(--glow)}
 .pb.fill:hover{transform:translateY(-1px)}
-
-/* How it works */
 .how{position:relative;z-index:1;padding:55px 5%;background:var(--surface);border-top:1px solid var(--border)}
 .hwi{max-width:800px;margin:0 auto;text-align:center}
 .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:.9rem;margin-top:1.8rem}
@@ -329,23 +268,17 @@ h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2rem,5.5vw,3.8rem)
 .sn{font-family:'Plus Jakarta Sans',sans-serif;font-size:2rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.4rem}
 .step h4{font-family:'Plus Jakarta Sans',sans-serif;font-size:.83rem;font-weight:700;margin-bottom:.22rem}
 .step p{font-size:.72rem;color:var(--muted);line-height:1.5}
-
-/* Pages */
 .pg-s{position:relative;z-index:1;max-width:740px;margin:0 auto;padding:50px 5%;display:none}
 .pg-s.show{display:block}
 .pg-s h2{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.6rem;font-weight:800;margin-bottom:.6rem;letter-spacing:-.5px}
 .pg-s h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:.93rem;font-weight:700;margin:1.2rem 0 .32rem;color:var(--text)}
 .pg-s p{font-size:.84rem;color:var(--muted);line-height:1.8;margin-bottom:.6rem}
 .pg-date{font-size:.72rem;color:var(--muted2);margin-bottom:1rem}
-
-/* Footer */
 footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:2rem 5%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;background:var(--surface)}
 .fl{display:flex;gap:1.2rem;flex-wrap:wrap}
 .fl a{font-size:.75rem;color:var(--muted);text-decoration:none;transition:color .2s;cursor:pointer}
 .fl a:hover{color:#818cf8}
 footer p{font-size:.74rem;color:var(--muted2)}
-
-/* Auth modal */
 .mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(12px);z-index:999;align-items:center;justify-content:center;padding:1rem}
 .mo.show{display:flex}
 .md{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:2rem;max-width:390px;width:100%;box-shadow:0 25px 70px rgba(0,0,0,0.6);animation:popIn .3s ease}
@@ -366,8 +299,6 @@ footer p{font-size:.74rem;color:var(--muted2)}
 .ms{flex:2;padding:.65rem;border-radius:9px;border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:.85rem;cursor:pointer;box-shadow:0 0 20px var(--glow);transition:all .2s}
 .ms:hover{transform:translateY(-1px)}
 .sn2{font-size:.67rem;color:var(--muted2);text-align:center;margin-top:.65rem;line-height:1.5}
-
-/* Upgrade modal */
 .uo{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(14px);z-index:1000;align-items:center;justify-content:center;padding:1rem}
 .uo.show{display:flex}
 .um{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:2rem;max-width:520px;width:100%;box-shadow:0 30px 80px rgba(0,0,0,0.6);animation:popIn .3s ease;max-height:90vh;overflow-y:auto}
@@ -393,8 +324,6 @@ footer p{font-size:.74rem;color:var(--muted2)}
 .skip-b:hover{border-color:var(--muted);color:var(--text)}
 .trust{display:flex;align-items:center;justify-content:center;gap:.75rem;margin-top:.8rem;flex-wrap:wrap}
 .trust span{font-size:.66rem;color:var(--muted2)}
-
-/* Cancel confirm popup */
 .cancel-popup{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:9999;align-items:center;justify-content:center;padding:1rem}
 .cancel-popup.show{display:flex}
 .cancel-box{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:1.8rem;max-width:320px;width:100%;text-align:center;animation:popIn .25s ease;box-shadow:0 20px 60px rgba(0,0,0,0.5)}
@@ -405,13 +334,13 @@ footer p{font-size:.74rem;color:var(--muted2)}
 .cancel-no:hover{border-color:var(--text)}
 .cancel-yes{flex:1;padding:.65rem;border-radius:10px;border:none;background:var(--danger);color:#fff;font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .2s}
 .cancel-yes:hover{background:#dc2626}
-
-/* Toast */
 .toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:14px;padding:.85rem 1.2rem;font-size:.82rem;z-index:9999;transform:translateY(80px);opacity:0;transition:all .4s cubic-bezier(.34,1.56,.64,1);max-width:260px;display:flex;align-items:center;gap:.45rem;box-shadow:0 10px 40px rgba(0,0,0,0.4)}
 .toast.show{transform:translateY(0);opacity:1}
 @keyframes fu{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 
-/* Mobile */
+/* ✅ FIX 1: Slider default hidden — sirf Upscale tab pe dikhega */
+#slider-upscale{display:none}
+
 @media(max-width:600px){
   .tb{font-size:.56rem;padding:.45rem .1rem}.ti{font-size:.95rem}
   nav .btn-lo{display:none}
@@ -437,8 +366,6 @@ footer p{font-size:.74rem;color:var(--muted2)}
 <div class="bg-glow-pulse"></div>
 <div class="bg-grid"></div>
 <div class="bg-dragon">🐉</div>
-
-<!-- Cancel confirm popup -->
 <div class="cancel-popup" id="cancel-popup">
   <div class="cancel-box">
     <h3>Cancel Task?</h3>
@@ -449,12 +376,7 @@ footer p{font-size:.74rem;color:var(--muted2)}
     </div>
   </div>
 </div>
-
-
-
-<!-- Jobs bar -->
 <div class="jobs-bar" id="jobs-bar"></div>
-
 <div class="profile-dropdown" id="profile-dropdown">
     <div class="pd-header">
       <div class="pd-name" id="pd-name">User</div>
@@ -475,8 +397,7 @@ footer p{font-size:.74rem;color:var(--muted2)}
       <span class="pd-signout-ic">🚪</span>
       <span class="pd-signout-t">Sign Out</span>
     </button>
-  </div>
-
+</div>
 <nav>
   <div class="logo" onclick="hidePage()">
     <div class="logo-icon" style="font-size:1rem;line-height:1">🏆</div>
@@ -488,7 +409,6 @@ footer p{font-size:.74rem;color:var(--muted2)}
     <button class="btn-su" onclick="showAuth('signup')">Sign Up Free</button>
   </div>
 </nav>
-
 <section class="hero" id="home">
   <div class="hero-badge">✦ 9 AI Tools · Free to Start · No App Needed</div>
   <h1>The Champion of<br><span class="hg">AI Image Tools</span></h1>
@@ -503,8 +423,6 @@ footer p{font-size:.74rem;color:var(--muted2)}
     <div class="cr-item">🚫 <b>No credit card</b> needed</div>
   </div>
 </section>
-
-<!-- TOOLS SECTION with anchor IDs for SEO -->
 <div class="tw" id="tools">
   <div class="tn">
     <button class="tb active" onclick="switchTab(0)" id="tab-upscale"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg></span>Upscale</button>
@@ -521,7 +439,7 @@ footer p{font-size:.74rem;color:var(--muted2)}
     <button class="tb" onclick="switchTab(9)" id="tab-color"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="10.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="12.5" r="2.5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg></span>Color Pick</button>
   </div>
 
-<!-- Real Slider — tabs ke neeche, card ke upar -->
+  <!-- Real Slider — sirf Upscale tab pe dikhega (CSS se hidden, JS se show) -->
   <div id="slider-upscale" style="margin-bottom:1rem;height:220px;cursor:ew-resize;user-select:none;position:relative;border-radius:18px;overflow:hidden;border:1px solid var(--border);box-shadow:0 4px 30px rgba(0,0,0,0.3)">
     <div style="position:absolute;inset:0">
       <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800" style="width:100%;height:100%;object-fit:cover;object-position:center 30%;filter:blur(4px) brightness(0.85);display:block">
@@ -537,10 +455,7 @@ footer p{font-size:.74rem;color:var(--muted2)}
   </div>
 
   <div class="tc">
-
-    <!-- Panel 0: Upscale — anchor: #upscale-image -->
     <div class="panel active" id="upscale-image">
-  
       <div class="th"><div class="thi ic0"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg></div>
         <div><h3>AI Image Upscaler <span class="bf">1 Credit/Image</span></h3>
         <p>Enhance and upscale images up to 8×. Free = low quality + watermark. <span class="bp">⭐ HD = Upgrade</span></p></div>
@@ -556,8 +471,6 @@ footer p{font-size:.74rem;color:var(--muted2)}
       </div>
       <button class="ab ab0" onclick="run(0)">Upscale Image — 1 Credit</button>
     </div>
-
-    <!-- Panel 1: Face Restore — anchor: #face-restore -->
     <div class="panel" id="face-restore">
       <div class="tool-preview-box" style="margin-bottom:1rem"><canvas id="cv-face"></canvas><div class="div-line" id="dl-face"><div class="div-handle">⟷</div></div><div class="prev-label-b">Before — Damaged</div><div class="prev-label-a" style="background:rgba(245,158,11,0.85);color:#fff">After — Restored</div></div>
       <div class="th"><div class="thi ic1"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
@@ -575,8 +488,6 @@ footer p{font-size:.74rem;color:var(--muted2)}
       </div>
       <button class="ab ab1" onclick="run(1)">Restore Face — 1 Credit</button>
     </div>
-
-    <!-- Panel 2: BG Remove — anchor: #remove-background -->
     <div class="panel" id="remove-background">
       <div class="tool-preview-box" style="margin-bottom:1rem"><canvas id="cv-bg"></canvas><div class="div-line" id="dl-bg"><div class="div-handle">⟷</div></div><div class="prev-label-b">Before</div><div class="prev-label-a" style="background:rgba(16,185,129,0.85);color:#fff">After — BG Removed</div></div>
       <div class="th"><div class="thi ic2"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M21 3 9 15"/><path d="m6 6 4.5 4.5"/><path d="m15 15 4.5 4.5"/><path d="M3 21 15 9"/></svg></div>
@@ -593,8 +504,6 @@ footer p{font-size:.74rem;color:var(--muted2)}
       </div>
       <button class="ab ab2" onclick="runBG()">Remove Background — Free!</button>
     </div>
-
-    <!-- Panel 3: Compress — anchor: #compress-image -->
     <div class="panel" id="compress-image">
       <div class="tool-preview-box" style="margin-bottom:1rem"><canvas id="cv-compress"></canvas><div class="prev-label-b">Original size</div><div class="prev-label-a" style="background:rgba(139,92,246,0.85);color:#fff">Up to 70% smaller</div></div>
       <div class="th"><div class="thi ic3"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
@@ -620,13 +529,10 @@ footer p{font-size:.74rem;color:var(--muted2)}
       </div>
       <button class="ab ab3" onclick="run(3)">Compress Image — 1 Credit</button>
     </div>
-
-    <!-- Panel 4: Resize — anchor: #resize-image -->
     <div class="panel" id="resize-image">
       <div class="tool-preview-box" style="margin-bottom:1rem"><canvas id="cv-resize"></canvas><div class="prev-label-b">Any size</div><div class="prev-label-a" style="background:rgba(6,182,212,0.85);color:#fff">4K · HD · Custom</div></div>
       <div class="th"><div class="thi ic4"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></div>
-        <div><h3>Image Resizer <span class="bf">✅ Free!</span></h3>
-        <p>Resize images to any size online. Quick presets or custom dimensions.</p></div>
+        <div><h3>Image Resizer <span class="bf">✅ Free!</span></h3><p>Resize images to any size online. Quick presets or custom dimensions.</p></div>
       </div>
       <div class="dz" id="dz4" style="border-color:rgba(6,182,212,0.25)"><input type="file" accept="image/*" onchange="onFileResize(this)">
         <div class="dz-empty"><span class="dz-ic"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" stroke-width="1.4"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></span><div class="dz-t">Drop your image here</div>
@@ -642,8 +548,7 @@ footer p{font-size:.74rem;color:var(--muted2)}
           <button class="fmt-btn" onclick="selUnit(this,'pct')">Percent</button>
         </div>
         <div class="sz-inp-row" id="dpi-row" style="display:none">
-          <label>DPI</label>
-          <input class="sz-inp" type="number" id="rz-dpi" value="72" min="1" max="600">
+          <label>DPI</label><input class="sz-inp" type="number" id="rz-dpi" value="72" min="1" max="600">
           <span style="font-size:.75rem;color:var(--muted2)">dpi</span>
         </div>
         <div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem;font-weight:600;">⚡ Quick Select:</div>
@@ -656,16 +561,8 @@ footer p{font-size:.74rem;color:var(--muted2)}
           <button class="sz-btn" onclick="applyPreset(this,'4k')">🎬 4K<br><span style="font-size:.65rem;color:var(--muted2)">3840×auto</span></button>
         </div>
         <div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem;font-weight:600;margin-top:.5rem">✏️ Custom Size:</div>
-        <div class="sz-inp-row">
-          <label>Width</label>
-          <input class="sz-inp" type="number" id="rz-w" placeholder="e.g. 800" oninput="syncAspect('w')">
-          <span style="font-size:.75rem;color:var(--muted2)" id="rz-w-unit">px</span>
-        </div>
-        <div class="sz-inp-row">
-          <label>Height</label>
-          <input class="sz-inp" type="number" id="rz-h" placeholder="e.g. 600" oninput="syncAspect('h')">
-          <span style="font-size:.75rem;color:var(--muted2)" id="rz-h-unit">px</span>
-        </div>
+        <div class="sz-inp-row"><label>Width</label><input class="sz-inp" type="number" id="rz-w" placeholder="e.g. 800" oninput="syncAspect('w')"><span style="font-size:.75rem;color:var(--muted2)" id="rz-w-unit">px</span></div>
+        <div class="sz-inp-row"><label>Height</label><input class="sz-inp" type="number" id="rz-h" placeholder="e.g. 600" oninput="syncAspect('h')"><span style="font-size:.75rem;color:var(--muted2)" id="rz-h-unit">px</span></div>
         <label class="sz-lock"><input type="checkbox" id="rz-lock" checked> 🔒 Lock Aspect Ratio</label>
       </div>
       <div class="ci" style="background:rgba(6,182,212,0.05);border-color:rgba(6,182,212,0.2)">
@@ -673,13 +570,10 @@ footer p{font-size:.74rem;color:var(--muted2)}
       </div>
       <button class="ab ab4" onclick="runResize()">Resize Image — Free!</button>
     </div>
-
-    <!-- Panel 5: Convert — anchor: #convert-image -->
     <div class="panel" id="convert-image">
       <div class="tool-preview-box" style="margin-bottom:1rem"><canvas id="cv-convert"></canvas><div class="prev-label-b">Any format</div><div class="prev-label-a" style="background:rgba(239,68,68,0.85);color:#fff">JPG · PNG · WEBP</div></div>
       <div class="th"><div class="thi ic5"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></div>
-        <div><h3>Format Converter <span class="bf">✅ Free!</span></h3>
-        <p>Convert images to JPG, PNG, WEBP, BMP, GIF online instantly.</p></div>
+        <div><h3>Format Converter <span class="bf">✅ Free!</span></h3><p>Convert images to JPG, PNG, WEBP, BMP, GIF online instantly.</p></div>
       </div>
       <div class="dz" id="dz5" style="border-color:rgba(239,68,68,0.25)"><input type="file" accept="image/*" multiple onchange="onFile(5,this)">
         <div class="dz-empty"><span class="dz-ic"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="1.4"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></span><div class="dz-t">Drop image(s) here</div>
@@ -700,13 +594,10 @@ footer p{font-size:.74rem;color:var(--muted2)}
       </div>
       <button class="ab ab5" onclick="runConvert()">Convert Format — Free!</button>
     </div>
-
-    <!-- Panel 6: Image to PDF — anchor: #image-to-pdf -->
     <div class="panel" id="image-to-pdf">
       <div class="tool-preview-box" style="margin-bottom:1rem"><canvas id="cv-pdf"></canvas><div class="prev-label-b">Images</div><div class="prev-label-a" style="background:rgba(234,179,8,0.85);color:#000">One PDF file</div></div>
       <div class="th"><div class="thi ic6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
-        <div><h3>Image to PDF <span class="bf">✅ Free!</span></h3>
-        <p>Convert JPG, PNG, WEBP and other images to PDF online free.</p></div>
+        <div><h3>Image to PDF <span class="bf">✅ Free!</span></h3><p>Convert JPG, PNG, WEBP and other images to PDF online free.</p></div>
       </div>
       <div class="dz" id="dz6" style="border-color:rgba(234,179,8,0.25)"><input type="file" accept="image/*" multiple onchange="onFile(6,this)">
         <div class="dz-empty"><span class="dz-ic"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="1.4"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span><div class="dz-t">Drop image(s) here</div>
@@ -724,13 +615,10 @@ footer p{font-size:.74rem;color:var(--muted2)}
       </div>
       <button class="ab ab6" onclick="runPDF()">Convert to PDF — Free!</button>
     </div>
-
-    <!-- Panel 7: Crop — anchor: #crop-image -->
     <div class="panel" id="crop-image">
       <div class="tool-preview-box" style="margin-bottom:1rem"><canvas id="cv-crop"></canvas><div class="prev-label-b">Full image</div><div class="prev-label-a" style="background:rgba(168,85,247,0.85);color:#fff">Cropped area</div></div>
       <div class="th"><div class="thi ic7"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2"><path d="M6 2v14a2 2 0 0 0 2 2h14"/><path d="M18 22V8a2 2 0 0 0-2-2H2"/></svg></div>
-        <div><h3>Image Crop <span class="bf">✅ Free!</span></h3>
-        <p>Crop images online with drag, presets or custom values. Mobile friendly.</p></div>
+        <div><h3>Image Crop <span class="bf">✅ Free!</span></h3><p>Crop images online with drag, presets or custom values. Mobile friendly.</p></div>
       </div>
       <div class="dz" id="dz7" style="border-color:rgba(168,85,247,0.25)"><input type="file" accept="image/*" onchange="onFileCrop(this)">
         <div class="dz-empty"><span class="dz-ic"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="1.4"><path d="M6 2v14a2 2 0 0 0 2 2h14"/><path d="M18 22V8a2 2 0 0 0-2-2H2"/></svg></span><div class="dz-t">Drop your image here</div>
@@ -747,31 +635,24 @@ footer p{font-size:.74rem;color:var(--muted2)}
           <button class="crop-preset-btn" onclick="applyCropPreset('banner',this)">📰 Banner (3:1)</button>
         </div>
         <div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem;font-weight:600;">🖱️ Drag to crop — works on mobile too:</div>
-        <div class="crop-wrap" id="crop-wrap">
-          <img id="crop-img-el" src="" alt="crop">
-        </div>
+        <div class="crop-wrap" id="crop-wrap"><img id="crop-img-el" src="" alt="crop"></div>
       </div>
       <div class="ci" style="background:rgba(168,85,247,0.05);border-color:rgba(168,85,247,0.2)">
         <div class="ci-l">✅ <b>Unlimited Free</b> · <b style="color:#a855f7">No credit needed!</b></div>
       </div>
       <button class="ab ab7" onclick="runCrop()">Crop Image — Free!</button>
     </div>
-
-    <!-- Panel 8: Flip & Rotate — anchor: #flip-rotate-image -->
     <div class="panel" id="flip-rotate-image">
       <div class="tool-preview-box" style="margin-bottom:1rem"><canvas id="cv-flip"></canvas><div class="prev-label-b">Original</div><div class="prev-label-a" style="background:rgba(20,184,166,0.85);color:#fff">Flipped / Rotated</div></div>
       <div class="th"><div class="thi ic8"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#14b8a6" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></div>
-        <div><h3>Flip &amp; Rotate <span class="bf">✅ Free!</span></h3>
-        <p>Flip image horizontally or vertically, rotate 90°/180°/270° online free.</p></div>
+        <div><h3>Flip &amp; Rotate <span class="bf">✅ Free!</span></h3><p>Flip image horizontally or vertically, rotate 90°/180°/270° online free.</p></div>
       </div>
       <div class="dz" id="dz8" style="border-color:rgba(20,184,166,0.25)"><input type="file" accept="image/*" onchange="onFileFlip(this)">
         <div class="dz-empty"><span class="dz-ic"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#14b8a6" stroke-width="1.4"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></span><div class="dz-t">Drop your image here</div>
         <div class="dz-s">PNG · JPG · WEBP · Max 20MB · <b>or</b></div>
         <button class="ob" style="background:linear-gradient(135deg,#0d9488,#06b6d4);box-shadow:0 0 20px rgba(20,184,166,0.3)" type="button" onclick="tFile(8)">📁 Open Gallery / Folder</button></div></div>
       <div id="flip-editor" style="display:none;margin-top:1rem">
-        <div class="fr-canvas-wrap" id="fr-canvas-wrap">
-          <canvas id="fr-canvas"></canvas>
-        </div>
+        <div class="fr-canvas-wrap" id="fr-canvas-wrap"><canvas id="fr-canvas"></canvas></div>
         <div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem;font-weight:600;">⚡ Actions — real-time preview:</div>
         <div class="fr-btns">
           <button class="fr-btn" onclick="applyFlip('flipH')">↔️ Flip Horizontal</button>
@@ -787,13 +668,10 @@ footer p{font-size:.74rem;color:var(--muted2)}
       </div>
       <button class="ab ab8" onclick="runFlip()">Download Flipped / Rotated Image</button>
     </div>
-
-    <!-- Panel 9: Color Picker — anchor: #color-picker -->
     <div class="panel" id="color-picker">
       <div class="tool-preview-box" style="margin-bottom:1rem"><canvas id="cv-color"></canvas><div class="prev-label-b">Pick any color</div><div class="prev-label-a" style="background:rgba(236,72,153,0.85);color:#fff">HEX · RGB · HSL</div></div>
       <div class="th"><div class="thi" style="background:linear-gradient(135deg,rgba(236,72,153,0.2),rgba(239,68,68,0.2));box-shadow:0 0 20px rgba(236,72,153,0.15)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="10.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="12.5" r="2.5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg></div>
-        <div><h3>Image Color Picker <span class="bf">✅ Free!</span></h3>
-        <p>Click anywhere on image to pick color. Get HEX, RGB, HSL instantly.</p></div>
+        <div><h3>Image Color Picker <span class="bf">✅ Free!</span></h3><p>Click anywhere on image to pick color. Get HEX, RGB, HSL instantly.</p></div>
       </div>
       <div class="dz" id="dz9" style="border-color:rgba(236,72,153,0.25)"><input type="file" accept="image/*" onchange="onFileColor(this)">
         <div class="dz-empty"><span class="dz-ic"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="1.4"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="10.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="12.5" r="2.5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg></span><div class="dz-t">Drop your image here</div>
@@ -812,21 +690,9 @@ footer p{font-size:.74rem;color:var(--muted2)}
             <div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem;font-weight:600;">🎯 Picked Color:</div>
             <div id="color-preview" style="width:100%;height:80px;border-radius:12px;background:#6366f1;border:1px solid var(--border);margin-bottom:.8rem;transition:background .2s"></div>
             <div style="display:flex;flex-direction:column;gap:.4rem">
-              <div class="color-val-row" onclick="copyColor('hex')">
-                <span style="font-size:.65rem;color:var(--muted);font-weight:700;width:30px">HEX</span>
-                <span id="color-hex" style="font-size:.75rem;font-weight:700;color:var(--text);flex:1">#6366f1</span>
-                <span style="font-size:.65rem;color:#818cf8">Copy</span>
-              </div>
-              <div class="color-val-row" onclick="copyColor('rgb')">
-                <span style="font-size:.65rem;color:var(--muted);font-weight:700;width:30px">RGB</span>
-                <span id="color-rgb" style="font-size:.72rem;color:var(--text);flex:1">99, 102, 241</span>
-                <span style="font-size:.65rem;color:#818cf8">Copy</span>
-              </div>
-              <div class="color-val-row" onclick="copyColor('hsl')">
-                <span style="font-size:.65rem;color:var(--muted);font-weight:700;width:30px">HSL</span>
-                <span id="color-hsl" style="font-size:.72rem;color:var(--text);flex:1">239°, 84%, 67%</span>
-                <span style="font-size:.65rem;color:#818cf8">Copy</span>
-              </div>
+              <div class="color-val-row" onclick="copyColor('hex')"><span style="font-size:.65rem;color:var(--muted);font-weight:700;width:30px">HEX</span><span id="color-hex" style="font-size:.75rem;font-weight:700;color:var(--text);flex:1">#6366f1</span><span style="font-size:.65rem;color:#818cf8">Copy</span></div>
+              <div class="color-val-row" onclick="copyColor('rgb')"><span style="font-size:.65rem;color:var(--muted);font-weight:700;width:30px">RGB</span><span id="color-rgb" style="font-size:.72rem;color:var(--text);flex:1">99, 102, 241</span><span style="font-size:.65rem;color:#818cf8">Copy</span></div>
+              <div class="color-val-row" onclick="copyColor('hsl')"><span style="font-size:.65rem;color:var(--muted);font-weight:700;width:30px">HSL</span><span id="color-hsl" style="font-size:.72rem;color:var(--text);flex:1">239°, 84%, 67%</span><span style="font-size:.65rem;color:#818cf8">Copy</span></div>
             </div>
             <div style="margin-top:.8rem">
               <div style="font-size:.65rem;color:var(--muted);margin-bottom:.4rem;font-weight:600">🌈 Gradient</div>
@@ -839,10 +705,8 @@ footer p{font-size:.74rem;color:var(--muted2)}
         <div class="ci-l">✅ <b>Unlimited Free</b> · <b style="color:#ec4899">No credit needed!</b></div>
       </div>
     </div>
-
-  </div><!-- end .tc -->
-</div><!-- end .tw -->
-
+  </div>
+</div>
 <section class="how" id="how">
   <div class="hwi">
     <div class="st">Simple Process</div>
@@ -855,7 +719,6 @@ footer p{font-size:.74rem;color:var(--muted2)}
     </div>
   </div>
 </section>
-
 <section class="feat-s" id="features">
   <div class="fi">
     <div class="st">Why imgChamp</div>
@@ -870,75 +733,24 @@ footer p{font-size:.74rem;color:var(--muted2)}
     </div>
   </div>
 </section>
-
 <section class="ps-s" id="pricing">
   <div class="st">Pricing</div>
   <h2 class="stit">Simple Credit-Based Pricing</h2>
   <div class="pg">
-    <div class="pc">
-      <div class="pn">Free</div><div class="pp2"><sup>$</sup>0<sub>/mo</sub></div>
-      <div class="pcr">⚡ 5 Credits/Day</div><div class="pd">Try all tools free — forever</div>
-      <ul class="pfl"><li>5 credits/day</li><li>BG Remove — Unlimited!</li><li>Resize, Convert, PDF, Crop, Flip, Color Picker — Free!</li><li>Max file size: <b>5MB</b></li><li>Low quality output</li><li class="no">HD downloads</li><li class="no">No watermark</li></ul>
-      <button class="pb" onclick="showAuth('signup')">Start Free</button>
-    </div>
-    <div class="pc">
-      <div class="pn">Starter</div><div class="pp2"><sup>$</sup>9<sub>/mo</sub></div>
-      <div class="pcr">50 Upscale + 30 Face Restore</div><div class="pd">For casual users & creators</div>
-      <ul class="pfl"><li>50 Upscale/month 2x HD</li><li>30 Face Restore/month HD</li><li>BG Remove — 100/day HD</li><li>Compress — Unlimited HD</li><li>No watermark</li><li>Max file size: <b>15MB</b></li><li class="no">HD Resize/Convert/Crop</li><li class="no">API access</li></ul>
-      <button class="pb" onclick="showUpgrade()">Get Starter</button>
-    </div>
-    <div class="pc pop">
-      <div class="popt">⭐ Most Popular</div>
-      <div class="pn">Pro</div><div class="pp2"><sup>$</sup>19<sub>/mo</sub></div>
-      <div class="pcr">200 Upscale + 100 Face Restore</div><div class="pd">For designers & professionals</div>
-      <ul class="pfl"><li>200 Upscale/month 4x HD</li><li>100 Face Restore/month HD</li><li>BG Remove — Unlimited HD</li><li>All tools — Unlimited HD fast</li><li>No watermark</li><li>Priority processing</li><li>Max file size: <b>40MB</b></li><li class="no">API access</li></ul>
-      <button class="pb fill" onclick="showUpgrade()">Get Pro</button>
-    </div>
-    <div class="pc">
-      <div class="pn">Business</div><div class="pp2"><sup>$</sup>49<sub>/mo</sub></div>
-      <div class="pcr">500 Upscale + 300 Face Restore</div><div class="pd">For agencies & developers</div>
-      <ul class="pfl"><li>500 Upscale/month 4x HD</li><li>300 Face Restore/month HD</li><li>BG Remove — Unlimited HD fast</li><li>All tools — Unlimited HD fast</li><li>No watermark</li><li>Full API access</li><li>Priority support</li><li>Max file size: <b>100MB</b></li></ul>
-      <button class="pb" onclick="showUpgrade()">Get Business</button>
-    </div>
+    <div class="pc"><div class="pn">Free</div><div class="pp2"><sup>$</sup>0<sub>/mo</sub></div><div class="pcr">⚡ 5 Credits/Day</div><div class="pd">Try all tools free — forever</div><ul class="pfl"><li>5 credits/day</li><li>BG Remove — Unlimited!</li><li>Resize, Convert, PDF, Crop, Flip, Color Picker — Free!</li><li>Max file size: <b>5MB</b></li><li>Low quality output</li><li class="no">HD downloads</li><li class="no">No watermark</li></ul><button class="pb" onclick="showAuth('signup')">Start Free</button></div>
+    <div class="pc"><div class="pn">Starter</div><div class="pp2"><sup>$</sup>9<sub>/mo</sub></div><div class="pcr">50 Upscale + 30 Face Restore</div><div class="pd">For casual users & creators</div><ul class="pfl"><li>50 Upscale/month 2x HD</li><li>30 Face Restore/month HD</li><li>BG Remove — 100/day HD</li><li>Compress — Unlimited HD</li><li>No watermark</li><li>Max file size: <b>15MB</b></li><li class="no">HD Resize/Convert/Crop</li><li class="no">API access</li></ul><button class="pb" onclick="showUpgrade()">Get Starter</button></div>
+    <div class="pc pop"><div class="popt">⭐ Most Popular</div><div class="pn">Pro</div><div class="pp2"><sup>$</sup>19<sub>/mo</sub></div><div class="pcr">200 Upscale + 100 Face Restore</div><div class="pd">For designers & professionals</div><ul class="pfl"><li>200 Upscale/month 4x HD</li><li>100 Face Restore/month HD</li><li>BG Remove — Unlimited HD</li><li>All tools — Unlimited HD fast</li><li>No watermark</li><li>Priority processing</li><li>Max file size: <b>40MB</b></li><li class="no">API access</li></ul><button class="pb fill" onclick="showUpgrade()">Get Pro</button></div>
+    <div class="pc"><div class="pn">Business</div><div class="pp2"><sup>$</sup>49<sub>/mo</sub></div><div class="pcr">500 Upscale + 300 Face Restore</div><div class="pd">For agencies & developers</div><ul class="pfl"><li>500 Upscale/month 4x HD</li><li>300 Face Restore/month HD</li><li>BG Remove — Unlimited HD fast</li><li>All tools — Unlimited HD fast</li><li>No watermark</li><li>Full API access</li><li>Priority support</li><li>Max file size: <b>100MB</b></li></ul><button class="pb" onclick="showUpgrade()">Get Business</button></div>
   </div>
 </section>
-
-<div class="pg-s" id="about-page">
-  <h2>About imgChamp</h2><p class="pg-date">imgchamp.com — AI Image Tools Platform</p>
-  <p>imgChamp is a free AI-powered image enhancement platform helping creators, photographers, designers and businesses transform images in seconds.</p>
-  <h3>Our Mission</h3><p>Professional image editing should be accessible to everyone.</p>
-  <h3>Contact</h3><p>📧 support@imgchamp.com</p>
-</div>
-<div class="pg-s" id="privacy-page">
-  <h2>Privacy Policy</h2><p class="pg-date">Last updated: April 2026</p>
-  <h3>1. Information We Collect</h3><p>We collect your email on signup. Images are auto-deleted within 1 hour.</p>
-  <h3>2. IP Tracking</h3><p>We collect IP addresses to enforce free credit limits.</p>
-  <h3>3. Payments</h3><p>Payments via LemonSqueezy. We never store card information.</p>
-  <h3>Contact</h3><p>📧 privacy@imgchamp.com</p>
-</div>
-<div class="pg-s" id="terms-page">
-  <h2>Terms of Service</h2><p class="pg-date">Last updated: April 2026</p>
-  <h3>1. Credit System</h3><p>Free accounts get 5 credits/day. Each image = 1 credit.</p>
-  <h3>2. Anti-Abuse Policy</h3><p>Bypassing credit limits results in permanent ban without refund.</p>
-  <h3>3. Payments & Refunds</h3><p>Monthly billing. Cancel anytime. 7-day money-back guarantee.</p>
-  <h3>Contact</h3><p>📧 legal@imgchamp.com</p>
-</div>
-
+<div class="pg-s" id="about-page"><h2>About imgChamp</h2><p class="pg-date">imgchamp.com — AI Image Tools Platform</p><p>imgChamp is a free AI-powered image enhancement platform helping creators, photographers, designers and businesses transform images in seconds.</p><h3>Our Mission</h3><p>Professional image editing should be accessible to everyone.</p><h3>Contact</h3><p>📧 support@imgchamp.com</p></div>
+<div class="pg-s" id="privacy-page"><h2>Privacy Policy</h2><p class="pg-date">Last updated: April 2026</p><h3>1. Information We Collect</h3><p>We collect your email on signup. Images are auto-deleted within 1 hour.</p><h3>2. IP Tracking</h3><p>We collect IP addresses to enforce free credit limits.</p><h3>3. Payments</h3><p>Payments via LemonSqueezy. We never store card information.</p><h3>Contact</h3><p>📧 privacy@imgchamp.com</p></div>
+<div class="pg-s" id="terms-page"><h2>Terms of Service</h2><p class="pg-date">Last updated: April 2026</p><h3>1. Credit System</h3><p>Free accounts get 5 credits/day. Each image = 1 credit.</p><h3>2. Anti-Abuse Policy</h3><p>Bypassing credit limits results in permanent ban without refund.</p><h3>3. Payments & Refunds</h3><p>Monthly billing. Cancel anytime. 7-day money-back guarantee.</p><h3>Contact</h3><p>📧 legal@imgchamp.com</p></div>
 <footer>
-  <div class="logo" style="font-size:1.1rem" onclick="hidePage()">
-    <div class="logo-icon" style="width:22px;height:22px;font-size:.75rem;line-height:1">🏆</div>imgChamp
-  </div>
+  <div class="logo" style="font-size:1.1rem" onclick="hidePage()"><div class="logo-icon" style="width:22px;height:22px;font-size:.75rem;line-height:1">🏆</div>imgChamp</div>
   <p>© 2026 imgchamp.com — All rights reserved</p>
-  <div class="fl">
-    <a onclick="showPage('about-page')">About</a>
-    <a onclick="showPage('privacy-page')">Privacy Policy</a>
-    <a onclick="showPage('terms-page')">Terms of Service</a>
-    <a href="mailto:support@imgchamp.com">Contact</a>
-    <a onclick="hidePage()">↑ Top</a>
-  </div>
+  <div class="fl"><a onclick="showPage('about-page')">About</a><a onclick="showPage('privacy-page')">Privacy Policy</a><a onclick="showPage('terms-page')">Terms of Service</a><a href="mailto:support@imgchamp.com">Contact</a><a onclick="hidePage()">↑ Top</a></div>
 </footer>
-
-<!-- Auth modal -->
 <div class="mo" id="am" onclick="if(event.target===this)closeAuth()">
   <div class="md">
     <div class="ml">imgChamp.com</div>
@@ -948,51 +760,30 @@ footer p{font-size:.74rem;color:var(--muted2)}
     <div class="dv">or use email</div>
     <input class="mi" type="email" placeholder="Email address">
     <input class="mi" type="password" placeholder="Password" id="ap">
-    <div class="mf">
-      <button class="mc" onclick="closeAuth()">Cancel</button>
-      <button class="ms" id="ab2" onclick="authDone()">Create Account</button>
-    </div>
+    <div class="mf"><button class="mc" onclick="closeAuth()">Cancel</button><button class="ms" id="ab2" onclick="authDone()">Create Account</button></div>
     <p class="sn2" id="asp">🔒 IP tracked to prevent abuse. 5 credits/day per device.</p>
   </div>
 </div>
-
-<!-- Upgrade modal -->
 <div class="uo" id="um" onclick="if(event.target===this)closeUpgrade()">
   <div class="um">
     <div class="ml">imgChamp.com</div>
     <h2>Choose Your Plan 🚀</h2>
     <p class="um-s">Get HD quality, no watermark, more credits for Upscale & Face Restore.</p>
     <div class="plcs">
-      <div class="plc" onclick="selP(this,'starter')" id="ps1">
-        <div class="ck">✓</div><div class="plc-n">Starter</div>
-        <div class="plc-p">$9<sub>/mo</sub></div><div class="plc-cr">50 Upscale + 30 Face HD</div>
-        <div class="plc-f"><span>HD quality</span><span>No watermark</span><span>All free tools</span></div>
-      </div>
-      <div class="plc chosen" onclick="selP(this,'pro')" id="ps2">
-        <div class="plc-hot">⭐ Popular</div><div class="ck">✓</div><div class="plc-n">Pro</div>
-        <div class="plc-p">$19<sub>/mo</sub></div><div class="plc-cr">200 Upscale + 100 Face HD</div>
-        <div class="plc-f"><span>Full HD all tools</span><span>No watermark</span><span>Priority processing</span></div>
-      </div>
-      <div class="plc" onclick="selP(this,'business')" id="ps3">
-        <div class="ck">✓</div><div class="plc-n">Business</div>
-        <div class="plc-p">$49<sub>/mo</sub></div><div class="plc-cr">500 Upscale + 300 Face HD</div>
-        <div class="plc-f"><span>Everything in Pro</span><span>Full API access</span><span>Priority support</span></div>
-      </div>
+      <div class="plc" onclick="selP(this,'starter')" id="ps1"><div class="ck">✓</div><div class="plc-n">Starter</div><div class="plc-p">$9<sub>/mo</sub></div><div class="plc-cr">50 Upscale + 30 Face HD</div><div class="plc-f"><span>HD quality</span><span>No watermark</span><span>All free tools</span></div></div>
+      <div class="plc chosen" onclick="selP(this,'pro')" id="ps2"><div class="plc-hot">⭐ Popular</div><div class="ck">✓</div><div class="plc-n">Pro</div><div class="plc-p">$19<sub>/mo</sub></div><div class="plc-cr">200 Upscale + 100 Face HD</div><div class="plc-f"><span>Full HD all tools</span><span>No watermark</span><span>Priority processing</span></div></div>
+      <div class="plc" onclick="selP(this,'business')" id="ps3"><div class="ck">✓</div><div class="plc-n">Business</div><div class="plc-p">$49<sub>/mo</sub></div><div class="plc-cr">500 Upscale + 300 Face HD</div><div class="plc-f"><span>Everything in Pro</span><span>Full API access</span><span>Priority support</span></div></div>
     </div>
     <button class="pay-b" id="pb2" onclick="goPay()">🔒 Pay Securely — Card or PayPal</button>
     <button class="skip-b" onclick="closeUpgrade()">Maybe Later — Keep Free Plan</button>
     <div class="trust"><span>🔒 SSL Secured</span><span>💳 All Cards OK</span><span>↩ 7-Day Refund</span><span>❌ Cancel Anytime</span></div>
   </div>
 </div>
-
 <div class="toast" id="toast"><span id="ti"></span><span id="tm"></span></div>
-
 <script>
 const BACKEND='https://imgchamp-backend.onrender.com';
 const originalPanels={};
-document.querySelectorAll('.panel').forEach((p,i)=>{
-  originalPanels[i]=p.innerHTML;
-});
+document.querySelectorAll('.panel').forEach((p,i)=>{originalPanels[i]=p.innerHTML;});
 let credits=5,curTab=0,curPlan='pro';
 let rzOrigW=0,rzOrigH=0,rzAspect=1;
 let selFmtVal='jpeg';
@@ -1000,60 +791,28 @@ let compressLevel='max';
 let pdfMode='combined';
 let cropperInstance=null;
 let cropOrigW=0,cropOrigH=0;
-// Flip/Rotate state
-let frOrigImage=null;
-let frCanvas=null;
-let frCtx=null;
-let frCurrentImg=null;
-let frTransforms=[];
+let frOrigImage=null,frCanvas=null,frCtx=null,frCurrentImg=null,frTransforms=[];
 const MAX=5;
 const pPrices={starter:'$9/mo',pro:'$19/mo',business:'$49/mo'};
 const tN=['Upscaling image','Restoring face','Removing background','Compressing image'];
 const tD=['Image Upscaled!','Face Restored!','Background Removed!','Image Compressed!'];
 const endpoints=['upscale','face-restore','bg-remove','compress'];
-
-// Panel IDs map (tab index → panel element id)
 const panelIds=['upscale-image','face-restore','remove-background','compress-image','resize-image','convert-image','image-to-pdf','crop-image','flip-rotate-image','color-picker'];
+let jobs={},jobCounter=0,pendingCancelId=null,isProcessing=false,abortControllers={};
 
-// Jobs
-let jobs={};
-let jobCounter=0;
-let pendingCancelId=null;
-let isProcessing=false;
-let abortControllers={};
+window.addEventListener('beforeunload',function(e){if(isProcessing){e.preventDefault();e.returnValue='Processing in progress. Are you sure you want to leave?';return e.returnValue;}});
 
-// ── REFRESH WARNING ──
-window.addEventListener('beforeunload',function(e){
-  if(isProcessing){
-    e.preventDefault();
-    e.returnValue='Processing in progress. Are you sure you want to leave?';
-    return e.returnValue;
-  }
-});
-
-// ── CANCEL POPUP ──
-function showCancelPopup(jobId){
-  pendingCancelId=jobId;
-  document.getElementById('cancel-popup').classList.add('show');
-}
-function closeCancelPopup(){
-  pendingCancelId=null;
-  document.getElementById('cancel-popup').classList.remove('show');
-}
+function showCancelPopup(jobId){pendingCancelId=jobId;document.getElementById('cancel-popup').classList.add('show');}
+function closeCancelPopup(){pendingCancelId=null;document.getElementById('cancel-popup').classList.remove('show');}
 function confirmCancel(){
   if(pendingCancelId!==null){
     if(jobs[pendingCancelId])jobs[pendingCancelId].cancelled=true;
-    if(abortControllers[pendingCancelId]){
-      abortControllers[pendingCancelId].abort();
-      delete abortControllers[pendingCancelId];
-    }
-    removeJob(pendingCancelId);
-    isProcessing=false;
+    if(abortControllers[pendingCancelId]){abortControllers[pendingCancelId].abort();delete abortControllers[pendingCancelId];}
+    removeJob(pendingCancelId);isProcessing=false;
   }
   closeCancelPopup();
 }
 
-// ── NAV ──
 function updateNav(session){
   const navR=document.getElementById('nav-r');
   if(session){
@@ -1064,8 +823,6 @@ function updateNav(session){
     const plan=user.user_metadata?.plan||'free';
     const badgeClass={'free':'free','starter':'starter','pro':'pro','business':'business'}[plan]||'free';
     const badgeText={'free':'FREE','starter':'STARTER','pro':'PRO','business':'BUSINESS'}[plan]||'FREE';
-
-    // Update dropdown content
     const pdName=document.getElementById('pd-name');
     const pdEmail=document.getElementById('pd-email');
     const pdBadge=document.getElementById('pd-plan-badge');
@@ -1075,78 +832,42 @@ function updateNav(session){
     if(pdName)pdName.textContent=name;
     if(pdEmail)pdEmail.textContent=email;
     if(pdBadge){
-      pdBadge.textContent=badgeText;
-      pdBadge.className='pd-plan-badge '+badgeClass;
-      // badge colors matching plan
+      pdBadge.textContent=badgeText;pdBadge.className='pd-plan-badge '+badgeClass;
       const bColors={free:'background:#374151;color:#9ca3af',starter:'background:linear-gradient(135deg,#059669,#10b981);color:#fff',pro:'background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff',business:'background:linear-gradient(135deg,#d97706,#f59e0b);color:#fff'};
       pdBadge.style.cssText=(bColors[plan]||bColors.free)+';font-size:.65rem;font-weight:800;padding:.18rem .55rem;border-radius:50px';
     }
-    // Upgrade button: agar business plan hai toh hide karo, warna show karo
-    // Agar plan liya hua hai toh sirf higher plans dikhao
     const planOrder=['free','starter','pro','business'];
     const currentPlanIndex=planOrder.indexOf(plan);
     if(pdUpgradeBtn){
-      if(plan==='business'){
-        pdUpgradeBtn.style.display='none';
-      }else{
+      if(plan==='business'){pdUpgradeBtn.style.display='none';}
+      else{
         pdUpgradeBtn.style.display='flex';
         if(pdUpgradeT)pdUpgradeT.textContent=plan==='free'?'Upgrade Plan':'Upgrade to Higher Plan';
-        if(pdUpgradeS){
-          const nextPlan=planOrder[currentPlanIndex+1];
-          const nextPlanText={starter:'Pro — $19/mo',pro:'Business — $49/mo'}[nextPlan]||'Get HD quality & more credits';
-          pdUpgradeS.textContent=nextPlanText;
-        }
+        if(pdUpgradeS){const nextPlan=planOrder[currentPlanIndex+1];const nextPlanText={starter:'Pro — $19/mo',pro:'Business — $49/mo'}[nextPlan]||'Get HD quality & more credits';pdUpgradeS.textContent=nextPlanText;}
       }
     }
-
-    navR.innerHTML=`
-      <div class="nav-cr">⚡ <span id="ncr">${credits}</span> Credits</div>
-      <div class="user-btn" onclick="toggleProfileDropdown(event)" id="user-btn-el">
-        ${avatar?`<img src="${avatar}" alt="avatar">`:'<span style="font-size:1rem">👤</span>'}
-        <span class="user-name">${name}</span>
-        <span class="plan-badge ${badgeClass}">${badgeText}</span>
-      </div>`;
+    navR.innerHTML=`<div class="nav-cr">⚡ <span id="ncr">${credits}</span> Credits</div><div class="user-btn" onclick="toggleProfileDropdown(event)" id="user-btn-el">${avatar?`<img src="${avatar}" alt="avatar">`:'<span style="font-size:1rem">👤</span>'}<span class="user-name">${name}</span><span class="plan-badge ${badgeClass}">${badgeText}</span></div>`;
   }else{
-    navR.innerHTML=`
-      <div class="nav-cr">⚡ <span id="ncr">${credits}</span> Credits</div>
-      <button class="btn-lo" onclick="showAuth('login')">Login</button>
-      <button class="btn-su" onclick="showAuth('signup')">Sign Up Free</button>`;
+    navR.innerHTML=`<div class="nav-cr">⚡ <span id="ncr">${credits}</span> Credits</div><button class="btn-lo" onclick="showAuth('login')">Login</button><button class="btn-su" onclick="showAuth('signup')">Sign Up Free</button>`;
   }
 }
 
 function toggleProfileDropdown(e){
   e.stopPropagation();
-  const dd=document.getElementById('profile-dropdown');
-  if(!dd)return;
-  // Position dropdown under user-btn
+  const dd=document.getElementById('profile-dropdown');if(!dd)return;
   const btn=document.getElementById('user-btn-el');
-  if(btn){
-    const rect=btn.getBoundingClientRect();
-    dd.style.top=(rect.bottom+window.scrollY+8)+'px';
-    dd.style.right=(window.innerWidth-rect.right)+'px';
-    dd.style.position='absolute';
-  }
+  if(btn){const rect=btn.getBoundingClientRect();dd.style.top=(rect.bottom+window.scrollY+8)+'px';dd.style.right=(window.innerWidth-rect.right)+'px';dd.style.position='absolute';}
   dd.classList.toggle('show');
 }
-
-function profileUpgradeClick(){
-  document.getElementById('profile-dropdown').classList.remove('show');
-  showUpgrade();
-}
-
-// Dropdown bahar click karne pe band ho
+function profileUpgradeClick(){document.getElementById('profile-dropdown').classList.remove('show');showUpgrade();}
 document.addEventListener('click',function(e){
-  const dd=document.getElementById('profile-dropdown');
-  const btn=document.getElementById('user-btn-el');
-  if(dd&&dd.classList.contains('show')&&!dd.contains(e.target)&&e.target!==btn){
-    dd.classList.remove('show');
-  }
+  const dd=document.getElementById('profile-dropdown');const btn=document.getElementById('user-btn-el');
+  if(dd&&dd.classList.contains('show')&&!dd.contains(e.target)&&e.target!==btn){dd.classList.remove('show');}
 });
 async function signOut(){await _supabase.auth.signOut();location.reload();}
 _supabase.auth.getSession().then(({data:{session}})=>{updateNav(session);});
 _supabase.auth.onAuthStateChange((event,session)=>{updateNav(session);});
 
-// ── CREDITS ──
 function updCr(){
   const el=document.getElementById('ncr');if(el)el.textContent=credits;
   const pct=(credits/MAX*100)+'%';
@@ -1155,209 +876,124 @@ function updCr(){
 }
 updCr();
 
-// ── TAB SWITCH — same tab reset ──
+// ✅ FIX 2: switchTab — slider sirf tab 0 (Upscale) pe dikhega
 function switchTab(i){
   curTab=i;
   document.querySelectorAll('.tb').forEach((b,x)=>b.classList.toggle('active',x===i));
   document.querySelectorAll('.panel').forEach((p,x)=>{p.classList.toggle('active',x===i);});
   document.getElementById('tools').scrollIntoView({behavior:'smooth',block:'start'});
   if(i===7&&cropperInstance){cropperInstance.destroy();cropperInstance=null;}
+  const sl=document.getElementById('slider-upscale');
+  if(sl)sl.style.display=i===0?'block':'none';
 }
 
 function resetTab(i){
-  const panel=document.getElementById(panelIds[i]);
-  if(!panel)return;
-  panel.innerHTML=originalPanels[i];
-  switchTab(i);
-  attachDZ(i);
+  const panel=document.getElementById(panelIds[i]);if(!panel)return;
+  panel.innerHTML=originalPanels[i];switchTab(i);attachDZ(i);
 }
-
 function initPanel(i){
-  const panel=document.getElementById(panelIds[i]);
-  if(!panel)return;
-  // Re-attach dropzone defaults
+  const panel=document.getElementById(panelIds[i]);if(!panel)return;
   attachDZ(i);
   if(i===4){document.getElementById('resize-options').style.display='none';}
   if(i===7){document.getElementById('crop-editor').style.display='none';if(cropperInstance){cropperInstance.destroy();cropperInstance=null;}}
   if(i===8){document.getElementById('flip-editor').style.display='none';frTransforms=[];frOrigImage=null;}
 }
+function tFile(i){const inp=document.querySelector('#dz'+i+' input');if(inp)inp.click();}
 
-function tFile(i){
-  const inp=document.querySelector('#dz'+i+' input');
-  if(inp)inp.click();
-}
-
-// ── DROPZONE PREVIEW — object-fit: contain ──
 function onFile(t,inp){
   if(!inp.files||!inp.files.length)return;
   const count=inp.files.length;
   const fname=count>1?count+' images selected':inp.files[0].name;
   toast('🖼️',count>1?count+' images ready!':'"'+inp.files[0].name+'" ready!');
-  const dz=document.getElementById('dz'+t);
-  if(!dz)return;
+  const dz=document.getElementById('dz'+t);if(!dz)return;
   const existingInput=dz.querySelector('input');
-  dz.innerHTML='';
-  dz.appendChild(existingInput);
+  dz.innerHTML='';dz.appendChild(existingInput);
   existingInput.onchange=function(){onFile(t,this);};
   if(count>1){
     const grid=document.createElement('div');
     grid.style.cssText='display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:6px;padding:10px;max-height:200px;overflow-y:auto;';
     Array.from(inp.files).forEach((file,idx)=>{
-      const wrapper=document.createElement('div');
-      wrapper.style.cssText='position:relative;border-radius:8px;overflow:hidden;aspect-ratio:1;background:rgba(0,0,0,0.3);';
-      const img=document.createElement('img');
-      img.style.cssText='width:100%;height:100%;object-fit:cover;display:block;border-radius:8px;';
-      const num=document.createElement('span');
-      num.style.cssText='position:absolute;bottom:3px;right:4px;font-size:.58rem;font-weight:700;color:#fff;background:rgba(0,0,0,0.6);border-radius:4px;padding:1px 4px;';
+      const wrapper=document.createElement('div');wrapper.style.cssText='position:relative;border-radius:8px;overflow:hidden;aspect-ratio:1;background:rgba(0,0,0,0.3);';
+      const img=document.createElement('img');img.style.cssText='width:100%;height:100%;object-fit:cover;display:block;border-radius:8px;';
+      const num=document.createElement('span');num.style.cssText='position:absolute;bottom:3px;right:4px;font-size:.58rem;font-weight:700;color:#fff;background:rgba(0,0,0,0.6);border-radius:4px;padding:1px 4px;';
       num.textContent=idx+1;
-      const reader=new FileReader();
-      reader.onload=function(e){img.src=e.target.result;};
-      reader.readAsDataURL(file);
-      wrapper.appendChild(img);
-      wrapper.appendChild(num);
-      grid.appendChild(wrapper);
+      const reader=new FileReader();reader.onload=function(e){img.src=e.target.result;};reader.readAsDataURL(file);
+      wrapper.appendChild(img);wrapper.appendChild(num);grid.appendChild(wrapper);
     });
-    const bottom=document.createElement('div');
-    bottom.className='dz-bottom';
+    const bottom=document.createElement('div');bottom.className='dz-bottom';
     bottom.innerHTML=`<span class="dz-fname">📁 ${fname}</span><button class="dz-change" onclick="tFile(${t})">Change Images</button>`;
-    dz.appendChild(grid);
-    dz.appendChild(bottom);
-    dz.style.borderColor='var(--accent)';
+    dz.appendChild(grid);dz.appendChild(bottom);dz.style.borderColor='var(--accent)';
   }else{
     const reader=new FileReader();
     reader.onload=function(e){
-      const preview=document.createElement('img');
-      preview.className='dz-preview';
-      preview.src=e.target.result;
-      const bottom=document.createElement('div');
-      bottom.className='dz-bottom';
+      const preview=document.createElement('img');preview.className='dz-preview';preview.src=e.target.result;
+      const bottom=document.createElement('div');bottom.className='dz-bottom';
       bottom.innerHTML=`<span class="dz-fname">${fname}</span><button class="dz-change" onclick="tFile(${t})">Change Image</button>`;
-      dz.appendChild(preview);
-      dz.appendChild(bottom);
-      dz.style.borderColor='var(--accent)';
+      dz.appendChild(preview);dz.appendChild(bottom);dz.style.borderColor='var(--accent)';
     };
     reader.readAsDataURL(inp.files[0]);
   }
 }
 
-// ── DRAG & DROP ──
 function attachDZ(i){
-  const d=document.getElementById('dz'+i);
-  if(!d)return;
+  const d=document.getElementById('dz'+i);if(!d)return;
   d.addEventListener('dragover',e=>{e.preventDefault();d.classList.add('drag-over')});
   d.addEventListener('dragleave',()=>d.classList.remove('drag-over'));
   d.addEventListener('drop',e=>{
     e.preventDefault();d.classList.remove('drag-over');
     if(e.dataTransfer.files&&e.dataTransfer.files.length){
-      const input=d.querySelector('input');
-      const dt=new DataTransfer();
+      const input=d.querySelector('input');const dt=new DataTransfer();
       if(i===3||i===5||i===6){Array.from(e.dataTransfer.files).forEach(f=>dt.items.add(f));}
       else{dt.items.add(e.dataTransfer.files[0]);}
       input.files=dt.files;
-      if(i===4)onFileResize(input);
-      else if(i===7)onFileCrop(input);
-      else if(i===8)onFileFlip(input);
-      else onFile(i,input);
+      if(i===4)onFileResize(input);else if(i===7)onFileCrop(input);else if(i===8)onFileFlip(input);else onFile(i,input);
     }
   });
 }
 [0,1,2,3,4,5,6,7,8,9].forEach(i=>attachDZ(i));
 
-// ── JOBS BAR ──
 function addJob(title,subtitle){
-  const id=++jobCounter;
-  jobs[id]={id,title,cancelled:false};
-  abortControllers[id]=new AbortController();
-  isProcessing=true;
-  const bar=document.getElementById('jobs-bar');
-  const div=document.createElement('div');
-  div.className='job-item';
-  div.id='job-'+id;
+  const id=++jobCounter;jobs[id]={id,title,cancelled:false};abortControllers[id]=new AbortController();isProcessing=true;
+  const bar=document.getElementById('jobs-bar');const div=document.createElement('div');div.className='job-item';div.id='job-'+id;
   div.innerHTML=`<span class="job-spin">🥊</span><div class="job-info"><div class="job-title">${title}</div><div class="job-sub">${subtitle}</div></div><button class="job-cancel" onclick="showCancelPopup(${id})">✕</button>`;
-  bar.appendChild(div);
-  return id;
+  bar.appendChild(div);return id;
 }
-function removeJob(id){
-  const el=document.getElementById('job-'+id);
-  if(el)el.remove();
-  delete jobs[id];
-  if(Object.keys(jobs).length===0)isProcessing=false;
-}
+function removeJob(id){const el=document.getElementById('job-'+id);if(el)el.remove();delete jobs[id];if(Object.keys(jobs).length===0)isProcessing=false;}
 function completeJob(id,title,downloadUrl,filename){
-  const el=document.getElementById('job-'+id);
-  if(!el)return;
+  const el=document.getElementById('job-'+id);if(!el)return;
   el.innerHTML=`<span class="job-done">✅</span><div class="job-info"><div class="job-title">${title}</div><a class="job-dl" href="${downloadUrl}" download="${filename}">⬇ Download</a></div><button class="job-cancel" onclick="removeJob(${id})">✕</button>`;
-  isProcessing=false;
-  setTimeout(()=>removeJob(id),15000);
+  isProcessing=false;setTimeout(()=>removeJob(id),15000);
 }
 function errorJob(id,msg){
-  const el=document.getElementById('job-'+id);
-  if(!el)return;
+  const el=document.getElementById('job-'+id);if(!el)return;
   el.innerHTML=`<span class="job-done">❌</span><div class="job-info"><div class="job-title">Failed</div><div class="job-sub">${msg}</div></div><button class="job-cancel" onclick="removeJob(${id})">✕</button>`;
-  isProcessing=false;
-  setTimeout(()=>removeJob(id),5000);
+  isProcessing=false;setTimeout(()=>removeJob(id),5000);
 }
-
-// ── PROGRESS ──
 function startProgress(id){
   let w=0;
-  const iv=setInterval(()=>{
-    w+=Math.random()*8+3;if(w>95)w=95;
-    const pf=document.getElementById('pgf'+id);
-    const pc=document.getElementById('ppc'+id);
-    if(pf)pf.style.width=w+'%';
-    if(pc)pc.textContent=Math.round(w)+'%';
-  },200);
+  const iv=setInterval(()=>{w+=Math.random()*8+3;if(w>95)w=95;const pf=document.getElementById('pgf'+id);const pc=document.getElementById('ppc'+id);if(pf)pf.style.width=w+'%';if(pc)pc.textContent=Math.round(w)+'%';},200);
   return iv;
 }
-function finishProgress(id,iv){
-  clearInterval(iv);
-  const pf=document.getElementById('pgf'+id);
-  const pc=document.getElementById('ppc'+id);
-  if(pf)pf.style.width='100%';
-  if(pc)pc.textContent='100%';
-}
-
-// ── PROCESSING UI ──
+function finishProgress(id,iv){clearInterval(iv);const pf=document.getElementById('pgf'+id);const pc=document.getElementById('ppc'+id);if(pf)pf.style.width='100%';if(pc)pc.textContent='100%';}
 function showProcessing(panelEl,tabIdx,imgSrc,msgText,subText){
   const imgHtml=imgSrc?`<div class="proc-overlay"><img class="proc-img-blur" src="${imgSrc}"><div class="boxing-anim"><span class="glove-l">🥊</span><span style="font-size:1.5rem">💥</span><span class="glove-r" style="transform:scaleX(-1)">🥊</span></div></div>`:`<div class="ps">⚙️</div>`;
   panelEl.innerHTML=`<div class="proc">${imgHtml}<div class="pt">${msgText}</div><div class="pp">${subText}</div><div class="pgt"><div class="pgf" id="pgf${tabIdx}"></div></div><p class="ppc" id="ppc${tabIdx}">0%</p></div>`;
 }
-
-// ── DOWNLOAD DROPDOWN ──
 function makeDownloadBtn(url,filename,previewSize,maxSize){
-  return `<div class="dl-wrap">
-    <a class="dlh" href="${url}" download="${filename}">⬇ Download</a>
-    <button class="dl-arr" onclick="toggleDlDropdown(this)">▾</button>
-    <div class="dl-dropdown">
-      <a class="dl-opt" href="${url}" download="${filename}">
-        <div class="dl-opt-l"><span class="dl-opt-icon">👁️</span><div><div class="dl-opt-name">Preview Quality</div><div class="dl-opt-size">${previewSize}</div></div></div>
-        <span class="dl-opt-badge free">Free</span>
-      </a>
-      <div class="dl-opt" onclick="showUpgrade();toggleDlDropdown(this.parentElement.querySelector('.dl-arr'))">
-        <div class="dl-opt-l"><span class="dl-opt-icon">⚡</span><div><div class="dl-opt-name">Max HD</div><div class="dl-opt-size">${maxSize}</div></div></div>
-        <span class="dl-opt-badge lock">Unlock</span>
-      </div>
-    </div>
-  </div>`;
+  return `<div class="dl-wrap"><a class="dlh" href="${url}" download="${filename}">⬇ Download</a><button class="dl-arr" onclick="toggleDlDropdown(this)">▾</button><div class="dl-dropdown"><a class="dl-opt" href="${url}" download="${filename}"><div class="dl-opt-l"><span class="dl-opt-icon">👁️</span><div><div class="dl-opt-name">Preview Quality</div><div class="dl-opt-size">${previewSize}</div></div></div><span class="dl-opt-badge free">Free</span></a><div class="dl-opt" onclick="showUpgrade();toggleDlDropdown(this.parentElement.querySelector('.dl-arr'))"><div class="dl-opt-l"><span class="dl-opt-icon">⚡</span><div><div class="dl-opt-name">Max HD</div><div class="dl-opt-size">${maxSize}</div></div></div><span class="dl-opt-badge lock">Unlock</span></div></div></div>`;
 }
 function toggleDlDropdown(btn){
-  const dd=btn.nextElementSibling;
-  dd.classList.toggle('show');
-  document.addEventListener('click',function close(e){
-    if(!btn.parentElement.contains(e.target)){dd.classList.remove('show');document.removeEventListener('click',close);}
-  });
+  const dd=btn.nextElementSibling;dd.classList.toggle('show');
+  document.addEventListener('click',function close(e){if(!btn.parentElement.contains(e.target)){dd.classList.remove('show');document.removeEventListener('click',close);}});
 }
 
-// ── BG REMOVE ──
 async function runBG(){
   const input=document.querySelector('#dz2 input');
   if(!input||!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
   const imgSrc=URL.createObjectURL(input.files[0]);
   const p=document.getElementById('remove-background');
   showProcessing(p,2,imgSrc,'Removing background...','AI is working — no credit used!');
-  const iv=startProgress(2);
-  const jobId=addJob('BG Remove','Processing...');
+  const iv=startProgress(2);const jobId=addJob('BG Remove','Processing...');
   try{
     const fd=new FormData();fd.append('file',input.files[0]);
     const res=await fetch(BACKEND+'/bg-remove',{method:'POST',body:fd,signal:abortControllers[jobId]?.signal});
@@ -1367,14 +1003,12 @@ async function runBG(){
     completeJob(jobId,'Background Removed!',url,'imgchamp_bg_removed.png');
     setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Background Removed! ✂️</div><div class="rs">Done! Download below.</div><div class="rbs">${makeDownloadBtn(url,'imgchamp_bg_removed.png','Standard PNG','Full HD PNG')}</div><button class="rl" onclick="resetTab(2)">↺ Remove another</button></div>`;},400);
   }catch(e){
-    finishProgress(2,iv);
-    if(e.name==='AbortError'){resetTab(2);return;}
+    finishProgress(2,iv);if(e.name==='AbortError'){resetTab(2);return;}
     errorJob(jobId,'Server error');
     p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Please try again.</div><button class="rl" onclick="resetTab(2)">↺ Try Again</button></div>`;
   }
 }
 
-// ── RUN AI TOOLS ──
 async function run(t){
   if(credits<=0){showUpgrade();return}
   const input=document.querySelector('#dz'+t+' input');
@@ -1383,11 +1017,9 @@ async function run(t){
   credits--;updCr();
   const p=document.getElementById(panelIds[t]);
   showProcessing(p,t,imgSrc,tN[t]+'...','AI is working on your image');
-  const iv=startProgress(t);
-  const jobId=addJob(tN[t],'Processing...');
+  const iv=startProgress(t);const jobId=addJob(tN[t],'Processing...');
   try{
-    const fd=new FormData();
-    fd.append('file',input.files[0]);
+    const fd=new FormData();fd.append('file',input.files[0]);
     if(t===3){const qMap={light:92,medium:82,max:70};fd.append('quality',qMap[compressLevel]);}
     const res=await fetch(BACKEND+'/'+endpoints[t],{method:'POST',body:fd,signal:abortControllers[jobId]?.signal});
     if(jobs[jobId]&&jobs[jobId].cancelled)return;
@@ -1396,47 +1028,31 @@ async function run(t){
     completeJob(jobId,tD[t],url,'imgchamp_result.png');
     setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">${tD[t]}</div><div class="rs">Done! Your processed image is ready.</div><div class="rbs">${makeDownloadBtn(url,'imgchamp_result.png','Standard quality','Full HD')}</div><button class="rl" onclick="resetTab(${t})">↺ Process another</button></div>`;},400);
   }catch(e){
-    finishProgress(t,iv);
-    if(e.name==='AbortError'){resetTab(t);return;}
-    credits++;updCr();
-    errorJob(jobId,'Server error — credit refunded');
+    finishProgress(t,iv);if(e.name==='AbortError'){resetTab(t);return;}
+    credits++;updCr();errorJob(jobId,'Server error — credit refunded');
     p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Credit refunded. Please try again.</div><button class="rl" onclick="resetTab(${t})">↺ Try Again</button></div>`;
   }
 }
 
-// ── COMPRESS PRESET ──
-function selCompress(el,level){
-  compressLevel=level;
-  document.querySelectorAll('#compress-image .sz-btn').forEach(b=>b.classList.remove('active'));
-  el.classList.add('active');
-}
+function selCompress(el,level){compressLevel=level;document.querySelectorAll('#compress-image .sz-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');}
 
-// ── RESIZE UNIT ──
 let rzUnit='px';
 function selUnit(el,unit){
-  rzUnit=unit;
-  document.querySelectorAll('#rz-unit-btns .fmt-btn').forEach(b=>b.classList.remove('active'));
-  el.classList.add('active');
-  const dpiRow=document.getElementById('dpi-row');
-  dpiRow.style.display=(unit==='in'||unit==='cm')?'flex':'none';
+  rzUnit=unit;document.querySelectorAll('#rz-unit-btns .fmt-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');
+  const dpiRow=document.getElementById('dpi-row');dpiRow.style.display=(unit==='in'||unit==='cm')?'flex':'none';
   const uLabel={'px':'px','in':'in','cm':'cm','pct':'%'}[unit];
-  document.getElementById('rz-w-unit').textContent=uLabel;
-  document.getElementById('rz-h-unit').textContent=uLabel;
-  // Convert current values
+  document.getElementById('rz-w-unit').textContent=uLabel;document.getElementById('rz-h-unit').textContent=uLabel;
   if(rzOrigW){
-    const dpi=parseInt(document.getElementById('rz-dpi').value)||72;
-    let w=rzOrigW,h=rzOrigH;
+    const dpi=parseInt(document.getElementById('rz-dpi').value)||72;let w=rzOrigW,h=rzOrigH;
     if(unit==='in'){w=+(rzOrigW/dpi).toFixed(2);h=+(rzOrigH/dpi).toFixed(2);}
     else if(unit==='cm'){w=+(rzOrigW/dpi*2.54).toFixed(2);h=+(rzOrigH/dpi*2.54).toFixed(2);}
     else if(unit==='pct'){w=100;h=100;}
-    document.getElementById('rz-w').value=w;
-    document.getElementById('rz-h').value=h;
+    document.getElementById('rz-w').value=w;document.getElementById('rz-h').value=h;
   }
 }
 function getPixelDimensions(){
   const dpi=parseInt(document.getElementById('rz-dpi').value)||72;
-  let w=parseFloat(document.getElementById('rz-w').value)||0;
-  let h=parseFloat(document.getElementById('rz-h').value)||0;
+  let w=parseFloat(document.getElementById('rz-w').value)||0;let h=parseFloat(document.getElementById('rz-h').value)||0;
   if(rzUnit==='in'){w=Math.round(w*dpi);h=Math.round(h*dpi);}
   else if(rzUnit==='cm'){w=Math.round(w/2.54*dpi);h=Math.round(h/2.54*dpi);}
   else if(rzUnit==='pct'){w=Math.round(rzOrigW*w/100);h=Math.round(rzOrigH*h/100);}
@@ -1444,333 +1060,193 @@ function getPixelDimensions(){
   return{w,h};
 }
 
-// ── RESIZE ──
 function onFileResize(inp){
   if(!inp.files||!inp.files[0])return;
   toast('🖼️','"'+inp.files[0].name+'" ready!');
-  const img=new Image();
-  const url=URL.createObjectURL(inp.files[0]);
+  const img=new Image();const url=URL.createObjectURL(inp.files[0]);
   img.onload=function(){
     rzOrigW=img.width;rzOrigH=img.height;rzAspect=img.width/img.height;
-    const oi=document.getElementById('orig-info');
-    if(oi)oi.textContent='Original: '+rzOrigW+' × '+rzOrigH+' px';
+    const oi=document.getElementById('orig-info');if(oi)oi.textContent='Original: '+rzOrigW+' × '+rzOrigH+' px';
     const rw=document.getElementById('rz-w');const rh=document.getElementById('rz-h');
     if(rw)rw.value=rzOrigW;if(rh)rh.value=rzOrigH;
     const ro=document.getElementById('resize-options');if(ro)ro.style.display='block';
     const dz=document.getElementById('dz4');
     if(dz){
-      const existingInput=dz.querySelector('input');
-      dz.innerHTML='';dz.appendChild(existingInput);
-      existingInput.onchange=function(){onFileResize(this);};
-      const preview=document.createElement('img');
-      preview.className='dz-preview';preview.src=url;
-      const bottom=document.createElement('div');
-      bottom.className='dz-bottom';
-      bottom.innerHTML=`<span class="dz-fname">${inp.files[0].name}</span><button class="dz-change" onclick="tFile(4)">Change Image</button>`;
-      dz.appendChild(preview);dz.appendChild(bottom);
-      dz.style.borderColor='var(--accent)';
+      const existingInput=dz.querySelector('input');dz.innerHTML='';dz.appendChild(existingInput);existingInput.onchange=function(){onFileResize(this);};
+      const preview=document.createElement('img');preview.className='dz-preview';preview.src=url;
+      const bottom=document.createElement('div');bottom.className='dz-bottom';bottom.innerHTML=`<span class="dz-fname">${inp.files[0].name}</span><button class="dz-change" onclick="tFile(4)">Change Image</button>`;
+      dz.appendChild(preview);dz.appendChild(bottom);dz.style.borderColor='var(--accent)';
     }
-  };
-  img.src=url;
+  };img.src=url;
 }
 function applyPreset(btn,size){
-  document.querySelectorAll('#resize-preset-btns .sz-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
+  document.querySelectorAll('#resize-preset-btns .sz-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
   const presetW={small:640,hd:1080,medium:1280,large:1920,'2k':2560,'4k':3840};
-  let w=presetW[size]||640;
-  w=Math.min(w,rzOrigW||w);
-  const h=Math.round(w/(rzAspect||1));
-  const rw=document.getElementById('rz-w');const rh=document.getElementById('rz-h');
-  if(rw)rw.value=w;if(rh)rh.value=h;
+  let w=presetW[size]||640;w=Math.min(w,rzOrigW||w);const h=Math.round(w/(rzAspect||1));
+  const rw=document.getElementById('rz-w');const rh=document.getElementById('rz-h');if(rw)rw.value=w;if(rh)rh.value=h;
 }
 function syncAspect(changed){
-  const lock=document.getElementById('rz-lock');
-  if(!lock||!lock.checked)return;
-  if(changed==='w'){
-    const w=parseInt(document.getElementById('rz-w').value)||0;
-    document.getElementById('rz-h').value=Math.round(w/(rzAspect||1))||'';
-  }else{
-    const h=parseInt(document.getElementById('rz-h').value)||0;
-    document.getElementById('rz-w').value=Math.round(h*(rzAspect||1))||'';
-  }
+  const lock=document.getElementById('rz-lock');if(!lock||!lock.checked)return;
+  if(changed==='w'){const w=parseInt(document.getElementById('rz-w').value)||0;document.getElementById('rz-h').value=Math.round(w/(rzAspect||1))||'';}
+  else{const h=parseInt(document.getElementById('rz-h').value)||0;document.getElementById('rz-w').value=Math.round(h*(rzAspect||1))||'';}
 }
 async function runResize(){
-  const input=document.querySelector('#dz4 input');
-  if(!input||!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
-  const{w,h}=getPixelDimensions();
-  if(!w||!h||w<1||h<1){toast('⚠️','Please enter valid dimensions!');return}
-  const imgSrc=URL.createObjectURL(input.files[0]);
-  const p=document.getElementById('resize-image');
+  const input=document.querySelector('#dz4 input');if(!input||!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
+  const{w,h}=getPixelDimensions();if(!w||!h||w<1||h<1){toast('⚠️','Please enter valid dimensions!');return}
+  const imgSrc=URL.createObjectURL(input.files[0]);const p=document.getElementById('resize-image');
   showProcessing(p,4,imgSrc,'Resizing image...','Processing — no credit used!');
-  const iv=startProgress(4);
-  const jobId=addJob('Resize','Processing...');
+  const iv=startProgress(4);const jobId=addJob('Resize','Processing...');
   try{
     const fd=new FormData();fd.append('file',input.files[0]);fd.append('width',w);fd.append('height',h);
     const res=await fetch(BACKEND+'/resize',{method:'POST',body:fd,signal:abortControllers[jobId]?.signal});
     if(jobs[jobId]&&jobs[jobId].cancelled)return;
-    const blob=await res.blob();finishProgress(4,iv);
-    const url=URL.createObjectURL(blob);
+    const blob=await res.blob();finishProgress(4,iv);const url=URL.createObjectURL(blob);
     completeJob(jobId,'Image Resized!',url,'imgchamp_resized.png');
     setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Image Resized! 📐</div><div class="rs">New size: ${w} × ${h} px</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_resized.png">⬇ Download</a></div><button class="rl" onclick="resetTab(4)">↺ Resize another</button></div>`;},400);
   }catch(e){
-    finishProgress(4,iv);
-    if(e.name==='AbortError'){resetTab(4);return;}
-    errorJob(jobId,'Server error');
+    finishProgress(4,iv);if(e.name==='AbortError'){resetTab(4);return;}errorJob(jobId,'Server error');
     p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Please try again.</div><button class="rl" onclick="resetTab(4)">↺ Try Again</button></div>`;
   }
 }
 
-// ── FORMAT CONVERT ──
-function selFmt(el,fmt){
-  document.querySelectorAll('.fmt-btn').forEach(b=>b.classList.remove('active'));
-  el.classList.add('active');selFmtVal=fmt;
-}
+function selFmt(el,fmt){document.querySelectorAll('.fmt-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');selFmtVal=fmt;}
 async function runConvert(){
-  const input=document.querySelector('#dz5 input');
-  if(!input||!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
-  const files=Array.from(input.files);
-  const imgSrc=URL.createObjectURL(files[0]);
-  const p=document.getElementById('convert-image');
+  const input=document.querySelector('#dz5 input');if(!input||!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
+  const files=Array.from(input.files);const imgSrc=URL.createObjectURL(files[0]);const p=document.getElementById('convert-image');
   showProcessing(p,5,imgSrc,'Converting '+files.length+' image(s) to '+selFmtVal.toUpperCase()+'...','Processing — no credit used!');
-  const iv=startProgress(5);
-  const jobId=addJob('Convert','Processing...');
+  const iv=startProgress(5);const jobId=addJob('Convert','Processing...');
   try{
-    const ext=selFmtVal==='jpeg'?'jpg':selFmtVal;
-    const urls=[];
+    const ext=selFmtVal==='jpeg'?'jpg':selFmtVal;const urls=[];
     for(const f of files){
       const fd=new FormData();fd.append('file',f);fd.append('format',selFmtVal);
       const res=await fetch(BACKEND+'/convert',{method:'POST',body:fd,signal:abortControllers[jobId]?.signal});
-      const blob=await res.blob();
-      urls.push({url:URL.createObjectURL(blob),name:f.name.replace(/\.[^.]+$/,'.'+ext)});
+      const blob=await res.blob();urls.push({url:URL.createObjectURL(blob),name:f.name.replace(/\.[^.]+$/,'.'+ext)});
     }
-    finishProgress(5,iv);
-    completeJob(jobId,'Format Converted!',urls[0].url,urls[0].name);
+    finishProgress(5,iv);completeJob(jobId,'Format Converted!',urls[0].url,urls[0].name);
     const dlLinks=urls.map(u=>`<a class="dlh" href="${u.url}" download="${u.name}">⬇ ${u.name}</a>`).join('');
     setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Format Converted! 🔄</div><div class="rs">${urls.length} file(s) converted to ${ext.toUpperCase()}</div><div class="rbs" style="flex-direction:column;align-items:center;gap:.4rem">${dlLinks}</div><button class="rl" onclick="resetTab(5)">↺ Convert another</button></div>`;},400);
   }catch(e){
-    finishProgress(5,iv);
-    if(e.name==='AbortError'){resetTab(5);return;}
-    errorJob(jobId,'Server error');
+    finishProgress(5,iv);if(e.name==='AbortError'){resetTab(5);return;}errorJob(jobId,'Server error');
     p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Please try again.</div><button class="rl" onclick="resetTab(5)">↺ Try Again</button></div>`;
   }
 }
 
-// ── PDF MODE ──
-function selPdfMode(el,mode){
-  pdfMode=mode;
-  document.querySelectorAll('#image-to-pdf .fmt-btn').forEach(b=>b.classList.remove('active'));
-  el.classList.add('active');
-}
-
-// ── PDF ──
+function selPdfMode(el,mode){pdfMode=mode;document.querySelectorAll('#image-to-pdf .fmt-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');}
 async function runPDF(){
-  const input=document.querySelector('#dz6 input');
-  if(!input||!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
-  const files=Array.from(input.files);
-  const imgSrc=URL.createObjectURL(files[0]);
-  const p=document.getElementById('image-to-pdf');
+  const input=document.querySelector('#dz6 input');if(!input||!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
+  const files=Array.from(input.files);const imgSrc=URL.createObjectURL(files[0]);const p=document.getElementById('image-to-pdf');
   showProcessing(p,6,imgSrc,'Converting '+files.length+' image(s) to PDF...','Processing — no credit used!');
-  const iv=startProgress(6);
-  const jobId=addJob('Image to PDF','Processing...');
+  const iv=startProgress(6);const jobId=addJob('Image to PDF','Processing...');
   try{
     if(pdfMode==='separate'&&files.length>1){
-      // Separate PDFs for each image
       const pdfUrls=[];
-      for(const f of files){
-        const fd=new FormData();fd.append('files',f);
-        const res=await fetch(BACKEND+'/image-to-pdf',{method:'POST',body:fd,signal:abortControllers[jobId]?.signal});
-        const blob=await res.blob();
-        pdfUrls.push({url:URL.createObjectURL(blob),name:f.name.replace(/\.[^.]+$/,'.pdf')});
-      }
-      finishProgress(6,iv);
-      completeJob(jobId,'PDFs Created!',pdfUrls[0].url,pdfUrls[0].name);
+      for(const f of files){const fd=new FormData();fd.append('files',f);const res=await fetch(BACKEND+'/image-to-pdf',{method:'POST',body:fd,signal:abortControllers[jobId]?.signal});const blob=await res.blob();pdfUrls.push({url:URL.createObjectURL(blob),name:f.name.replace(/\.[^.]+$/,'.pdf')});}
+      finishProgress(6,iv);completeJob(jobId,'PDFs Created!',pdfUrls[0].url,pdfUrls[0].name);
       const dlLinks=pdfUrls.map(u=>`<a class="dlh" href="${u.url}" download="${u.name}">⬇ ${u.name}</a>`).join('');
       setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Separate PDFs Created! 📑</div><div class="rs">${pdfUrls.length} PDF files ready.</div><div class="rbs" style="flex-direction:column;align-items:center;gap:.4rem">${dlLinks}</div><button class="rl" onclick="resetTab(6)">↺ Convert another</button></div>`;},400);
     }else{
       const fd=new FormData();files.forEach(f=>fd.append('files',f));
       const res=await fetch(BACKEND+'/image-to-pdf',{method:'POST',body:fd,signal:abortControllers[jobId]?.signal});
       if(jobs[jobId]&&jobs[jobId].cancelled)return;
-      const blob=await res.blob();finishProgress(6,iv);
-      const url=URL.createObjectURL(blob);
+      const blob=await res.blob();finishProgress(6,iv);const url=URL.createObjectURL(blob);
       completeJob(jobId,'PDF Created!',url,'imgchamp_document.pdf');
       setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">PDF Created! 📄</div><div class="rs">Your PDF is ready.</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_document.pdf">⬇ Download PDF</a></div><button class="rl" onclick="resetTab(6)">↺ Convert another</button></div>`;},400);
     }
   }catch(e){
-    finishProgress(6,iv);
-    if(e.name==='AbortError'){resetTab(6);return;}
-    errorJob(jobId,'Server error');
+    finishProgress(6,iv);if(e.name==='AbortError'){resetTab(6);return;}errorJob(jobId,'Server error');
     p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Please try again.</div><button class="rl" onclick="resetTab(6)">↺ Try Again</button></div>`;
   }
 }
 
-// ── CROP ──
 function onFileCrop(inp){
   if(!inp.files||!inp.files[0])return;
   toast('🖼️','"'+inp.files[0].name+'" ready!');
-  const url=URL.createObjectURL(inp.files[0]);
-  cropOrigW=0;cropOrigH=0;
+  const url=URL.createObjectURL(inp.files[0]);cropOrigW=0;cropOrigH=0;
   const ce=document.getElementById('crop-editor');if(ce)ce.style.display='block';
-  const imgEl=document.getElementById('crop-img-el');
-  if(!imgEl)return;
+  const imgEl=document.getElementById('crop-img-el');if(!imgEl)return;
   imgEl.src=url;
   imgEl.onload=function(){
     cropOrigW=imgEl.naturalWidth;cropOrigH=imgEl.naturalHeight;
-    const oi=document.getElementById('crop-orig-info');
-    if(oi)oi.textContent='Original: '+cropOrigW+' × '+cropOrigH+' px';
+    const oi=document.getElementById('crop-orig-info');if(oi)oi.textContent='Original: '+cropOrigW+' × '+cropOrigH+' px';
     if(cropperInstance){cropperInstance.destroy();cropperInstance=null;}
     cropperInstance=new Cropper(imgEl,{viewMode:1,movable:true,zoomable:false,scalable:false,autoCropArea:1,responsive:true});
   };
   const dz=document.getElementById('dz7');
   if(dz){
-    const existingInput=dz.querySelector('input');
-    dz.innerHTML='';dz.appendChild(existingInput);
-    existingInput.onchange=function(){onFileCrop(this);};
-    const preview=document.createElement('img');
-    preview.className='dz-preview';preview.src=url;
-    const bottom=document.createElement('div');
-    bottom.className='dz-bottom';
-    bottom.innerHTML=`<span class="dz-fname">${inp.files[0].name}</span><button class="dz-change" onclick="tFile(7)">Change Image</button>`;
-    dz.appendChild(preview);dz.appendChild(bottom);
-    dz.style.borderColor='var(--accent)';
+    const existingInput=dz.querySelector('input');dz.innerHTML='';dz.appendChild(existingInput);existingInput.onchange=function(){onFileCrop(this);};
+    const preview=document.createElement('img');preview.className='dz-preview';preview.src=url;
+    const bottom=document.createElement('div');bottom.className='dz-bottom';bottom.innerHTML=`<span class="dz-fname">${inp.files[0].name}</span><button class="dz-change" onclick="tFile(7)">Change Image</button>`;
+    dz.appendChild(preview);dz.appendChild(bottom);dz.style.borderColor='var(--accent)';
   }
 }
 function applyCropPreset(preset,btn){
-  document.querySelectorAll('.crop-preset-btn').forEach(b=>b.classList.remove('active'));
-  if(btn)btn.classList.add('active');
+  document.querySelectorAll('.crop-preset-btn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');
   if(!cropperInstance)return;
-  const ratios={free:NaN,square:1,portrait:3/4,landscape:16/9,banner:3/1};
-  const ratio=ratios[preset];
+  const ratios={free:NaN,square:1,portrait:3/4,landscape:16/9,banner:3/1};const ratio=ratios[preset];
   cropperInstance.setAspectRatio(isNaN(ratio)?NaN:ratio);
 }
 async function runCrop(){
   if(!cropperInstance){toast('⚠️','Please select an image first!');return}
-  const input=document.querySelector('#dz7 input');
-  if(!input||!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
-  const data=cropperInstance.getData(true);
-  if(!data.width||!data.height||data.width<1||data.height<1){toast('⚠️','Please select a crop area first!');return}
-  const p=document.getElementById('crop-image');
-  const imgSrc=URL.createObjectURL(input.files[0]);
+  const input=document.querySelector('#dz7 input');if(!input||!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
+  const data=cropperInstance.getData(true);if(!data.width||!data.height||data.width<1||data.height<1){toast('⚠️','Please select a crop area first!');return}
+  const p=document.getElementById('crop-image');const imgSrc=URL.createObjectURL(input.files[0]);
   showProcessing(p,7,imgSrc,'Cropping image...','Processing — no credit used!');
-  const iv=startProgress(7);
-  const jobId=addJob('Crop','Processing...');
+  const iv=startProgress(7);const jobId=addJob('Crop','Processing...');
   try{
-    const fd=new FormData();
-    fd.append('file',input.files[0]);
-    fd.append('x',Math.round(data.x));fd.append('y',Math.round(data.y));
-    fd.append('width',Math.round(data.width));fd.append('height',Math.round(data.height));
+    const fd=new FormData();fd.append('file',input.files[0]);fd.append('x',Math.round(data.x));fd.append('y',Math.round(data.y));fd.append('width',Math.round(data.width));fd.append('height',Math.round(data.height));
     const res=await fetch(BACKEND+'/crop',{method:'POST',body:fd,signal:abortControllers[jobId]?.signal});
     if(jobs[jobId]&&jobs[jobId].cancelled)return;
-    const blob=await res.blob();finishProgress(7,iv);
-    const url=URL.createObjectURL(blob);
-    cropperInstance.destroy();cropperInstance=null;
-    completeJob(jobId,'Image Cropped!',url,'imgchamp_cropped.png');
+    const blob=await res.blob();finishProgress(7,iv);const url=URL.createObjectURL(blob);
+    cropperInstance.destroy();cropperInstance=null;completeJob(jobId,'Image Cropped!',url,'imgchamp_cropped.png');
     setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Image Cropped! ✂️</div><div class="rs">Crop: ${Math.round(data.width)} × ${Math.round(data.height)} px</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_cropped.png">⬇ Download</a></div><button class="rl" onclick="resetTab(7)">↺ Crop another</button></div>`;},400);
   }catch(e){
-    finishProgress(7,iv);
-    if(e.name==='AbortError'){resetTab(7);return;}
-    errorJob(jobId,'Server error');
+    finishProgress(7,iv);if(e.name==='AbortError'){resetTab(7);return;}errorJob(jobId,'Server error');
     p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Please try again.</div><button class="rl" onclick="resetTab(7)">↺ Try Again</button></div>`;
   }
 }
 
-// ── FLIP & ROTATE ── Frontend only, real-time canvas preview ──
 function onFileFlip(inp){
   if(!inp.files||!inp.files[0])return;
   toast('🖼️','"'+inp.files[0].name+'" ready!');
-  const url=URL.createObjectURL(inp.files[0]);
-  frTransforms=[];
+  const url=URL.createObjectURL(inp.files[0]);frTransforms=[];
   const img=new Image();
   img.onload=function(){
-    frOrigImage=img;
-    frCurrentImg=img;
+    frOrigImage=img;frCurrentImg=img;
     const fe=document.getElementById('flip-editor');if(fe)fe.style.display='block';
-    frCanvas=document.getElementById('fr-canvas');
-    frCtx=frCanvas.getContext('2d');
-    drawFlipCanvas(img);
-  };
-  img.src=url;
+    frCanvas=document.getElementById('fr-canvas');frCtx=frCanvas.getContext('2d');drawFlipCanvas(img);
+  };img.src=url;
   const dz=document.getElementById('dz8');
   if(dz){
-    const existingInput=dz.querySelector('input');
-    dz.innerHTML='';dz.appendChild(existingInput);
-    existingInput.onchange=function(){onFileFlip(this);};
-    const preview=document.createElement('img');
-    preview.className='dz-preview';preview.src=url;
-    const bottom=document.createElement('div');
-    bottom.className='dz-bottom';
-    bottom.innerHTML=`<span class="dz-fname">${inp.files[0].name}</span><button class="dz-change" onclick="tFile(8)">Change Image</button>`;
-    dz.appendChild(preview);dz.appendChild(bottom);
-    dz.style.borderColor='var(--accent)';
+    const existingInput=dz.querySelector('input');dz.innerHTML='';dz.appendChild(existingInput);existingInput.onchange=function(){onFileFlip(this);};
+    const preview=document.createElement('img');preview.className='dz-preview';preview.src=url;
+    const bottom=document.createElement('div');bottom.className='dz-bottom';bottom.innerHTML=`<span class="dz-fname">${inp.files[0].name}</span><button class="dz-change" onclick="tFile(8)">Change Image</button>`;
+    dz.appendChild(preview);dz.appendChild(bottom);dz.style.borderColor='var(--accent)';
   }
 }
-
-function drawFlipCanvas(img){
-  if(!frCanvas||!frCtx||!img)return;
-  frCanvas.width=img.width;
-  frCanvas.height=img.height;
-  frCtx.clearRect(0,0,frCanvas.width,frCanvas.height);
-  frCtx.drawImage(img,0,0);
-}
-
+function drawFlipCanvas(img){if(!frCanvas||!frCtx||!img)return;frCanvas.width=img.width;frCanvas.height=img.height;frCtx.clearRect(0,0,frCanvas.width,frCanvas.height);frCtx.drawImage(img,0,0);}
 function applyFlip(action){
   if(!frCanvas||!frCtx||!frOrigImage){toast('⚠️','Please select an image first!');return}
   frTransforms.push(action);
-  // Rebuild from original applying all transforms
-  let tmpCanvas=document.createElement('canvas');
-  let tmpCtx=tmpCanvas.getContext('2d');
-  tmpCanvas.width=frOrigImage.width;
-  tmpCanvas.height=frOrigImage.height;
-  tmpCtx.drawImage(frOrigImage,0,0);
-
+  let tmpCanvas=document.createElement('canvas');let tmpCtx=tmpCanvas.getContext('2d');
+  tmpCanvas.width=frOrigImage.width;tmpCanvas.height=frOrigImage.height;tmpCtx.drawImage(frOrigImage,0,0);
   for(const t of frTransforms){
-    const src=tmpCanvas;
-    const srcW=src.width;const srcH=src.height;
-    const out=document.createElement('canvas');
-    const octx=out.getContext('2d');
-    if(t==='flipH'){
-      out.width=srcW;out.height=srcH;
-      octx.translate(srcW,0);octx.scale(-1,1);octx.drawImage(src,0,0);
-    }else if(t==='flipV'){
-      out.width=srcW;out.height=srcH;
-      octx.translate(0,srcH);octx.scale(1,-1);octx.drawImage(src,0,0);
-    }else if(t==='rotate90'){
-      out.width=srcH;out.height=srcW;
-      octx.translate(srcH,0);octx.rotate(Math.PI/2);octx.drawImage(src,0,0);
-    }else if(t==='rotate180'){
-      out.width=srcW;out.height=srcH;
-      octx.translate(srcW,srcH);octx.rotate(Math.PI);octx.drawImage(src,0,0);
-    }else if(t==='rotate270'){
-      out.width=srcH;out.height=srcW;
-      octx.translate(0,srcW);octx.rotate(-Math.PI/2);octx.drawImage(src,0,0);
-    }
+    const src=tmpCanvas;const srcW=src.width;const srcH=src.height;
+    const out=document.createElement('canvas');const octx=out.getContext('2d');
+    if(t==='flipH'){out.width=srcW;out.height=srcH;octx.translate(srcW,0);octx.scale(-1,1);octx.drawImage(src,0,0);}
+    else if(t==='flipV'){out.width=srcW;out.height=srcH;octx.translate(0,srcH);octx.scale(1,-1);octx.drawImage(src,0,0);}
+    else if(t==='rotate90'){out.width=srcH;out.height=srcW;octx.translate(srcH,0);octx.rotate(Math.PI/2);octx.drawImage(src,0,0);}
+    else if(t==='rotate180'){out.width=srcW;out.height=srcH;octx.translate(srcW,srcH);octx.rotate(Math.PI);octx.drawImage(src,0,0);}
+    else if(t==='rotate270'){out.width=srcH;out.height=srcW;octx.translate(0,srcW);octx.rotate(-Math.PI/2);octx.drawImage(src,0,0);}
     tmpCanvas=out;tmpCtx=octx;
   }
-  frCanvas.width=tmpCanvas.width;
-  frCanvas.height=tmpCanvas.height;
-  frCtx.clearRect(0,0,frCanvas.width,frCanvas.height);
-  frCtx.drawImage(tmpCanvas,0,0);
+  frCanvas.width=tmpCanvas.width;frCanvas.height=tmpCanvas.height;frCtx.clearRect(0,0,frCanvas.width,frCanvas.height);frCtx.drawImage(tmpCanvas,0,0);
 }
-
-function resetFlip(){
-  if(!frOrigImage){toast('⚠️','Please select an image first!');return}
-  frTransforms=[];
-  drawFlipCanvas(frOrigImage);
-  toast('🔁','Reset to original!');
-}
-
+function resetFlip(){if(!frOrigImage){toast('⚠️','Please select an image first!');return}frTransforms=[];drawFlipCanvas(frOrigImage);toast('🔁','Reset to original!');}
 function runFlip(){
   if(!frCanvas||!frOrigImage){toast('⚠️','Please select an image first!');return}
-  frCanvas.toBlob(function(blob){
-    const url=URL.createObjectURL(blob);
-    const a=document.createElement('a');
-    a.href=url;a.download='imgchamp_flipped.png';
-    document.body.appendChild(a);a.click();
-    document.body.removeChild(a);
-    toast('✅','Image downloaded!');
-  },'image/png');
+  frCanvas.toBlob(function(blob){const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='imgchamp_flipped.png';document.body.appendChild(a);a.click();document.body.removeChild(a);toast('✅','Image downloaded!');},'image/png');
 }
 
-// ── COLOR PICKER ──
 let colorCanvas=null,colorCtx=null,colorImg=null;
 function onFileColor(inp){
   if(!inp.files||!inp.files[0])return;
@@ -1779,372 +1255,86 @@ function onFileColor(inp){
   const ce=document.getElementById('color-editor');if(ce)ce.style.display='block';
   const img=new Image();
   img.onload=function(){
-    colorImg=img;
-    colorCanvas=document.getElementById('color-canvas');
-    colorCtx=colorCanvas.getContext('2d');
-    colorCanvas.width=img.width;
-    colorCanvas.height=img.height;
-    colorCtx.drawImage(img,0,0);
+    colorImg=img;colorCanvas=document.getElementById('color-canvas');colorCtx=colorCanvas.getContext('2d');
+    colorCanvas.width=img.width;colorCanvas.height=img.height;colorCtx.drawImage(img,0,0);
     colorCanvas.onclick=function(e){
-      const rect=colorCanvas.getBoundingClientRect();
-      const scaleX=colorCanvas.width/rect.width;
-      const scaleY=colorCanvas.height/rect.height;
-      const x=Math.floor((e.clientX-rect.left)*scaleX);
-      const y=Math.floor((e.clientY-rect.top)*scaleY);
-      const px=colorCtx.getImageData(x,y,1,1).data;
-      const r=px[0],g=px[1],b=px[2];
+      const rect=colorCanvas.getBoundingClientRect();const scaleX=colorCanvas.width/rect.width;const scaleY=colorCanvas.height/rect.height;
+      const x=Math.floor((e.clientX-rect.left)*scaleX);const y=Math.floor((e.clientY-rect.top)*scaleY);
+      const px=colorCtx.getImageData(x,y,1,1).data;const r=px[0],g=px[1],b=px[2];
       updateColorDisplay(r,g,b,e.clientX-rect.left,e.clientY-rect.top);
-      // crosshair
-      const ch=document.getElementById('color-crosshair');
-      if(ch){ch.style.display='block';ch.style.left=(e.clientX-rect.left)+'px';ch.style.top=(e.clientY-rect.top)+'px';}
+      const ch=document.getElementById('color-crosshair');if(ch){ch.style.display='block';ch.style.left=(e.clientX-rect.left)+'px';ch.style.top=(e.clientY-rect.top)+'px';}
     };
-  };
-  img.src=url;
+  };img.src=url;
   const dz=document.getElementById('dz9');
   if(dz){
-    const existingInput=dz.querySelector('input');
-    dz.innerHTML='';dz.appendChild(existingInput);
-    existingInput.onchange=function(){onFileColor(this);};
-    const preview=document.createElement('img');
-    preview.className='dz-preview';preview.src=url;
-    const bottom=document.createElement('div');
-    bottom.className='dz-bottom';
-    bottom.innerHTML=`<span class="dz-fname">${inp.files[0].name}</span><button class="dz-change" onclick="tFile(9)">Change Image</button>`;
-    dz.appendChild(preview);dz.appendChild(bottom);
-    dz.style.borderColor='var(--accent)';
+    const existingInput=dz.querySelector('input');dz.innerHTML='';dz.appendChild(existingInput);existingInput.onchange=function(){onFileColor(this);};
+    const preview=document.createElement('img');preview.className='dz-preview';preview.src=url;
+    const bottom=document.createElement('div');bottom.className='dz-bottom';bottom.innerHTML=`<span class="dz-fname">${inp.files[0].name}</span><button class="dz-change" onclick="tFile(9)">Change Image</button>`;
+    dz.appendChild(preview);dz.appendChild(bottom);dz.style.borderColor='var(--accent)';
   }
 }
 function updateColorDisplay(r,g,b){
-  const hex='#'+[r,g,b].map(x=>x.toString(16).padStart(2,'0')).join('');
-  const hsl=rgbToHsl(r,g,b);
-  document.getElementById('color-preview').style.background=hex;
-  document.getElementById('color-hex').textContent=hex;
-  document.getElementById('color-rgb').textContent=`${r}, ${g}, ${b}`;
-  document.getElementById('color-hsl').textContent=`${hsl.h}°, ${hsl.s}%, ${hsl.l}%`;
+  const hex='#'+[r,g,b].map(x=>x.toString(16).padStart(2,'0')).join('');const hsl=rgbToHsl(r,g,b);
+  document.getElementById('color-preview').style.background=hex;document.getElementById('color-hex').textContent=hex;
+  document.getElementById('color-rgb').textContent=`${r}, ${g}, ${b}`;document.getElementById('color-hsl').textContent=`${hsl.h}°, ${hsl.s}%, ${hsl.l}%`;
   document.getElementById('color-gradient').style.background=`linear-gradient(90deg, #000, ${hex}, #fff)`;
 }
 function rgbToHsl(r,g,b){
-  r/=255;g/=255;b/=255;
-  const max=Math.max(r,g,b),min=Math.min(r,g,b);
-  let h,s,l=(max+min)/2;
-  if(max===min){h=s=0;}
-  else{
-    const d=max-min;
-    s=l>0.5?d/(2-max-min):d/(max+min);
-    switch(max){case r:h=(g-b)/d+(g<b?6:0);break;case g:h=(b-r)/d+2;break;case b:h=(r-g)/d+4;break;}
-    h/=6;
-  }
+  r/=255;g/=255;b/=255;const max=Math.max(r,g,b),min=Math.min(r,g,b);let h,s,l=(max+min)/2;
+  if(max===min){h=s=0;}else{const d=max-min;s=l>0.5?d/(2-max-min):d/(max+min);switch(max){case r:h=(g-b)/d+(g<b?6:0);break;case g:h=(b-r)/d+2;break;case b:h=(r-g)/d+4;break;}h/=6;}
   return{h:Math.round(h*360),s:Math.round(s*100),l:Math.round(l*100)};
 }
 function copyColor(type){
-  let text='';
-  if(type==='hex')text=document.getElementById('color-hex').textContent;
-  else if(type==='rgb')text=document.getElementById('color-rgb').textContent;
-  else if(type==='hsl')text=document.getElementById('color-hsl').textContent;
+  let text='';if(type==='hex')text=document.getElementById('color-hex').textContent;else if(type==='rgb')text=document.getElementById('color-rgb').textContent;else if(type==='hsl')text=document.getElementById('color-hsl').textContent;
   navigator.clipboard.writeText(text).then(()=>toast('✅',type.toUpperCase()+' copied!'));
 }
 
-// ── AUTH ──
 function showAuth(type){
-  const cfg={
-    login:{t:'Welcome Back 👋',d:'Sign in to your imgChamp account.',btn:'Sign In',sp:false},
-    signup:{t:'Create Free Account 🚀',d:'Get 5 free AI image credits every day.',btn:'Create Account',sp:true}
-  };
+  const cfg={login:{t:'Welcome Back 👋',d:'Sign in to your imgChamp account.',btn:'Sign In',sp:false},signup:{t:'Create Free Account 🚀',d:'Get 5 free AI image credits every day.',btn:'Create Account',sp:true}};
   const c=cfg[type]||cfg.signup;
-  document.getElementById('at').textContent=c.t;
-  document.getElementById('ad').textContent=c.d;
-  document.getElementById('ab2').textContent=c.btn;
-  document.getElementById('asp').style.display=c.sp?'block':'none';
-  document.getElementById('am').classList.add('show');
+  document.getElementById('at').textContent=c.t;document.getElementById('ad').textContent=c.d;document.getElementById('ab2').textContent=c.btn;
+  document.getElementById('asp').style.display=c.sp?'block':'none';document.getElementById('am').classList.add('show');
 }
 function closeAuth(){document.getElementById('am').classList.remove('show')}
-async function social(p){
-  if(p==='Google'){await _supabase.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.origin}});}
-  else{closeAuth();toast('✅','Signed in with '+p+'! 5 credits ready.');}
-}
+async function social(p){if(p==='Google'){await _supabase.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.origin}});}else{closeAuth();toast('✅','Signed in with '+p+'! 5 credits ready.');}}
 function authDone(){closeAuth();toast('✅','Welcome to imgChamp! 5 credits ready.')}
-
-// ── UPGRADE ──
 function showUpgrade(){document.getElementById('um').classList.add('show')}
 function closeUpgrade(){document.getElementById('um').classList.remove('show')}
-function selP(el,plan){
-  curPlan=plan;
-  document.querySelectorAll('.plc').forEach(p=>p.classList.remove('chosen'));
-  el.classList.add('chosen');
-  document.getElementById('pb2').textContent='🔒 Pay '+pPrices[plan]+' — Secure Checkout';
-}
+function selP(el,plan){curPlan=plan;document.querySelectorAll('.plc').forEach(p=>p.classList.remove('chosen'));el.classList.add('chosen');document.getElementById('pb2').textContent='🔒 Pay '+pPrices[plan]+' — Secure Checkout';}
 function goPay(){closeUpgrade();toast('🔒','Redirecting to secure payment...')}
+function showPage(id){document.querySelectorAll('.pg-s').forEach(p=>p.classList.remove('show'));document.getElementById(id).classList.add('show');setTimeout(()=>document.getElementById(id).scrollIntoView({behavior:'smooth'}),50);}
+function hidePage(){document.querySelectorAll('.pg-s').forEach(p=>p.classList.remove('show'));window.scrollTo({top:0,behavior:'smooth'});}
 
-// ── PAGES ──
-function showPage(id){
-  document.querySelectorAll('.pg-s').forEach(p=>p.classList.remove('show'));
-  document.getElementById(id).classList.add('show');
-  setTimeout(()=>document.getElementById(id).scrollIntoView({behavior:'smooth'}),50);
-}
-function hidePage(){
-  document.querySelectorAll('.pg-s').forEach(p=>p.classList.remove('show'));
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-// ── TOOL PREVIEWS ANIMATION ──
 (function(){
-const W=500,H=160;
-let anims={};
-
-function drawChecker(ctx,x,y,w,h,s){
-  for(let r=0;r<h;r+=s)for(let c=0;c<w;c+=s){
-    ctx.fillStyle=((Math.floor(r/s)+Math.floor(c/s))%2===0)?'#888':'#fff';
-    ctx.fillRect(x+c,y+r,Math.min(s,w-c),Math.min(s,h-r));
-  }
-}
-function drawPerson(ctx,x,y,w,h,blur,bgCol){
-  ctx.save();
-  if(bgCol){const g=ctx.createLinearGradient(x,y,x,y+h);g.addColorStop(0,'#87CEEB');g.addColorStop(1,'#e0f0ff');ctx.fillStyle=g;ctx.fillRect(x,y,w,h);}
-  if(blur>0)ctx.filter=`blur(${blur}px)`;
-  ctx.fillStyle='#f4c2a1';ctx.beginPath();ctx.ellipse(x+w/2,y+h*.28,w*.11,w*.13,0,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle='#fff';ctx.fillRect(x+w*.36,y+h*.42,w*.28,h*.35);
-  ctx.fillStyle='#f4c2a1';ctx.fillRect(x+w*.28,y+h*.42,w*.09,h*.22);ctx.fillRect(x+w*.63,y+h*.42,w*.09,h*.22);
-  ctx.fillStyle='#8B6914';ctx.beginPath();ctx.ellipse(x+w/2,y+h*.18,w*.13,w*.1,0,0,Math.PI*2);ctx.fill();
-  ctx.filter='none';ctx.restore();
-}
-function makeSlider(canvasId,lineId,drawFn,accentColor){
-  const cv=document.getElementById(canvasId);
-  const ln=document.getElementById(lineId);
-  if(!cv||!ln)return;
-  const ctx=cv.getContext('2d');
-  cv.width=W;cv.height=H;
-  let pos=0.5,dir=1,dragging=false;
-  const wrap=cv.parentElement;
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-    drawFn(ctx,pos);
-    ln.style.left=(pos*100)+'%';
-  }
-  function anim(){
-    if(!dragging){pos+=0.004*dir;if(pos>0.88)dir=-1;if(pos<0.12)dir=1;}
-    draw();anims[canvasId]=requestAnimationFrame(anim);
-  }
-  wrap.addEventListener('mousedown',()=>{dragging=true;});
-  document.addEventListener('mouseup',()=>{dragging=false;});
-  wrap.addEventListener('mousemove',e=>{if(!dragging)return;const r=wrap.getBoundingClientRect();pos=Math.max(0.02,Math.min(0.98,(e.clientX-r.left)/r.width));});
-  wrap.addEventListener('touchmove',e=>{e.preventDefault();const r=wrap.getBoundingClientRect();pos=Math.max(0.02,Math.min(0.98,(e.touches[0].clientX-r.left)/r.width));},{passive:false});
-  anim();
-}
-
-function initUpscale(){
-  if(!document.getElementById('cv-upscale'))return;
-  makeSlider('cv-upscale','dl-upscale',function(ctx,pos){
-    const sp=Math.round(pos*W);
-    ctx.save();ctx.beginPath();ctx.rect(0,0,sp,H);ctx.clip();drawPerson(ctx,0,0,W,H,6,true);ctx.restore();
-    ctx.save();ctx.beginPath();ctx.rect(sp,0,W-sp,H);ctx.clip();drawPerson(ctx,0,0,W,H,0,true);ctx.restore();
-    ctx.strokeStyle='#818cf8';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(sp,0);ctx.lineTo(sp,H);ctx.stroke();
-  });
-}
-function initFace(){
-  makeSlider('cv-face','dl-face',function(ctx,pos){
-    const sp=Math.round(pos*W);
-    ctx.save();ctx.beginPath();ctx.rect(0,0,sp,H);ctx.clip();
-    const g=ctx.createLinearGradient(0,0,W,H);g.addColorStop(0,'#c47a50');g.addColorStop(1,'#a05030');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
-    ctx.filter='blur(4px)';ctx.fillStyle='rgba(150,80,40,0.4)';for(let i=0;i<15;i++){ctx.beginPath();ctx.arc(Math.random()*W,Math.random()*H,2+Math.random()*3,0,Math.PI*2);ctx.fill();}
-    ctx.filter='none';ctx.fillStyle='#5a2a0a';ctx.fillRect(W*.15,H*.12,W*.7,H*.1);ctx.fillRect(W*.2,H*.32,W*.6,H*.1);
-    ctx.restore();
-    ctx.save();ctx.beginPath();ctx.rect(sp,0,W-sp,H);ctx.clip();
-    const g2=ctx.createLinearGradient(0,0,W,H);g2.addColorStop(0,'#d4956a');g2.addColorStop(1,'#c07050');ctx.fillStyle=g2;ctx.fillRect(0,0,W,H);
-    ctx.fillStyle='rgba(180,100,60,0.2)';for(let i=0;i<10;i++){ctx.beginPath();ctx.arc(Math.random()*W,Math.random()*H,1+Math.random()*2,0,Math.PI*2);ctx.fill();}
-    ctx.fillStyle='#3a1a00';ctx.fillRect(W*.15,H*.12,W*.7,H*.1);ctx.fillRect(W*.2,H*.32,W*.6,H*.1);
-    ctx.beginPath();ctx.arc(W*.42,H*.55,W*.1,0,Math.PI*2);ctx.strokeStyle='#1a6a8a';ctx.lineWidth=2;ctx.stroke();
-    ctx.fillStyle='#1a6a8a';ctx.beginPath();ctx.arc(W*.42,H*.55,W*.06,0,Math.PI*2);ctx.fill();
-    ctx.restore();
-    ctx.strokeStyle='#f59e0b';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(sp,0);ctx.lineTo(sp,H);ctx.stroke();
-  });
-}
-function initBG(){
-  makeSlider('cv-bg','dl-bg',function(ctx,pos){
-    const sp=Math.round(pos*W);
-    ctx.save();ctx.beginPath();ctx.rect(0,0,sp,H);ctx.clip();drawPerson(ctx,0,0,W,H,0,true);ctx.restore();
-    ctx.save();ctx.beginPath();ctx.rect(sp,0,W-sp,H);ctx.clip();drawChecker(ctx,sp,0,W-sp,H,12);drawPerson(ctx,0,0,W,H,0,false);ctx.restore();
-    ctx.strokeStyle='#10b981';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(sp,0);ctx.lineTo(sp,H);ctx.stroke();
-  });
-}
-function initCompress(){
-  const cv=document.getElementById('cv-compress');if(!cv)return;
-  const ctx=cv.getContext('2d');cv.width=W;cv.height=H;let t=0;
-  function draw(){
-    ctx.clearRect(0,0,W,H);ctx.fillStyle='#111118';ctx.fillRect(0,0,W,H);
-    const p=(Math.sin(t*.025)+1)/2;
-    const orig=4.2,ns=+(orig*(1-p*.72)).toFixed(1);
-    ctx.fillStyle='#1e1e2e';ctx.beginPath();ctx.roundRect(W*.08,H*.12,W*.28,H*.75,8);ctx.fill();
-    ctx.fillStyle='#ef4444';ctx.font='bold 11px system-ui';ctx.textAlign='center';ctx.fillText('JPG',W*.22,H*.48);
-    ctx.fillStyle='#f87171';ctx.font='bold 12px system-ui';ctx.fillText(orig+' MB',W*.22,H*.65);
-    ctx.fillStyle='#a78bfa';ctx.font='18px system-ui';ctx.fillText('→',W*.5,H*.55);
-    const sc=Math.max(0.45,ns/orig);
-    const rw=W*.28*sc,rh=H*.75*sc,rx=W*.65-rw/2,ry=H/2-rh/2;
-    ctx.fillStyle='#1a1a2e';ctx.beginPath();ctx.roundRect(rx,ry,rw,rh,8);ctx.fill();
-    ctx.strokeStyle='#a78bfa';ctx.lineWidth=1.5;ctx.stroke();
-    ctx.fillStyle='#a78bfa';ctx.font='bold '+Math.round(8+3*sc)+'px system-ui';ctx.textAlign='center';ctx.fillText('JPG',rx+rw/2,ry+rh*.48);
-    ctx.fillStyle='#34d399';ctx.font='bold '+Math.round(9+3*sc)+'px system-ui';ctx.fillText(ns+' MB',rx+rw/2,ry+rh*.68);
-    const pct=Math.round(p*72);
-    ctx.fillStyle='rgba(52,211,153,0.15)';ctx.beginPath();ctx.roundRect(W*.5-35,H*.04,70,18,9);ctx.fill();
-    ctx.fillStyle='#34d399';ctx.font='bold 10px system-ui';ctx.fillText('-'+pct+'%',W*.5,H*.16);
-    t++;anims['cv-compress']=requestAnimationFrame(draw);
-  }draw();
-}
-function initResize(){
-  const cv=document.getElementById('cv-resize');if(!cv)return;
-  const ctx=cv.getContext('2d');cv.width=W;cv.height=H;let t=0;
-  const sizes=[{w:3840,l:'4K'},{w:1920,l:'Full HD'},{w:1280,l:'HD'},{w:640,l:'Small'}];
-  function draw(){
-    ctx.clearRect(0,0,W,H);ctx.fillStyle='#0a0a12';ctx.fillRect(0,0,W,H);
-    const si=Math.floor(t/90)%sizes.length,pr=(t%90)/90;
-    const nxt=(si+1)%sizes.length;
-    const curS=Math.min(W*.65/3840,H*.8/2160),nxtS=Math.min(W*.65/sizes[nxt].w,H*.8/2160);
-    const sc=curS+(nxtS-curS)*pr;
-    const rw=3840*sc,rh=2160*sc,rx=(W-rw)/2,ry=(H-rh)/2;
-    ctx.strokeStyle='#06b6d4';ctx.lineWidth=1.5;ctx.setLineDash([5,3]);ctx.strokeRect(rx,ry,rw,rh);ctx.setLineDash([]);
-    ctx.fillStyle='rgba(6,182,212,0.07)';ctx.fillRect(rx,ry,rw,rh);
-    [[rx,ry],[rx+rw,ry],[rx,ry+rh],[rx+rw,ry+rh]].forEach(([hx,hy])=>{ctx.fillStyle='#06b6d4';ctx.beginPath();ctx.arc(hx,hy,4,0,Math.PI*2);ctx.fill();});
-    const lbl=pr<0.5?sizes[si].l:sizes[nxt].l,ww=pr<0.5?sizes[si].w:sizes[nxt].w;
-    ctx.fillStyle='#06b6d4';ctx.font='bold 12px system-ui';ctx.textAlign='center';ctx.fillText(lbl+' — '+ww+'px',W/2,H*.92);
-    t++;anims['cv-resize']=requestAnimationFrame(draw);
-  }draw();
-}
-function initConvert(){
-  const cv=document.getElementById('cv-convert');if(!cv)return;
-  const ctx=cv.getContext('2d');cv.width=W;cv.height=H;let t=0;
-  const fmts=['JPG','PNG','WEBP','BMP','GIF'],cols=['#ef4444','#3b82f6','#8b5cf6','#f59e0b','#10b981'];
-  function draw(){
-    ctx.clearRect(0,0,W,H);ctx.fillStyle='#0a0a12';ctx.fillRect(0,0,W,H);
-    const idx=Math.floor(t/70)%fmts.length,pr=(t%70)/70;
-    ctx.fillStyle='#1e1e2e';ctx.beginPath();ctx.roundRect(W*.08,H*.15,W*.22,H*.7,8);ctx.fill();
-    ctx.fillStyle='#ef4444';ctx.font='bold 12px system-ui';ctx.textAlign='center';ctx.fillText('JPG',W*.19,H*.56);
-    const ax=W*.38+pr*W*.08;ctx.fillStyle='#7070a0';ctx.font='18px system-ui';ctx.fillText('→',ax,H*.57);
-    ctx.globalAlpha=Math.min(1,pr*3);
-    ctx.fillStyle='#1a1a2e';ctx.beginPath();ctx.roundRect(W*.62,H*.15,W*.28,H*.7,8);ctx.fill();
-    ctx.strokeStyle=cols[idx];ctx.lineWidth=2;ctx.stroke();
-    ctx.fillStyle=cols[idx];ctx.font='bold 13px system-ui';ctx.textAlign='center';ctx.fillText(fmts[idx],W*.76,H*.56);
-    ctx.globalAlpha=1;
-    t++;anims['cv-convert']=requestAnimationFrame(draw);
-  }draw();
-}
-function initPDF(){
-  const cv=document.getElementById('cv-pdf');if(!cv)return;
-  const ctx=cv.getContext('2d');cv.width=W;cv.height=H;let t=0;
-  function draw(){
-    ctx.clearRect(0,0,W,H);ctx.fillStyle='#0a0a12';ctx.fillRect(0,0,W,H);
-    const pr=(t%120)/120;
-    const imgs=[{x:W*.05,c:'#3b82f6'},{x:W*.28,c:'#10b981'},{x:W*.51,c:'#8b5cf6'}];
-    imgs.forEach((img,i)=>{
-      const delay=i*.15,p=Math.max(0,Math.min(1,(pr-delay)*2)),ty=H*.08+(1-p)*H*.3;
-      ctx.globalAlpha=p;ctx.fillStyle=img.c+'33';ctx.beginPath();ctx.roundRect(img.x,ty,W*.2,H*.55,6);ctx.fill();
-      ctx.strokeStyle=img.c;ctx.lineWidth=1;ctx.stroke();
-      ctx.fillStyle=img.c;ctx.font='bold 9px system-ui';ctx.textAlign='center';ctx.fillText('IMG',img.x+W*.1,ty+H*.3);
-      ctx.globalAlpha=1;
-    });
-    if(pr>.5){
-      const ap=Math.min(1,(pr-.5)*4);ctx.globalAlpha=ap;
-      ctx.fillStyle='#eab308';ctx.font='18px system-ui';ctx.textAlign='center';ctx.fillText('↓',W*.84,H*.38);
-      ctx.fillStyle='#1a1200';ctx.beginPath();ctx.roundRect(W*.74,H*.48,W*.2,H*.44,8);ctx.fill();
-      ctx.strokeStyle='#eab308';ctx.lineWidth=2;ctx.stroke();
-      ctx.fillStyle='#eab308';ctx.font='bold 11px system-ui';ctx.fillText('PDF',W*.84,H*.74);
-      ctx.globalAlpha=1;
-    }
-    t++;anims['cv-pdf']=requestAnimationFrame(draw);
-  }draw();
-}
-function initCrop(){
-  const cv=document.getElementById('cv-crop');if(!cv)return;
-  const ctx=cv.getContext('2d');cv.width=W;cv.height=H;let t=0;
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-    const bg=ctx.createLinearGradient(0,0,W,H);bg.addColorStop(0,'#1a0a2e');bg.addColorStop(1,'#0a1a2e');
-    ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
-    ctx.fillStyle='rgba(0,0,0,0.55)';ctx.fillRect(0,0,W,H);
-    const p=(Math.sin(t*.018)+1)/2;
-    const cw=W*.3+p*W*.35,ch=H*.3+p*H*.45,cx=(W-cw)/2,cy=(H-ch)/2;
-    ctx.clearRect(cx,cy,cw,ch);
-    const gi=ctx.createLinearGradient(cx,cy,cx+cw,cy+ch);gi.addColorStop(0,'#2d1b69');gi.addColorStop(1,'#1a3a6a');
-    ctx.fillStyle=gi;ctx.fillRect(cx,cy,cw,ch);
-    ctx.strokeStyle='#c084fc';ctx.lineWidth=2;ctx.strokeRect(cx,cy,cw,ch);
-    const hs=7;[[cx,cy],[cx+cw,cy],[cx,cy+ch],[cx+cw,cy+ch]].forEach(([hx,hy])=>{ctx.fillStyle='#c084fc';ctx.fillRect(hx-hs/2,hy-hs/2,hs,hs);});
-    ctx.strokeStyle='rgba(192,132,252,0.3)';ctx.lineWidth=1;ctx.setLineDash([3,3]);
-    [1/3,2/3].forEach(f=>{ctx.beginPath();ctx.moveTo(cx+cw*f,cy);ctx.lineTo(cx+cw*f,cy+ch);ctx.stroke();ctx.beginPath();ctx.moveTo(cx,cy+ch*f);ctx.lineTo(cx+cw,cy+ch*f);ctx.stroke();});
-    ctx.setLineDash([]);
-    ctx.fillStyle='rgba(192,132,252,0.9)';ctx.font='bold 11px system-ui';ctx.textAlign='center';
-    ctx.fillText(Math.round(cw/W*1920)+' × '+Math.round(ch/H*1080),cx+cw/2,cy+ch/2+4);
-    t++;anims['cv-crop']=requestAnimationFrame(draw);
-  }draw();
-}
-function initFlip(){
-  const cv=document.getElementById('cv-flip');if(!cv)return;
-  const ctx=cv.getContext('2d');cv.width=W;cv.height=H;let t=0;
-  const steps=['Flip Horizontal','Flip Vertical','Rotate 90°','Rotate 180°'];
-  function draw(){
-    ctx.clearRect(0,0,W,H);ctx.fillStyle='#0a1218';ctx.fillRect(0,0,W,H);
-    const si=Math.floor(t/80)%steps.length,pr=(t%80)/80;
-    ctx.save();ctx.translate(W/2,H/2);
-    if(si===0)ctx.scale(1-2*pr,1);else if(si===1)ctx.scale(1,1-2*pr);
-    else if(si===2)ctx.rotate(pr*Math.PI/2);else ctx.rotate(pr*Math.PI);
-    const rw=W*.42,rh=H*.72;
-    const bg2=ctx.createLinearGradient(-rw/2,-rh/2,rw/2,rh/2);bg2.addColorStop(0,'#0d4a6e');bg2.addColorStop(1,'#0a2a4a');
-    ctx.fillStyle=bg2;ctx.beginPath();ctx.roundRect(-rw/2,-rh/2,rw,rh,10);ctx.fill();
-    ctx.strokeStyle='#14b8a6';ctx.lineWidth=2;ctx.stroke();
-    ctx.fillStyle='#14b8a6';ctx.beginPath();ctx.arc(0,-rh*.22,rh*.1,0,Math.PI*2);ctx.fill();
-    ctx.fillRect(-rh*.06,-rh*.12,rh*.12,rh*.22);ctx.fillRect(-rh*.15,-rh*.12,rh*.09,rh*.16);ctx.fillRect(rh*.06,-rh*.12,rh*.09,rh*.16);
-    ctx.restore();
-    ctx.fillStyle='rgba(20,184,166,0.9)';ctx.font='bold 11px system-ui';ctx.textAlign='center';ctx.fillText(steps[si],W/2,H*.93);
-    t++;anims['cv-flip']=requestAnimationFrame(draw);
-  }draw();
-}
-function initColor(){
-  const cv=document.getElementById('cv-color');if(!cv)return;
-  const ctx=cv.getContext('2d');cv.width=W;cv.height=H;let t=0;
-  const palette=['#e63946','#2a9d8f','#e9c46a','#f4a261','#264653','#6366f1','#ec4899','#10b981'];
-  function draw(){
-    ctx.clearRect(0,0,W,H);ctx.fillStyle='#111118';ctx.fillRect(0,0,W,H);
-    const cols=4,rows=2,sw=W*.55,bw=sw/cols,bh=H*.85/rows;
-    palette.forEach((c,i)=>{const row=Math.floor(i/cols),col=i%cols;ctx.fillStyle=c;ctx.beginPath();ctx.roundRect(W*.02+col*bw,H*.08+row*bh,bw-4,bh-4,5);ctx.fill();});
-    const ci=Math.floor(t/50)%palette.length,row=Math.floor(ci/cols),col=ci%cols;
-    const mx=W*.02+col*bw+bw/2,my=H*.08+row*bh+bh/2;
-    ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.beginPath();ctx.arc(mx,my,11,0,Math.PI*2);ctx.stroke();
-    ctx.fillStyle='#1a1a2e';ctx.beginPath();ctx.roundRect(W*.6,H*.05,W*.38,H*.9,10);ctx.fill();ctx.strokeStyle='#333';ctx.lineWidth=1;ctx.stroke();
-    ctx.fillStyle=palette[ci];ctx.beginPath();ctx.roundRect(W*.63,H*.1,W*.32,H*.38,8);ctx.fill();
-    ctx.fillStyle='#fff';ctx.font='bold 10px monospace';ctx.textAlign='center';ctx.fillText(palette[ci].toUpperCase(),W*.79,H*.58);
-    ctx.fillStyle='#7070a0';ctx.font='9px system-ui';ctx.fillText('HEX · RGB · HSL',W*.79,H*.7);
-    t++;anims['cv-color']=requestAnimationFrame(draw);
-  }draw();
-}
+const W=500,H=160;let anims={};
+function drawChecker(ctx,x,y,w,h,s){for(let r=0;r<h;r+=s)for(let c=0;c<w;c+=s){ctx.fillStyle=((Math.floor(r/s)+Math.floor(c/s))%2===0)?'#888':'#fff';ctx.fillRect(x+c,y+r,Math.min(s,w-c),Math.min(s,h-r));}}
+function drawPerson(ctx,x,y,w,h,blur,bgCol){ctx.save();if(bgCol){const g=ctx.createLinearGradient(x,y,x,y+h);g.addColorStop(0,'#87CEEB');g.addColorStop(1,'#e0f0ff');ctx.fillStyle=g;ctx.fillRect(x,y,w,h);}if(blur>0)ctx.filter=`blur(${blur}px)`;ctx.fillStyle='#f4c2a1';ctx.beginPath();ctx.ellipse(x+w/2,y+h*.28,w*.11,w*.13,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.fillRect(x+w*.36,y+h*.42,w*.28,h*.35);ctx.fillStyle='#f4c2a1';ctx.fillRect(x+w*.28,y+h*.42,w*.09,h*.22);ctx.fillRect(x+w*.63,y+h*.42,w*.09,h*.22);ctx.fillStyle='#8B6914';ctx.beginPath();ctx.ellipse(x+w/2,y+h*.18,w*.13,w*.1,0,0,Math.PI*2);ctx.fill();ctx.filter='none';ctx.restore();}
+function makeSlider(canvasId,lineId,drawFn){const cv=document.getElementById(canvasId);const ln=document.getElementById(lineId);if(!cv||!ln)return;const ctx=cv.getContext('2d');cv.width=W;cv.height=H;let pos=0.5,dir=1,dragging=false;const wrap=cv.parentElement;function draw(){ctx.clearRect(0,0,W,H);drawFn(ctx,pos);ln.style.left=(pos*100)+'%';}function anim(){if(!dragging){pos+=0.004*dir;if(pos>0.88)dir=-1;if(pos<0.12)dir=1;}draw();anims[canvasId]=requestAnimationFrame(anim);}wrap.addEventListener('mousedown',()=>{dragging=true;});document.addEventListener('mouseup',()=>{dragging=false;});wrap.addEventListener('mousemove',e=>{if(!dragging)return;const r=wrap.getBoundingClientRect();pos=Math.max(0.02,Math.min(0.98,(e.clientX-r.left)/r.width));});wrap.addEventListener('touchmove',e=>{e.preventDefault();const r=wrap.getBoundingClientRect();pos=Math.max(0.02,Math.min(0.98,(e.touches[0].clientX-r.left)/r.width));},{passive:false});anim();}
+function initFace(){makeSlider('cv-face','dl-face',function(ctx,pos){const sp=Math.round(pos*W);ctx.save();ctx.beginPath();ctx.rect(0,0,sp,H);ctx.clip();const g=ctx.createLinearGradient(0,0,W,H);g.addColorStop(0,'#c47a50');g.addColorStop(1,'#a05030');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);ctx.filter='blur(4px)';ctx.fillStyle='rgba(150,80,40,0.4)';for(let i=0;i<15;i++){ctx.beginPath();ctx.arc(Math.random()*W,Math.random()*H,2+Math.random()*3,0,Math.PI*2);ctx.fill();}ctx.filter='none';ctx.fillStyle='#5a2a0a';ctx.fillRect(W*.15,H*.12,W*.7,H*.1);ctx.fillRect(W*.2,H*.32,W*.6,H*.1);ctx.restore();ctx.save();ctx.beginPath();ctx.rect(sp,0,W-sp,H);ctx.clip();const g2=ctx.createLinearGradient(0,0,W,H);g2.addColorStop(0,'#d4956a');g2.addColorStop(1,'#c07050');ctx.fillStyle=g2;ctx.fillRect(0,0,W,H);ctx.fillStyle='rgba(180,100,60,0.2)';for(let i=0;i<10;i++){ctx.beginPath();ctx.arc(Math.random()*W,Math.random()*H,1+Math.random()*2,0,Math.PI*2);ctx.fill();}ctx.fillStyle='#3a1a00';ctx.fillRect(W*.15,H*.12,W*.7,H*.1);ctx.fillRect(W*.2,H*.32,W*.6,H*.1);ctx.beginPath();ctx.arc(W*.42,H*.55,W*.1,0,Math.PI*2);ctx.strokeStyle='#1a6a8a';ctx.lineWidth=2;ctx.stroke();ctx.fillStyle='#1a6a8a';ctx.beginPath();ctx.arc(W*.42,H*.55,W*.06,0,Math.PI*2);ctx.fill();ctx.restore();ctx.strokeStyle='#f59e0b';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(sp,0);ctx.lineTo(sp,H);ctx.stroke();});}
+function initBG(){makeSlider('cv-bg','dl-bg',function(ctx,pos){const sp=Math.round(pos*W);ctx.save();ctx.beginPath();ctx.rect(0,0,sp,H);ctx.clip();drawPerson(ctx,0,0,W,H,0,true);ctx.restore();ctx.save();ctx.beginPath();ctx.rect(sp,0,W-sp,H);ctx.clip();drawChecker(ctx,sp,0,W-sp,H,12);drawPerson(ctx,0,0,W,H,0,false);ctx.restore();ctx.strokeStyle='#10b981';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(sp,0);ctx.lineTo(sp,H);ctx.stroke();});}
+function initCompress(){const cv=document.getElementById('cv-compress');if(!cv)return;const ctx=cv.getContext('2d');cv.width=W;cv.height=H;let t=0;function draw(){ctx.clearRect(0,0,W,H);ctx.fillStyle='#111118';ctx.fillRect(0,0,W,H);const p=(Math.sin(t*.025)+1)/2;const orig=4.2,ns=+(orig*(1-p*.72)).toFixed(1);ctx.fillStyle='#1e1e2e';ctx.beginPath();ctx.roundRect(W*.08,H*.12,W*.28,H*.75,8);ctx.fill();ctx.fillStyle='#ef4444';ctx.font='bold 11px system-ui';ctx.textAlign='center';ctx.fillText('JPG',W*.22,H*.48);ctx.fillStyle='#f87171';ctx.font='bold 12px system-ui';ctx.fillText(orig+' MB',W*.22,H*.65);ctx.fillStyle='#a78bfa';ctx.font='18px system-ui';ctx.fillText('→',W*.5,H*.55);const sc=Math.max(0.45,ns/orig);const rw=W*.28*sc,rh=H*.75*sc,rx=W*.65-rw/2,ry=H/2-rh/2;ctx.fillStyle='#1a1a2e';ctx.beginPath();ctx.roundRect(rx,ry,rw,rh,8);ctx.fill();ctx.strokeStyle='#a78bfa';ctx.lineWidth=1.5;ctx.stroke();ctx.fillStyle='#a78bfa';ctx.font='bold '+Math.round(8+3*sc)+'px system-ui';ctx.textAlign='center';ctx.fillText('JPG',rx+rw/2,ry+rh*.48);ctx.fillStyle='#34d399';ctx.font='bold '+Math.round(9+3*sc)+'px system-ui';ctx.fillText(ns+' MB',rx+rw/2,ry+rh*.68);const pct=Math.round(p*72);ctx.fillStyle='rgba(52,211,153,0.15)';ctx.beginPath();ctx.roundRect(W*.5-35,H*.04,70,18,9);ctx.fill();ctx.fillStyle='#34d399';ctx.font='bold 10px system-ui';ctx.fillText('-'+pct+'%',W*.5,H*.16);t++;anims['cv-compress']=requestAnimationFrame(draw);}draw();}
+function initResize(){const cv=document.getElementById('cv-resize');if(!cv)return;const ctx=cv.getContext('2d');cv.width=W;cv.height=H;let t=0;const sizes=[{w:3840,l:'4K'},{w:1920,l:'Full HD'},{w:1280,l:'HD'},{w:640,l:'Small'}];function draw(){ctx.clearRect(0,0,W,H);ctx.fillStyle='#0a0a12';ctx.fillRect(0,0,W,H);const si=Math.floor(t/90)%sizes.length,pr=(t%90)/90;const nxt=(si+1)%sizes.length;const curS=Math.min(W*.65/3840,H*.8/2160),nxtS=Math.min(W*.65/sizes[nxt].w,H*.8/2160);const sc=curS+(nxtS-curS)*pr;const rw=3840*sc,rh=2160*sc,rx=(W-rw)/2,ry=(H-rh)/2;ctx.strokeStyle='#06b6d4';ctx.lineWidth=1.5;ctx.setLineDash([5,3]);ctx.strokeRect(rx,ry,rw,rh);ctx.setLineDash([]);ctx.fillStyle='rgba(6,182,212,0.07)';ctx.fillRect(rx,ry,rw,rh);[[rx,ry],[rx+rw,ry],[rx,ry+rh],[rx+rw,ry+rh]].forEach(([hx,hy])=>{ctx.fillStyle='#06b6d4';ctx.beginPath();ctx.arc(hx,hy,4,0,Math.PI*2);ctx.fill();});const lbl=pr<0.5?sizes[si].l:sizes[nxt].l,ww=pr<0.5?sizes[si].w:sizes[nxt].w;ctx.fillStyle='#06b6d4';ctx.font='bold 12px system-ui';ctx.textAlign='center';ctx.fillText(lbl+' — '+ww+'px',W/2,H*.92);t++;anims['cv-resize']=requestAnimationFrame(draw);}draw();}
+function initConvert(){const cv=document.getElementById('cv-convert');if(!cv)return;const ctx=cv.getContext('2d');cv.width=W;cv.height=H;let t=0;const fmts=['JPG','PNG','WEBP','BMP','GIF'],cols=['#ef4444','#3b82f6','#8b5cf6','#f59e0b','#10b981'];function draw(){ctx.clearRect(0,0,W,H);ctx.fillStyle='#0a0a12';ctx.fillRect(0,0,W,H);const idx=Math.floor(t/70)%fmts.length,pr=(t%70)/70;ctx.fillStyle='#1e1e2e';ctx.beginPath();ctx.roundRect(W*.08,H*.15,W*.22,H*.7,8);ctx.fill();ctx.fillStyle='#ef4444';ctx.font='bold 12px system-ui';ctx.textAlign='center';ctx.fillText('JPG',W*.19,H*.56);const ax=W*.38+pr*W*.08;ctx.fillStyle='#7070a0';ctx.font='18px system-ui';ctx.fillText('→',ax,H*.57);ctx.globalAlpha=Math.min(1,pr*3);ctx.fillStyle='#1a1a2e';ctx.beginPath();ctx.roundRect(W*.62,H*.15,W*.28,H*.7,8);ctx.fill();ctx.strokeStyle=cols[idx];ctx.lineWidth=2;ctx.stroke();ctx.fillStyle=cols[idx];ctx.font='bold 13px system-ui';ctx.textAlign='center';ctx.fillText(fmts[idx],W*.76,H*.56);ctx.globalAlpha=1;t++;anims['cv-convert']=requestAnimationFrame(draw);}draw();}
+function initPDF(){const cv=document.getElementById('cv-pdf');if(!cv)return;const ctx=cv.getContext('2d');cv.width=W;cv.height=H;let t=0;function draw(){ctx.clearRect(0,0,W,H);ctx.fillStyle='#0a0a12';ctx.fillRect(0,0,W,H);const pr=(t%120)/120;const imgs=[{x:W*.05,c:'#3b82f6'},{x:W*.28,c:'#10b981'},{x:W*.51,c:'#8b5cf6'}];imgs.forEach((img,i)=>{const delay=i*.15,p=Math.max(0,Math.min(1,(pr-delay)*2)),ty=H*.08+(1-p)*H*.3;ctx.globalAlpha=p;ctx.fillStyle=img.c+'33';ctx.beginPath();ctx.roundRect(img.x,ty,W*.2,H*.55,6);ctx.fill();ctx.strokeStyle=img.c;ctx.lineWidth=1;ctx.stroke();ctx.fillStyle=img.c;ctx.font='bold 9px system-ui';ctx.textAlign='center';ctx.fillText('IMG',img.x+W*.1,ty+H*.3);ctx.globalAlpha=1;});if(pr>.5){const ap=Math.min(1,(pr-.5)*4);ctx.globalAlpha=ap;ctx.fillStyle='#eab308';ctx.font='18px system-ui';ctx.textAlign='center';ctx.fillText('↓',W*.84,H*.38);ctx.fillStyle='#1a1200';ctx.beginPath();ctx.roundRect(W*.74,H*.48,W*.2,H*.44,8);ctx.fill();ctx.strokeStyle='#eab308';ctx.lineWidth=2;ctx.stroke();ctx.fillStyle='#eab308';ctx.font='bold 11px system-ui';ctx.fillText('PDF',W*.84,H*.74);ctx.globalAlpha=1;}t++;anims['cv-pdf']=requestAnimationFrame(draw);}draw();}
+function initCrop(){const cv=document.getElementById('cv-crop');if(!cv)return;const ctx=cv.getContext('2d');cv.width=W;cv.height=H;let t=0;function draw(){ctx.clearRect(0,0,W,H);const bg=ctx.createLinearGradient(0,0,W,H);bg.addColorStop(0,'#1a0a2e');bg.addColorStop(1,'#0a1a2e');ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);ctx.fillStyle='rgba(0,0,0,0.55)';ctx.fillRect(0,0,W,H);const p=(Math.sin(t*.018)+1)/2;const cw=W*.3+p*W*.35,ch=H*.3+p*H*.45,cx=(W-cw)/2,cy=(H-ch)/2;ctx.clearRect(cx,cy,cw,ch);const gi=ctx.createLinearGradient(cx,cy,cx+cw,cy+ch);gi.addColorStop(0,'#2d1b69');gi.addColorStop(1,'#1a3a6a');ctx.fillStyle=gi;ctx.fillRect(cx,cy,cw,ch);ctx.strokeStyle='#c084fc';ctx.lineWidth=2;ctx.strokeRect(cx,cy,cw,ch);const hs=7;[[cx,cy],[cx+cw,cy],[cx,cy+ch],[cx+cw,cy+ch]].forEach(([hx,hy])=>{ctx.fillStyle='#c084fc';ctx.fillRect(hx-hs/2,hy-hs/2,hs,hs);});ctx.strokeStyle='rgba(192,132,252,0.3)';ctx.lineWidth=1;ctx.setLineDash([3,3]);[1/3,2/3].forEach(f=>{ctx.beginPath();ctx.moveTo(cx+cw*f,cy);ctx.lineTo(cx+cw*f,cy+ch);ctx.stroke();ctx.beginPath();ctx.moveTo(cx,cy+ch*f);ctx.lineTo(cx+cw,cy+ch*f);ctx.stroke();});ctx.setLineDash([]);ctx.fillStyle='rgba(192,132,252,0.9)';ctx.font='bold 11px system-ui';ctx.textAlign='center';ctx.fillText(Math.round(cw/W*1920)+' × '+Math.round(ch/H*1080),cx+cw/2,cy+ch/2+4);t++;anims['cv-crop']=requestAnimationFrame(draw);}draw();}
+function initFlip(){const cv=document.getElementById('cv-flip');if(!cv)return;const ctx=cv.getContext('2d');cv.width=W;cv.height=H;let t=0;const steps=['Flip Horizontal','Flip Vertical','Rotate 90°','Rotate 180°'];function draw(){ctx.clearRect(0,0,W,H);ctx.fillStyle='#0a1218';ctx.fillRect(0,0,W,H);const si=Math.floor(t/80)%steps.length,pr=(t%80)/80;ctx.save();ctx.translate(W/2,H/2);if(si===0)ctx.scale(1-2*pr,1);else if(si===1)ctx.scale(1,1-2*pr);else if(si===2)ctx.rotate(pr*Math.PI/2);else ctx.rotate(pr*Math.PI);const rw=W*.42,rh=H*.72;const bg2=ctx.createLinearGradient(-rw/2,-rh/2,rw/2,rh/2);bg2.addColorStop(0,'#0d4a6e');bg2.addColorStop(1,'#0a2a4a');ctx.fillStyle=bg2;ctx.beginPath();ctx.roundRect(-rw/2,-rh/2,rw,rh,10);ctx.fill();ctx.strokeStyle='#14b8a6';ctx.lineWidth=2;ctx.stroke();ctx.fillStyle='#14b8a6';ctx.beginPath();ctx.arc(0,-rh*.22,rh*.1,0,Math.PI*2);ctx.fill();ctx.fillRect(-rh*.06,-rh*.12,rh*.12,rh*.22);ctx.fillRect(-rh*.15,-rh*.12,rh*.09,rh*.16);ctx.fillRect(rh*.06,-rh*.12,rh*.09,rh*.16);ctx.restore();ctx.fillStyle='rgba(20,184,166,0.9)';ctx.font='bold 11px system-ui';ctx.textAlign='center';ctx.fillText(steps[si],W/2,H*.93);t++;anims['cv-flip']=requestAnimationFrame(draw);}draw();}
+function initColor(){const cv=document.getElementById('cv-color');if(!cv)return;const ctx=cv.getContext('2d');cv.width=W;cv.height=H;let t=0;const palette=['#e63946','#2a9d8f','#e9c46a','#f4a261','#264653','#6366f1','#ec4899','#10b981'];function draw(){ctx.clearRect(0,0,W,H);ctx.fillStyle='#111118';ctx.fillRect(0,0,W,H);const cols=4,rows=2,sw=W*.55,bw=sw/cols,bh=H*.85/rows;palette.forEach((c,i)=>{const row=Math.floor(i/cols),col=i%cols;ctx.fillStyle=c;ctx.beginPath();ctx.roundRect(W*.02+col*bw,H*.08+row*bh,bw-4,bh-4,5);ctx.fill();});const ci=Math.floor(t/50)%palette.length,row=Math.floor(ci/cols),col=ci%cols;const mx=W*.02+col*bw+bw/2,my=H*.08+row*bh+bh/2;ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.beginPath();ctx.arc(mx,my,11,0,Math.PI*2);ctx.stroke();ctx.fillStyle='#1a1a2e';ctx.beginPath();ctx.roundRect(W*.6,H*.05,W*.38,H*.9,10);ctx.fill();ctx.strokeStyle='#333';ctx.lineWidth=1;ctx.stroke();ctx.fillStyle=palette[ci];ctx.beginPath();ctx.roundRect(W*.63,H*.1,W*.32,H*.38,8);ctx.fill();ctx.fillStyle='#fff';ctx.font='bold 10px monospace';ctx.textAlign='center';ctx.fillText(palette[ci].toUpperCase(),W*.79,H*.58);ctx.fillStyle='#7070a0';ctx.font='9px system-ui';ctx.fillText('HEX · RGB · HSL',W*.79,H*.7);t++;anims['cv-color']=requestAnimationFrame(draw);}draw();}
 
 window.addEventListener('load',function(){
-  initUpscale();initFace();initBG();initCompress();initResize();initConvert();initPDF();initCrop();initFlip();initColor();
+  initFace();initBG();initCompress();initResize();initConvert();initPDF();initCrop();initFlip();initColor();
   initRealSlider('slider-upscale','after-upscale','line-upscale');
+  // ✅ Page load pe Upscale tab active hai toh slider show karo
+  document.getElementById('slider-upscale').style.display='block';
 });
 })();
 
-// ── REAL IMAGE SLIDERS ──
 function initRealSlider(wrapperId,afterId,lineId){
-  const wrap=document.getElementById(wrapperId);
-  const after=document.getElementById(afterId);
-  const line=document.getElementById(lineId);
+  const wrap=document.getElementById(wrapperId);const after=document.getElementById(afterId);const line=document.getElementById(lineId);
   if(!wrap||!after||!line)return;
-  let dragging=false;
-  let animPos=10,animDir=1;
-  function setPos(pct){
-    after.style.clipPath=`inset(0 ${100-pct}% 0 0)`;
-    line.style.left=pct+'%';
-  }
-  function setPosMouse(x){
-    const rect=wrap.getBoundingClientRect();
-    setPos(Math.max(2,Math.min(98,((x-rect.left)/rect.width)*100)));
-  }
-  function autoAnim(){
-    if(!dragging){
-      animPos+=animDir*0.5;
-      if(animPos>90)animDir=-1;
-      if(animPos<10)animDir=1;
-      setPos(animPos);
-    }
-    requestAnimationFrame(autoAnim);
-  }
+  let dragging=false,animPos=10,animDir=1;
+  function setPos(pct){after.style.clipPath=`inset(0 ${100-pct}% 0 0)`;line.style.left=pct+'%';}
+  function setPosMouse(x){const rect=wrap.getBoundingClientRect();setPos(Math.max(2,Math.min(98,((x-rect.left)/rect.width)*100)));}
+  function autoAnim(){if(!dragging){animPos+=animDir*0.5;if(animPos>90)animDir=-1;if(animPos<10)animDir=1;setPos(animPos);}requestAnimationFrame(autoAnim);}
   autoAnim();
   wrap.addEventListener('mousedown',e=>{dragging=true;setPosMouse(e.clientX);});
   document.addEventListener('mouseup',()=>dragging=false);
@@ -2154,13 +1344,9 @@ function initRealSlider(wrapperId,afterId,lineId){
   document.addEventListener('touchmove',e=>{if(dragging)setPosMouse(e.touches[0].clientX);},{passive:true});
 }
 
-// ── TOAST ──
 function toast(icon,msg){
-  const t=document.getElementById('toast');
-  document.getElementById('ti').textContent=icon+' ';
-  document.getElementById('tm').textContent=msg;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),3500);
+  const t=document.getElementById('toast');document.getElementById('ti').textContent=icon+' ';document.getElementById('tm').textContent=msg;
+  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500);
 }
 </script>
 </body>
