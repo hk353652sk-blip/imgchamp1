@@ -525,7 +525,19 @@ footer p{font-size:.74rem;color:var(--muted2)}
 
     <!-- Panel 0: Upscale — anchor: #upscale-image -->
     <div class="panel active" id="upscale-image">
-      <div class="tool-preview-box" style="margin-bottom:1rem"><canvas id="cv-upscale"></canvas><div class="div-line" id="dl-upscale"><div class="div-handle">⟷</div></div><div class="prev-label-b">Before</div><div class="prev-label-a" style="background:rgba(99,102,241,0.85);color:#fff">After — 8× Sharp</div></div>
+      <div class="tool-preview-box" style="margin-bottom:1rem;height:200px;cursor:ew-resize;user-select:none" id="slider-upscale">
+  <div style="position:absolute;inset:0;overflow:hidden;border-radius:14px">
+    <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800" style="width:100%;height:200px;object-fit:cover;filter:blur(4px) brightness(0.85);display:block">
+  </div>
+  <div style="position:absolute;inset:0;overflow:hidden;border-radius:14px;clip-path:inset(0 50% 0 0)" id="after-upscale">
+    <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800" style="width:100%;height:200px;object-fit:cover;display:block">
+  </div>
+  <div style="position:absolute;top:0;bottom:0;left:50%;width:2px;background:#818cf8;transform:translateX(-50%)" id="line-upscale">
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:28px;height:28px;border-radius:50%;background:#818cf8;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700">⟷</div>
+  </div>
+  <div class="prev-label-b">Before — Blurry</div>
+  <div class="prev-label-a" style="background:rgba(99,102,241,0.85);color:#fff">After — 8× Sharp</div>
+</div>
       <div class="th"><div class="thi ic0"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg></div>
         <div><h3>AI Image Upscaler <span class="bf">1 Credit/Image</span></h3>
         <p>Enhance and upscale images up to 8×. Free = low quality + watermark. <span class="bp">⭐ HD = Upgrade</span></p></div>
@@ -2102,6 +2114,31 @@ window.addEventListener('load',function(){
   initUpscale();initFace();initBG();initCompress();initResize();initConvert();initPDF();initCrop();initFlip();initColor();
 });
 })();
+
+// ── REAL IMAGE SLIDERS ──
+function initRealSlider(wrapperId,afterId,lineId){
+  const wrap=document.getElementById(wrapperId);
+  const after=document.getElementById(afterId);
+  const line=document.getElementById(lineId);
+  if(!wrap||!after||!line)return;
+  let dragging=false;
+  function setPos(x){
+    const rect=wrap.getBoundingClientRect();
+    let pct=Math.max(2,Math.min(98,((x-rect.left)/rect.width)*100));
+    after.style.clipPath=`inset(0 ${100-pct}% 0 0)`;
+    line.style.left=pct+'%';
+  }
+  wrap.addEventListener('mousedown',e=>{dragging=true;setPos(e.clientX);});
+  document.addEventListener('mouseup',()=>dragging=false);
+  document.addEventListener('mousemove',e=>{if(dragging)setPos(e.clientX);});
+  wrap.addEventListener('touchstart',e=>{dragging=true;setPos(e.touches[0].clientX);},{passive:true});
+  document.addEventListener('touchend',()=>dragging=false);
+  document.addEventListener('touchmove',e=>{if(dragging)setPos(e.touches[0].clientX);},{passive:true});
+}
+
+window.addEventListener('load',function(){
+  initRealSlider('slider-upscale','after-upscale','line-upscale');
+});
 
 // ── TOAST ──
 function toast(icon,msg){
