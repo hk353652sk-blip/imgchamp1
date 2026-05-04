@@ -337,6 +337,10 @@ footer p{font-size:.74rem;color:var(--muted2)}
 .toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:14px;padding:.85rem 1.2rem;font-size:.82rem;z-index:9999;transform:translateY(80px);opacity:0;transition:all .4s cubic-bezier(.34,1.56,.64,1);max-width:260px;display:flex;align-items:center;gap:.45rem;box-shadow:0 10px 40px rgba(0,0,0,0.4)}
 .toast.show{transform:translateY(0);opacity:1}
 @keyframes fu{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* ✅ FIX 1: Slider default hidden — sirf Upscale tab pe dikhega */
+#slider-upscale{display:none}
+
 @media(max-width:600px){
   .tb{font-size:.56rem;padding:.45rem .1rem}.ti{font-size:.95rem}
   nav .btn-lo{display:none}
@@ -421,19 +425,10 @@ footer p{font-size:.74rem;color:var(--muted2)}
 </section>
 <div class="tw" id="tools">
   <div class="tn">
-
-    <!-- ★ TAB 1: UPSCALE — slider handle added -->
-    <button class="tb active" onclick="switchTab(0)" id="tab-upscale" style="padding:0;overflow:hidden;border-radius:12px;position:relative;min-height:110px;width:100%"><div style="position:relative;width:100%;height:88px;overflow:hidden"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400" style="width:100%;height:100%;object-fit:cover;object-position:center 25%;filter:blur(3px) brightness(0.7);display:block"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 25%;filter:none;clip-path:inset(0 50% 0 0)" id="tab-sl-after"><div style="position:absolute;top:0;bottom:0;left:50%;width:2px;background:#818cf8;z-index:5" id="tab-sl-line"><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:20px;height:20px;border-radius:50%;background:#818cf8;display:flex;align-items:center;justify-content:center;color:#fff;font-size:9px;box-shadow:0 0 8px rgba(129,140,248,0.5);pointer-events:none">⟷</div></div></div><span style="display:block;padding:.3rem 0;font-size:.68rem;font-weight:700">Upscale</span></button>
-
-    <!-- ★ TAB 2: FACE RESTORE — slider handle added -->
-    <button class="tb" onclick="switchTab(1)" id="tab-face" style="padding:0;overflow:hidden;border-radius:12px;position:relative;min-height:110px;width:100%"><div style="position:relative;width:100%;height:88px;overflow:hidden"><img src="https://imgchamp1.vercel.app/face-before.jpg.png" style="width:100%;height:100%;object-fit:cover;object-position:center 20%;filter:none;display:block"><img src="https://imgchamp1.vercel.app/face-after.jpg.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;filter:none;clip-path:inset(0 50% 0 0)" id="tab-sl-after-face"><div style="position:absolute;top:0;bottom:0;left:50%;width:2px;background:#f59e0b;z-index:5" id="tab-sl-line-face"><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:20px;height:20px;border-radius:50%;background:#f59e0b;display:flex;align-items:center;justify-content:center;color:#fff;font-size:9px;box-shadow:0 0 8px rgba(245,158,11,0.5);pointer-events:none">⟷</div></div></div><span style="display:block;padding:.3rem 0;font-size:.68rem;font-weight:700">Face Restore</span></button>
-
-    <!-- ★ TAB 3: BG REMOVE — checker fix + slider handle -->
-    <button class="tb" onclick="switchTab(2)" id="tab-bg" style="padding:0;overflow:hidden;border-radius:12px;position:relative;min-height:110px;width:100%"><div style="position:relative;width:100%;height:88px;overflow:hidden"><img src="https://imgchamp1.vercel.app/bg-before.jpg.png" style="width:100%;height:100%;object-fit:cover;object-position:center 50%;filter:none;display:block"><div style="position:absolute;inset:0;clip-path:inset(0 50% 0 0);background-image:repeating-conic-gradient(#808080 0% 25%,#fff 0% 50%);background-size:16px 16px;z-index:1" id="tab-bg-checker"></div><img src="https://imgchamp1.vercel.app/bg-after.jpg.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 50%;filter:none;clip-path:inset(0 50% 0 0);mix-blend-mode:screen;z-index:2" id="tab-sl-after-bg"><div style="position:absolute;top:0;bottom:0;left:50%;width:2px;background:#10b981;z-index:5" id="tab-sl-line-bg"><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:20px;height:20px;border-radius:50%;background:#10b981;display:flex;align-items:center;justify-content:center;color:#fff;font-size:9px;box-shadow:0 0 8px rgba(16,185,129,0.5);pointer-events:none">⟷</div></div></div><span style="display:block;padding:.3rem 0;font-size:.68rem;font-weight:700">BG Remove</span></button>
-
-    <!-- ★ TAB 4: COMPRESS — labels clipped + slider handle -->
-    <button class="tb" onclick="switchTab(3)" id="tab-compress" style="padding:0;overflow:hidden;border-radius:12px;position:relative;min-height:110px;width:100%"><div style="position:relative;width:100%;height:88px;overflow:hidden"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400" style="width:100%;height:100%;object-fit:cover;object-position:center 30%;filter:blur(3px) brightness(0.7);display:block"><div data-cmp-label-before style="position:absolute;top:5px;left:6px;background:rgba(239,68,68,0.85);color:#fff;font-size:8px;font-weight:800;padding:2px 6px;border-radius:6px;pointer-events:none;z-index:10;clip-path:inset(0 0 0 50%)">10.0 MB</div><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;filter:blur(0px) brightness(1);clip-path:inset(0 50% 0 0)" id="tab-sl-after-compress"><div id="tab-compress-label" style="position:absolute;bottom:5px;right:6px;background:rgba(167,139,250,0.92);color:#fff;font-size:8px;font-weight:800;padding:2px 6px;border-radius:6px;pointer-events:none;z-index:10;clip-path:inset(0 50% 0 0)">520 KB ✓</div><div style="position:absolute;top:0;bottom:0;left:50%;width:2px;background:#a78bfa;z-index:5" id="tab-sl-line-compress"><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:20px;height:20px;border-radius:50%;background:#a78bfa;display:flex;align-items:center;justify-content:center;color:#fff;font-size:9px;box-shadow:0 0 8px rgba(167,139,250,0.5);pointer-events:none">⟷</div></div></div><span style="display:block;padding:.3rem 0;font-size:.68rem;font-weight:700">Compress</span></button>
-
+    <button class="tb active" onclick="switchTab(0)" id="tab-upscale" style="padding:0;overflow:hidden;border-radius:12px;position:relative;min-height:110px;width:100%"><div style="position:relative;width:100%;height:88px;overflow:hidden"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400" style="width:100%;height:100%;object-fit:cover;object-position:center 25%;filter:blur(3px) brightness(0.7);display:block"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 25%;filter:none;clip-path:inset(0 50% 0 0)" id="tab-sl-after"><div style="position:absolute;top:0;bottom:0;left:50%;width:2px;background:#818cf8" id="tab-sl-line"></div></div><span style="display:block;padding:.3rem 0;font-size:.68rem;font-weight:700">Upscale</span></button>
+    <button class="tb" onclick="switchTab(1)" id="tab-face" style="padding:0;overflow:hidden;border-radius:12px;position:relative;min-height:110px;width:100%"><div style="position:relative;width:100%;height:88px;overflow:hidden"><img src="https://imgchamp1.vercel.app/face-before.jpg.png" style="width:100%;height:100%;object-fit:cover;object-position:center 20%;filter:none;display:block"><img src="https://imgchamp1.vercel.app/face-after.jpg.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;filter:none;clip-path:inset(0 50% 0 0)" id="tab-sl-after-face"><div style="position:absolute;top:0;bottom:0;left:50%;width:2px;background:#f59e0b" id="tab-sl-line-face"></div></div><span style="display:block;padding:.3rem 0;font-size:.68rem;font-weight:700">Face Restore</span></button>
+    <button class="tb" onclick="switchTab(2)" id="tab-bg" style="padding:0;overflow:hidden;border-radius:12px;position:relative;min-height:110px;width:100%"><div style="position:relative;width:100%;height:88px;overflow:hidden"><img src="https://imgchamp1.vercel.app/bg-before.jpg.png" style="width:100%;height:100%;object-fit:cover;object-position:center 50%;filter:none;display:block"><img src="https://imgchamp1.vercel.app/bg-after.jpg.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 50%;filter:none;clip-path:inset(0 50% 0 0);mix-blend-mode:screen;background:repeating-conic-gradient(#808080 0% 25%,#fff 0% 50%) 0 0/16px 16px" id="tab-sl-after-bg"><div style="position:absolute;top:0;bottom:0;left:50%;width:2px;background:#10b981" id="tab-sl-line-bg"></div></div><span style="display:block;padding:.3rem 0;font-size:.68rem;font-weight:700">BG Remove</span></button>
+    <button class="tb" onclick="switchTab(3)" id="tab-compress" style="padding:0;overflow:hidden;border-radius:12px;position:relative;min-height:110px;width:100%"><div style="position:relative;width:100%;height:88px;overflow:hidden"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400" style="width:100%;height:100%;object-fit:cover;object-position:center 30%;filter:blur(3px) brightness(0.7);display:block"><div style="position:absolute;top:5px;left:6px;background:rgba(239,68,68,0.85);color:#fff;font-size:8px;font-weight:800;padding:2px 6px;border-radius:6px;pointer-events:none;z-index:10">10.0 MB</div><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;filter:blur(0px) brightness(1);clip-path:inset(0 50% 0 0)" id="tab-sl-after-compress"><div id="tab-compress-label" style="position:absolute;bottom:5px;right:6px;background:rgba(167,139,250,0.92);color:#fff;font-size:8px;font-weight:800;padding:2px 6px;border-radius:6px;pointer-events:none;z-index:10">520 KB ✓</div><div style="position:absolute;top:0;bottom:0;left:50%;width:2px;background:#a78bfa" id="tab-sl-line-compress"></div></div><span style="display:block;padding:.3rem 0;font-size:.68rem;font-weight:700">Compress</span></button>
   </div>
   <div class="tn2">
     <button class="tb" onclick="switchTab(4)" id="tab-resize"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></span>Resize</button>
@@ -866,12 +861,14 @@ function updCr(){
 }
 updCr();
 
+// ✅ FIX 2: switchTab — slider sirf tab 0 (Upscale) pe dikhega
 function switchTab(i){
   curTab=i;
   document.querySelectorAll('.tb').forEach((b,x)=>b.classList.toggle('active',x===i));
   document.querySelectorAll('.panel').forEach((p,x)=>{p.classList.toggle('active',x===i);});
   document.getElementById('tools').scrollIntoView({behavior:'smooth',block:'start'});
   if(i===7&&cropperInstance){cropperInstance.destroy();cropperInstance=null;}
+  
 }
 
 function resetTab(i){
@@ -885,4 +882,520 @@ function initPanel(i){
   if(i===7){document.getElementById('crop-editor').style.display='none';if(cropperInstance){cropperInstance.destroy();cropperInstance=null;}}
   if(i===8){document.getElementById('flip-editor').style.display='none';frTransforms=[];frOrigImage=null;}
 }
-function tFile(i){const inp=document.querySelector('#dz'+i+'
+function tFile(i){const inp=document.querySelector('#dz'+i+' input');if(inp)inp.click();}
+
+function onFile(t,inp){
+  if(!inp.files||!inp.files.length)return;
+  const count=inp.files.length;
+  const fname=count>1?count+' images selected':inp.files[0].name;
+  toast('🖼️',count>1?count+' images ready!':'"'+inp.files[0].name+'" ready!');
+  const dz=document.getElementById('dz'+t);if(!dz)return;
+  const existingInput=dz.querySelector('input');
+  dz.innerHTML='';dz.appendChild(existingInput);
+  existingInput.onchange=function(){onFile(t,this);};
+  if(count>1){
+    const grid=document.createElement('div');
+    grid.style.cssText='display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:6px;padding:10px;max-height:200px;overflow-y:auto;';
+    Array.from(inp.files).forEach((file,idx)=>{
+      const wrapper=document.createElement('div');wrapper.style.cssText='position:relative;border-radius:8px;overflow:hidden;aspect-ratio:1;background:rgba(0,0,0,0.3);';
+      const img=document.createElement('img');img.style.cssText='width:100%;height:100%;object-fit:cover;display:block;border-radius:8px;';
+      const num=document.createElement('span');num.style.cssText='position:absolute;bottom:3px;right:4px;font-size:.58rem;font-weight:700;color:#fff;background:rgba(0,0,0,0.6);border-radius:4px;padding:1px 4px;';
+      num.textContent=idx+1;
+      const reader=new FileReader();reader.onload=function(e){img.src=e.target.result;};reader.readAsDataURL(file);
+      wrapper.appendChild(img);wrapper.appendChild(num);grid.appendChild(wrapper);
+    });
+    const bottom=document.createElement('div');bottom.className='dz-bottom';
+    bottom.innerHTML=`<span class="dz-fname">📁 ${fname}</span><button class="dz-change" onclick="tFile(${t})">Change Images</button>`;
+    dz.appendChild(grid);dz.appendChild(bottom);dz.style.borderColor='var(--accent)';
+  }else{
+    const reader=new FileReader();
+    reader.onload=function(e){
+      const preview=document.createElement('img');preview.className='dz-preview';preview.src=e.target.result;
+      const bottom=document.createElement('div');bottom.className='dz-bottom';
+      bottom.innerHTML=`<span class="dz-fname">${fname}</span><button class="dz-change" onclick="tFile(${t})">Change Image</button>`;
+      dz.appendChild(preview);dz.appendChild(bottom);dz.style.borderColor='var(--accent)';
+    };
+    reader.readAsDataURL(inp.files[0]);
+  }
+}
+
+function attachDZ(i){
+  const d=document.getElementById('dz'+i);if(!d)return;
+  d.addEventListener('dragover',e=>{e.preventDefault();d.classList.add('drag-over')});
+  d.addEventListener('dragleave',()=>d.classList.remove('drag-over'));
+  d.addEventListener('drop',e=>{
+    e.preventDefault();d.classList.remove('drag-over');
+    if(e.dataTransfer.files&&e.dataTransfer.files.length){
+      const input=d.querySelector('input');const dt=new DataTransfer();
+      if(i===3||i===5||i===6){Array.from(e.dataTransfer.files).forEach(f=>dt.items.add(f));}
+      else{dt.items.add(e.dataTransfer.files[0]);}
+      input.files=dt.files;
+      if(i===4)onFileResize(input);else if(i===7)onFileCrop(input);else if(i===8)onFileFlip(input);else onFile(i,input);
+    }
+  });
+}
+[0,1,2,3,4,5,6,7,8,9].forEach(i=>attachDZ(i));
+
+function addJob(title,subtitle){
+  const id=++jobCounter;jobs[id]={id,title,cancelled:false};abortControllers[id]=new AbortController();isProcessing=true;
+  const bar=document.getElementById('jobs-bar');const div=document.createElement('div');div.className='job-item';div.id='job-'+id;
+  div.innerHTML=`<span class="job-spin">🥊</span><div class="job-info"><div class="job-title">${title}</div><div class="job-sub">${subtitle}</div></div><button class="job-cancel" onclick="showCancelPopup(${id})">✕</button>`;
+  bar.appendChild(div);return id;
+}
+function removeJob(id){const el=document.getElementById('job-'+id);if(el)el.remove();delete jobs[id];if(Object.keys(jobs).length===0)isProcessing=false;}
+function completeJob(id,title,downloadUrl,filename){
+  const el=document.getElementById('job-'+id);if(!el)return;
+  el.innerHTML=`<span class="job-done">✅</span><div class="job-info"><div class="job-title">${title}</div><a class="job-dl" href="${downloadUrl}" download="${filename}">⬇ Download</a></div><button class="job-cancel" onclick="removeJob(${id})">✕</button>`;
+  isProcessing=false;setTimeout(()=>removeJob(id),15000);
+}
+function errorJob(id,msg){
+  const el=document.getElementById('job-'+id);if(!el)return;
+  el.innerHTML=`<span class="job-done">❌</span><div class="job-info"><div class="job-title">Failed</div><div class="job-sub">${msg}</div></div><button class="job-cancel" onclick="removeJob(${id})">✕</button>`;
+  isProcessing=false;setTimeout(()=>removeJob(id),5000);
+}
+function startProgress(id){
+  let w=0;
+  const iv=setInterval(()=>{w+=Math.random()*8+3;if(w>95)w=95;const pf=document.getElementById('pgf'+id);const pc=document.getElementById('ppc'+id);if(pf)pf.style.width=w+'%';if(pc)pc.textContent=Math.round(w)+'%';},200);
+  return iv;
+}
+function finishProgress(id,iv){clearInterval(iv);const pf=document.getElementById('pgf'+id);const pc=document.getElementById('ppc'+id);if(pf)pf.style.width='100%';if(pc)pc.textContent='100%';}
+function showProcessing(panelEl,tabIdx,imgSrc,msgText,subText){
+  const imgHtml=imgSrc?`<div class="proc-overlay"><img class="proc-img-blur" src="${imgSrc}"><div class="boxing-anim"><span class="glove-l">🥊</span><span style="font-size:1.5rem">💥</span><span class="glove-r" style="transform:scaleX(-1)">🥊</span></div></div>`:`<div class="ps">⚙️</div>`;
+  panelEl.innerHTML=`<div class="proc">${imgHtml}<div class="pt">${msgText}</div><div class="pp">${subText}</div><div class="pgt"><div class="pgf" id="pgf${tabIdx}"></div></div><p class="ppc" id="ppc${tabIdx}">0%</p></div>`;
+}
+function makeDownloadBtn(url,filename,previewSize,maxSize){
+  return `<div class="dl-wrap"><a class="dlh" href="${url}" download="${filename}">⬇ Download</a><button class="dl-arr" onclick="toggleDlDropdown(this)">▾</button><div class="dl-dropdown"><a class="dl-opt" href="${url}" download="${filename}"><div class="dl-opt-l"><span class="dl-opt-icon">👁️</span><div><div class="dl-opt-name">Preview Quality</div><div class="dl-opt-size">${previewSize}</div></div></div><span class="dl-opt-badge free">Free</span></a><div class="dl-opt" onclick="showUpgrade();toggleDlDropdown(this.parentElement.querySelector('.dl-arr'))"><div class="dl-opt-l"><span class="dl-opt-icon">⚡</span><div><div class="dl-opt-name">Max HD</div><div class="dl-opt-size">${maxSize}</div></div></div><span class="dl-opt-badge lock">Unlock</span></div></div></div>`;
+}
+function toggleDlDropdown(btn){
+  const dd=btn.nextElementSibling;dd.classList.toggle('show');
+  document.addEventListener('click',function close(e){if(!btn.parentElement.contains(e.target)){dd.classList.remove('show');document.removeEventListener('click',close);}});
+}
+
+async function runBG(){
+  const input=document.querySelector('#dz2 input');
+  if(!input||!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
+  const imgSrc=URL.createObjectURL(input.files[0]);
+  const p=document.getElementById('remove-background');
+  showProcessing(p,2,imgSrc,'Removing background...','AI is working — no credit used!');
+  const iv=startProgress(2);const jobId=addJob('BG Remove','Processing...');
+  try{
+    const fd=new FormData();fd.append('file',input.files[0]);
+    const res=await fetch(BACKEND+'/bg-remove',{method:'POST',body:fd,signal:abortControllers[jobId]?.signal});
+    if(jobs[jobId]&&jobs[jobId].cancelled)return;
+    const blob=await res.blob();finishProgress(2,iv);
+    const url=URL.createObjectURL(blob);
+    completeJob(jobId,'Background Removed!',url,'imgchamp_bg_removed.png');
+    setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Background Removed! ✂️</div><div class="rs">Done! Download below.</div><div class="rbs">${makeDownloadBtn(url,'imgchamp_bg_removed.png','Standard PNG','Full HD PNG')}</div><button class="rl" onclick="resetTab(2)">↺ Remove another</button></div>`;},400);
+  }catch(e){
+    finishProgress(2,iv);if(e.name==='AbortError'){resetTab(2);return;}
+    errorJob(jobId,'Server error');
+    p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Please try again.</div><button class="rl" onclick="resetTab(2)">↺ Try Again</button></div>`;
+  }
+}
+
+async function run(t){
+  if(credits<=0){showUpgrade();return}
+  const input=document.querySelector('#dz'+t+' input');
+  if(!input||!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
+  const imgSrc=URL.createObjectURL(input.files[0]);
+  credits--;updCr();
+  const p=document.getElementById(panelIds[t]);
+  showProcessing(p,t,imgSrc,tN[t]+'...','AI is working on your image');
+  const iv=startProgress(t);const jobId=addJob(tN[t],'Processing...');
+  try{
+    const fd=new FormData();fd.append('file',input.files[0]);
+    if(t===3){const qMap={light:92,medium:82,max:70};fd.append('quality',qMap[compressLevel]);}
+    const res=await fetch(BACKEND+'/'+endpoints[t],{method:'POST',body:fd,signal:abortControllers[jobId]?.signal});
+    if(jobs[jobId]&&jobs[jobId].cancelled)return;
+    const blob=await res.blob();finishProgress(t,iv);
+    const url=URL.createObjectURL(blob);
+    completeJob(jobId,tD[t],url,'imgchamp_result.png');
+    setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">${tD[t]}</div><div class="rs">Done! Your processed image is ready.</div><div class="rbs">${makeDownloadBtn(url,'imgchamp_result.png','Standard quality','Full HD')}</div><button class="rl" onclick="resetTab(${t})">↺ Process another</button></div>`;},400);
+  }catch(e){
+    finishProgress(t,iv);if(e.name==='AbortError'){resetTab(t);return;}
+    credits++;updCr();errorJob(jobId,'Server error — credit refunded');
+    p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Credit refunded. Please try again.</div><button class="rl" onclick="resetTab(${t})">↺ Try Again</button></div>`;
+  }
+}
+
+function selCompress(el,level){compressLevel=level;document.querySelectorAll('#compress-image .sz-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');}
+
+let rzUnit='px';
+function selUnit(el,unit){
+  rzUnit=unit;document.querySelectorAll('#rz-unit-btns .fmt-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');
+  const dpiRow=document.getElementById('dpi-row');dpiRow.style.display=(unit==='in'||unit==='cm')?'flex':'none';
+  const uLabel={'px':'px','in':'in','cm':'cm','pct':'%'}[unit];
+  document.getElementById('rz-w-unit').textContent=uLabel;document.getElementById('rz-h-unit').textContent=uLabel;
+  if(rzOrigW){
+    const dpi=parseInt(document.getElementById('rz-dpi').value)||72;let w=rzOrigW,h=rzOrigH;
+    if(unit==='in'){w=+(rzOrigW/dpi).toFixed(2);h=+(rzOrigH/dpi).toFixed(2);}
+    else if(unit==='cm'){w=+(rzOrigW/dpi*2.54).toFixed(2);h=+(rzOrigH/dpi*2.54).toFixed(2);}
+    else if(unit==='pct'){w=100;h=100;}
+    document.getElementById('rz-w').value=w;document.getElementById('rz-h').value=h;
+  }
+}
+function getPixelDimensions(){
+  const dpi=parseInt(document.getElementById('rz-dpi').value)||72;
+  let w=parseFloat(document.getElementById('rz-w').value)||0;let h=parseFloat(document.getElementById('rz-h').value)||0;
+  if(rzUnit==='in'){w=Math.round(w*dpi);h=Math.round(h*dpi);}
+  else if(rzUnit==='cm'){w=Math.round(w/2.54*dpi);h=Math.round(h/2.54*dpi);}
+  else if(rzUnit==='pct'){w=Math.round(rzOrigW*w/100);h=Math.round(rzOrigH*h/100);}
+  else{w=Math.round(w);h=Math.round(h);}
+  return{w,h};
+}
+
+function onFileResize(inp){
+  if(!inp.files||!inp.files[0])return;
+  toast('🖼️','"'+inp.files[0].name+'" ready!');
+  const img=new Image();const url=URL.createObjectURL(inp.files[0]);
+  img.onload=function(){
+    rzOrigW=img.width;rzOrigH=img.height;rzAspect=img.width/img.height;
+    const oi=document.getElementById('orig-info');if(oi)oi.textContent='Original: '+rzOrigW+' × '+rzOrigH+' px';
+    const rw=document.getElementById('rz-w');const rh=document.getElementById('rz-h');
+    if(rw)rw.value=rzOrigW;if(rh)rh.value=rzOrigH;
+    const ro=document.getElementById('resize-options');if(ro)ro.style.display='block';
+    const dz=document.getElementById('dz4');
+    if(dz){
+      const existingInput=dz.querySelector('input');dz.innerHTML='';dz.appendChild(existingInput);existingInput.onchange=function(){onFileResize(this);};
+      const preview=document.createElement('img');preview.className='dz-preview';preview.src=url;
+      const bottom=document.createElement('div');bottom.className='dz-bottom';bottom.innerHTML=`<span class="dz-fname">${inp.files[0].name}</span><button class="dz-change" onclick="tFile(4)">Change Image</button>`;
+      dz.appendChild(preview);dz.appendChild(bottom);dz.style.borderColor='var(--accent)';
+    }
+  };img.src=url;
+}
+function applyPreset(btn,size){
+  document.querySelectorAll('#resize-preset-btns .sz-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
+  const presetW={small:640,hd:1080,medium:1280,large:1920,'2k':2560,'4k':3840};
+  let w=presetW[size]||640;w=Math.min(w,rzOrigW||w);const h=Math.round(w/(rzAspect||1));
+  const rw=document.getElementById('rz-w');const rh=document.getElementById('rz-h');if(rw)rw.value=w;if(rh)rh.value=h;
+}
+function syncAspect(changed){
+  const lock=document.getElementById('rz-lock');if(!lock||!lock.checked)return;
+  if(changed==='w'){const w=parseInt(document.getElementById('rz-w').value)||0;document.getElementById('rz-h').value=Math.round(w/(rzAspect||1))||'';}
+  else{const h=parseInt(document.getElementById('rz-h').value)||0;document.getElementById('rz-w').value=Math.round(h*(rzAspect||1))||'';}
+}
+async function runResize(){
+  const input=document.querySelector('#dz4 input');if(!input||!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
+  const{w,h}=getPixelDimensions();if(!w||!h||w<1||h<1){toast('⚠️','Please enter valid dimensions!');return}
+  const imgSrc=URL.createObjectURL(input.files[0]);const p=document.getElementById('resize-image');
+  showProcessing(p,4,imgSrc,'Resizing image...','Processing — no credit used!');
+  const iv=startProgress(4);const jobId=addJob('Resize','Processing...');
+  try{
+    const fd=new FormData();fd.append('file',input.files[0]);fd.append('width',w);fd.append('height',h);
+    const res=await fetch(BACKEND+'/resize',{method:'POST',body:fd,signal:abortControllers[jobId]?.signal});
+    if(jobs[jobId]&&jobs[jobId].cancelled)return;
+    const blob=await res.blob();finishProgress(4,iv);const url=URL.createObjectURL(blob);
+    completeJob(jobId,'Image Resized!',url,'imgchamp_resized.png');
+    setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Image Resized! 📐</div><div class="rs">New size: ${w} × ${h} px</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_resized.png">⬇ Download</a></div><button class="rl" onclick="resetTab(4)">↺ Resize another</button></div>`;},400);
+  }catch(e){
+    finishProgress(4,iv);if(e.name==='AbortError'){resetTab(4);return;}errorJob(jobId,'Server error');
+    p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Please try again.</div><button class="rl" onclick="resetTab(4)">↺ Try Again</button></div>`;
+  }
+}
+
+function selFmt(el,fmt){document.querySelectorAll('.fmt-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');selFmtVal=fmt;}
+async function runConvert(){
+  const input=document.querySelector('#dz5 input');if(!input||!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
+  const files=Array.from(input.files);const imgSrc=URL.createObjectURL(files[0]);const p=document.getElementById('convert-image');
+  showProcessing(p,5,imgSrc,'Converting '+files.length+' image(s) to '+selFmtVal.toUpperCase()+'...','Processing — no credit used!');
+  const iv=startProgress(5);const jobId=addJob('Convert','Processing...');
+  try{
+    const ext=selFmtVal==='jpeg'?'jpg':selFmtVal;const urls=[];
+    for(const f of files){
+      const fd=new FormData();fd.append('file',f);fd.append('format',selFmtVal);
+      const res=await fetch(BACKEND+'/convert',{method:'POST',body:fd,signal:abortControllers[jobId]?.signal});
+      const blob=await res.blob();urls.push({url:URL.createObjectURL(blob),name:f.name.replace(/\.[^.]+$/,'.'+ext)});
+    }
+    finishProgress(5,iv);completeJob(jobId,'Format Converted!',urls[0].url,urls[0].name);
+    const dlLinks=urls.map(u=>`<a class="dlh" href="${u.url}" download="${u.name}">⬇ ${u.name}</a>`).join('');
+    setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Format Converted! 🔄</div><div class="rs">${urls.length} file(s) converted to ${ext.toUpperCase()}</div><div class="rbs" style="flex-direction:column;align-items:center;gap:.4rem">${dlLinks}</div><button class="rl" onclick="resetTab(5)">↺ Convert another</button></div>`;},400);
+  }catch(e){
+    finishProgress(5,iv);if(e.name==='AbortError'){resetTab(5);return;}errorJob(jobId,'Server error');
+    p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Please try again.</div><button class="rl" onclick="resetTab(5)">↺ Try Again</button></div>`;
+  }
+}
+
+function selPdfMode(el,mode){pdfMode=mode;document.querySelectorAll('#image-to-pdf .fmt-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');}
+async function runPDF(){
+  const input=document.querySelector('#dz6 input');if(!input||!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
+  const files=Array.from(input.files);const imgSrc=URL.createObjectURL(files[0]);const p=document.getElementById('image-to-pdf');
+  showProcessing(p,6,imgSrc,'Converting '+files.length+' image(s) to PDF...','Processing — no credit used!');
+  const iv=startProgress(6);const jobId=addJob('Image to PDF','Processing...');
+  try{
+    if(pdfMode==='separate'&&files.length>1){
+      const pdfUrls=[];
+      for(const f of files){const fd=new FormData();fd.append('files',f);const res=await fetch(BACKEND+'/image-to-pdf',{method:'POST',body:fd,signal:abortControllers[jobId]?.signal});const blob=await res.blob();pdfUrls.push({url:URL.createObjectURL(blob),name:f.name.replace(/\.[^.]+$/,'.pdf')});}
+      finishProgress(6,iv);completeJob(jobId,'PDFs Created!',pdfUrls[0].url,pdfUrls[0].name);
+      const dlLinks=pdfUrls.map(u=>`<a class="dlh" href="${u.url}" download="${u.name}">⬇ ${u.name}</a>`).join('');
+      setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Separate PDFs Created! 📑</div><div class="rs">${pdfUrls.length} PDF files ready.</div><div class="rbs" style="flex-direction:column;align-items:center;gap:.4rem">${dlLinks}</div><button class="rl" onclick="resetTab(6)">↺ Convert another</button></div>`;},400);
+    }else{
+      const fd=new FormData();files.forEach(f=>fd.append('files',f));
+      const res=await fetch(BACKEND+'/image-to-pdf',{method:'POST',body:fd,signal:abortControllers[jobId]?.signal});
+      if(jobs[jobId]&&jobs[jobId].cancelled)return;
+      const blob=await res.blob();finishProgress(6,iv);const url=URL.createObjectURL(blob);
+      completeJob(jobId,'PDF Created!',url,'imgchamp_document.pdf');
+      setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">PDF Created! 📄</div><div class="rs">Your PDF is ready.</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_document.pdf">⬇ Download PDF</a></div><button class="rl" onclick="resetTab(6)">↺ Convert another</button></div>`;},400);
+    }
+  }catch(e){
+    finishProgress(6,iv);if(e.name==='AbortError'){resetTab(6);return;}errorJob(jobId,'Server error');
+    p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Please try again.</div><button class="rl" onclick="resetTab(6)">↺ Try Again</button></div>`;
+  }
+}
+
+function onFileCrop(inp){
+  if(!inp.files||!inp.files[0])return;
+  toast('🖼️','"'+inp.files[0].name+'" ready!');
+  const url=URL.createObjectURL(inp.files[0]);cropOrigW=0;cropOrigH=0;
+  const ce=document.getElementById('crop-editor');if(ce)ce.style.display='block';
+  const imgEl=document.getElementById('crop-img-el');if(!imgEl)return;
+  imgEl.src=url;
+  imgEl.onload=function(){
+    cropOrigW=imgEl.naturalWidth;cropOrigH=imgEl.naturalHeight;
+    const oi=document.getElementById('crop-orig-info');if(oi)oi.textContent='Original: '+cropOrigW+' × '+cropOrigH+' px';
+    if(cropperInstance){cropperInstance.destroy();cropperInstance=null;}
+    cropperInstance=new Cropper(imgEl,{viewMode:1,movable:true,zoomable:false,scalable:false,autoCropArea:1,responsive:true});
+  };
+  const dz=document.getElementById('dz7');
+  if(dz){
+    const existingInput=dz.querySelector('input');dz.innerHTML='';dz.appendChild(existingInput);existingInput.onchange=function(){onFileCrop(this);};
+    const preview=document.createElement('img');preview.className='dz-preview';preview.src=url;
+    const bottom=document.createElement('div');bottom.className='dz-bottom';bottom.innerHTML=`<span class="dz-fname">${inp.files[0].name}</span><button class="dz-change" onclick="tFile(7)">Change Image</button>`;
+    dz.appendChild(preview);dz.appendChild(bottom);dz.style.borderColor='var(--accent)';
+  }
+}
+function applyCropPreset(preset,btn){
+  document.querySelectorAll('.crop-preset-btn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');
+  if(!cropperInstance)return;
+  const ratios={free:NaN,square:1,portrait:3/4,landscape:16/9,banner:3/1};const ratio=ratios[preset];
+  cropperInstance.setAspectRatio(isNaN(ratio)?NaN:ratio);
+}
+async function runCrop(){
+  if(!cropperInstance){toast('⚠️','Please select an image first!');return}
+  const input=document.querySelector('#dz7 input');if(!input||!input.files||!input.files[0]){toast('⚠️','Please select an image first!');return}
+  const data=cropperInstance.getData(true);if(!data.width||!data.height||data.width<1||data.height<1){toast('⚠️','Please select a crop area first!');return}
+  const p=document.getElementById('crop-image');const imgSrc=URL.createObjectURL(input.files[0]);
+  showProcessing(p,7,imgSrc,'Cropping image...','Processing — no credit used!');
+  const iv=startProgress(7);const jobId=addJob('Crop','Processing...');
+  try{
+    const fd=new FormData();fd.append('file',input.files[0]);fd.append('x',Math.round(data.x));fd.append('y',Math.round(data.y));fd.append('width',Math.round(data.width));fd.append('height',Math.round(data.height));
+    const res=await fetch(BACKEND+'/crop',{method:'POST',body:fd,signal:abortControllers[jobId]?.signal});
+    if(jobs[jobId]&&jobs[jobId].cancelled)return;
+    const blob=await res.blob();finishProgress(7,iv);const url=URL.createObjectURL(blob);
+    cropperInstance.destroy();cropperInstance=null;completeJob(jobId,'Image Cropped!',url,'imgchamp_cropped.png');
+    setTimeout(()=>{p.innerHTML=`<div class="rb"><span class="ri">✅</span><div class="rt">Image Cropped! ✂️</div><div class="rs">Crop: ${Math.round(data.width)} × ${Math.round(data.height)} px</div><div class="rbs"><a class="dlh" href="${url}" download="imgchamp_cropped.png">⬇ Download</a></div><button class="rl" onclick="resetTab(7)">↺ Crop another</button></div>`;},400);
+  }catch(e){
+    finishProgress(7,iv);if(e.name==='AbortError'){resetTab(7);return;}errorJob(jobId,'Server error');
+    p.innerHTML=`<div class="rb"><span class="ri">❌</span><div class="rt">Error!</div><div class="rs">Server error. Please try again.</div><button class="rl" onclick="resetTab(7)">↺ Try Again</button></div>`;
+  }
+}
+
+function onFileFlip(inp){
+  if(!inp.files||!inp.files[0])return;
+  toast('🖼️','"'+inp.files[0].name+'" ready!');
+  const url=URL.createObjectURL(inp.files[0]);frTransforms=[];
+  const img=new Image();
+  img.onload=function(){
+    frOrigImage=img;frCurrentImg=img;
+    const fe=document.getElementById('flip-editor');if(fe)fe.style.display='block';
+    frCanvas=document.getElementById('fr-canvas');frCtx=frCanvas.getContext('2d');drawFlipCanvas(img);
+  };img.src=url;
+  const dz=document.getElementById('dz8');
+  if(dz){
+    const existingInput=dz.querySelector('input');dz.innerHTML='';dz.appendChild(existingInput);existingInput.onchange=function(){onFileFlip(this);};
+    const preview=document.createElement('img');preview.className='dz-preview';preview.src=url;
+    const bottom=document.createElement('div');bottom.className='dz-bottom';bottom.innerHTML=`<span class="dz-fname">${inp.files[0].name}</span><button class="dz-change" onclick="tFile(8)">Change Image</button>`;
+    dz.appendChild(preview);dz.appendChild(bottom);dz.style.borderColor='var(--accent)';
+  }
+}
+function drawFlipCanvas(img){if(!frCanvas||!frCtx||!img)return;frCanvas.width=img.width;frCanvas.height=img.height;frCtx.clearRect(0,0,frCanvas.width,frCanvas.height);frCtx.drawImage(img,0,0);}
+function applyFlip(action){
+  if(!frCanvas||!frCtx||!frOrigImage){toast('⚠️','Please select an image first!');return}
+  frTransforms.push(action);
+  let tmpCanvas=document.createElement('canvas');let tmpCtx=tmpCanvas.getContext('2d');
+  tmpCanvas.width=frOrigImage.width;tmpCanvas.height=frOrigImage.height;tmpCtx.drawImage(frOrigImage,0,0);
+  for(const t of frTransforms){
+    const src=tmpCanvas;const srcW=src.width;const srcH=src.height;
+    const out=document.createElement('canvas');const octx=out.getContext('2d');
+    if(t==='flipH'){out.width=srcW;out.height=srcH;octx.translate(srcW,0);octx.scale(-1,1);octx.drawImage(src,0,0);}
+    else if(t==='flipV'){out.width=srcW;out.height=srcH;octx.translate(0,srcH);octx.scale(1,-1);octx.drawImage(src,0,0);}
+    else if(t==='rotate90'){out.width=srcH;out.height=srcW;octx.translate(srcH,0);octx.rotate(Math.PI/2);octx.drawImage(src,0,0);}
+    else if(t==='rotate180'){out.width=srcW;out.height=srcH;octx.translate(srcW,srcH);octx.rotate(Math.PI);octx.drawImage(src,0,0);}
+    else if(t==='rotate270'){out.width=srcH;out.height=srcW;octx.translate(0,srcW);octx.rotate(-Math.PI/2);octx.drawImage(src,0,0);}
+    tmpCanvas=out;tmpCtx=octx;
+  }
+  frCanvas.width=tmpCanvas.width;frCanvas.height=tmpCanvas.height;frCtx.clearRect(0,0,frCanvas.width,frCanvas.height);frCtx.drawImage(tmpCanvas,0,0);
+}
+function resetFlip(){if(!frOrigImage){toast('⚠️','Please select an image first!');return}frTransforms=[];drawFlipCanvas(frOrigImage);toast('🔁','Reset to original!');}
+function runFlip(){
+  if(!frCanvas||!frOrigImage){toast('⚠️','Please select an image first!');return}
+  frCanvas.toBlob(function(blob){const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='imgchamp_flipped.png';document.body.appendChild(a);a.click();document.body.removeChild(a);toast('✅','Image downloaded!');},'image/png');
+}
+
+let colorCanvas=null,colorCtx=null,colorImg=null;
+function onFileColor(inp){
+  if(!inp.files||!inp.files[0])return;
+  toast('🎨','"'+inp.files[0].name+'" ready!');
+  const url=URL.createObjectURL(inp.files[0]);
+  const ce=document.getElementById('color-editor');if(ce)ce.style.display='block';
+  const img=new Image();
+  img.onload=function(){
+    colorImg=img;colorCanvas=document.getElementById('color-canvas');colorCtx=colorCanvas.getContext('2d');
+    colorCanvas.width=img.width;colorCanvas.height=img.height;colorCtx.drawImage(img,0,0);
+    colorCanvas.onclick=function(e){
+      const rect=colorCanvas.getBoundingClientRect();const scaleX=colorCanvas.width/rect.width;const scaleY=colorCanvas.height/rect.height;
+      const x=Math.floor((e.clientX-rect.left)*scaleX);const y=Math.floor((e.clientY-rect.top)*scaleY);
+      const px=colorCtx.getImageData(x,y,1,1).data;const r=px[0],g=px[1],b=px[2];
+      updateColorDisplay(r,g,b,e.clientX-rect.left,e.clientY-rect.top);
+      const ch=document.getElementById('color-crosshair');if(ch){ch.style.display='block';ch.style.left=(e.clientX-rect.left)+'px';ch.style.top=(e.clientY-rect.top)+'px';}
+    };
+  };img.src=url;
+  const dz=document.getElementById('dz9');
+  if(dz){
+    const existingInput=dz.querySelector('input');dz.innerHTML='';dz.appendChild(existingInput);existingInput.onchange=function(){onFileColor(this);};
+    const preview=document.createElement('img');preview.className='dz-preview';preview.src=url;
+    const bottom=document.createElement('div');bottom.className='dz-bottom';bottom.innerHTML=`<span class="dz-fname">${inp.files[0].name}</span><button class="dz-change" onclick="tFile(9)">Change Image</button>`;
+    dz.appendChild(preview);dz.appendChild(bottom);dz.style.borderColor='var(--accent)';
+  }
+}
+function updateColorDisplay(r,g,b){
+  const hex='#'+[r,g,b].map(x=>x.toString(16).padStart(2,'0')).join('');const hsl=rgbToHsl(r,g,b);
+  document.getElementById('color-preview').style.background=hex;document.getElementById('color-hex').textContent=hex;
+  document.getElementById('color-rgb').textContent=`${r}, ${g}, ${b}`;document.getElementById('color-hsl').textContent=`${hsl.h}°, ${hsl.s}%, ${hsl.l}%`;
+  document.getElementById('color-gradient').style.background=`linear-gradient(90deg, #000, ${hex}, #fff)`;
+}
+function rgbToHsl(r,g,b){
+  r/=255;g/=255;b/=255;const max=Math.max(r,g,b),min=Math.min(r,g,b);let h,s,l=(max+min)/2;
+  if(max===min){h=s=0;}else{const d=max-min;s=l>0.5?d/(2-max-min):d/(max+min);switch(max){case r:h=(g-b)/d+(g<b?6:0);break;case g:h=(b-r)/d+2;break;case b:h=(r-g)/d+4;break;}h/=6;}
+  return{h:Math.round(h*360),s:Math.round(s*100),l:Math.round(l*100)};
+}
+function copyColor(type){
+  let text='';if(type==='hex')text=document.getElementById('color-hex').textContent;else if(type==='rgb')text=document.getElementById('color-rgb').textContent;else if(type==='hsl')text=document.getElementById('color-hsl').textContent;
+  navigator.clipboard.writeText(text).then(()=>toast('✅',type.toUpperCase()+' copied!'));
+}
+
+function showAuth(type){
+  const cfg={login:{t:'Welcome Back 👋',d:'Sign in to your imgChamp account.',btn:'Sign In',sp:false},signup:{t:'Create Free Account 🚀',d:'Get 5 free AI image credits every day.',btn:'Create Account',sp:true}};
+  const c=cfg[type]||cfg.signup;
+  document.getElementById('at').textContent=c.t;document.getElementById('ad').textContent=c.d;document.getElementById('ab2').textContent=c.btn;
+  document.getElementById('asp').style.display=c.sp?'block':'none';document.getElementById('am').classList.add('show');
+}
+function closeAuth(){document.getElementById('am').classList.remove('show')}
+async function social(p){if(p==='Google'){await _supabase.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.origin}});}else{closeAuth();toast('✅','Signed in with '+p+'! 5 credits ready.');}}
+function authDone(){closeAuth();toast('✅','Welcome to imgChamp! 5 credits ready.')}
+function showUpgrade(){document.getElementById('um').classList.add('show')}
+function closeUpgrade(){document.getElementById('um').classList.remove('show')}
+function selP(el,plan){curPlan=plan;document.querySelectorAll('.plc').forEach(p=>p.classList.remove('chosen'));el.classList.add('chosen');document.getElementById('pb2').textContent='🔒 Pay '+pPrices[plan]+' — Secure Checkout';}
+function goPay(){closeUpgrade();toast('🔒','Redirecting to secure payment...')}
+function showPage(id){document.querySelectorAll('.pg-s').forEach(p=>p.classList.remove('show'));document.getElementById(id).classList.add('show');setTimeout(()=>document.getElementById(id).scrollIntoView({behavior:'smooth'}),50);}
+function hidePage(){document.querySelectorAll('.pg-s').forEach(p=>p.classList.remove('show'));window.scrollTo({top:0,behavior:'smooth'});}
+
+(function(){
+const W=500,H=160;let anims={};
+function drawChecker(ctx,x,y,w,h,s){for(let r=0;r<h;r+=s)for(let c=0;c<w;c+=s){ctx.fillStyle=((Math.floor(r/s)+Math.floor(c/s))%2===0)?'#888':'#fff';ctx.fillRect(x+c,y+r,Math.min(s,w-c),Math.min(s,h-r));}}
+function drawPerson(ctx,x,y,w,h,blur,bgCol){ctx.save();if(bgCol){const g=ctx.createLinearGradient(x,y,x,y+h);g.addColorStop(0,'#87CEEB');g.addColorStop(1,'#e0f0ff');ctx.fillStyle=g;ctx.fillRect(x,y,w,h);}if(blur>0)ctx.filter=`blur(${blur}px)`;ctx.fillStyle='#f4c2a1';ctx.beginPath();ctx.ellipse(x+w/2,y+h*.28,w*.11,w*.13,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.fillRect(x+w*.36,y+h*.42,w*.28,h*.35);ctx.fillStyle='#f4c2a1';ctx.fillRect(x+w*.28,y+h*.42,w*.09,h*.22);ctx.fillRect(x+w*.63,y+h*.42,w*.09,h*.22);ctx.fillStyle='#8B6914';ctx.beginPath();ctx.ellipse(x+w/2,y+h*.18,w*.13,w*.1,0,0,Math.PI*2);ctx.fill();ctx.filter='none';ctx.restore();}
+function makeSlider(canvasId,lineId,drawFn){const cv=document.getElementById(canvasId);const ln=document.getElementById(lineId);if(!cv||!ln)return;const ctx=cv.getContext('2d');cv.width=W;cv.height=H;let pos=0.5,dir=1,dragging=false;const wrap=cv.parentElement;function draw(){ctx.clearRect(0,0,W,H);drawFn(ctx,pos);ln.style.left=(pos*100)+'%';}function anim(){if(!dragging){pos+=0.004*dir;if(pos>0.88)dir=-1;if(pos<0.12)dir=1;}draw();anims[canvasId]=requestAnimationFrame(anim);}wrap.addEventListener('mousedown',()=>{dragging=true;});document.addEventListener('mouseup',()=>{dragging=false;});wrap.addEventListener('mousemove',e=>{if(!dragging)return;const r=wrap.getBoundingClientRect();pos=Math.max(0.02,Math.min(0.98,(e.clientX-r.left)/r.width));});wrap.addEventListener('touchmove',e=>{e.preventDefault();const r=wrap.getBoundingClientRect();pos=Math.max(0.02,Math.min(0.98,(e.touches[0].clientX-r.left)/r.width));},{passive:false});anim();}
+function initFace(){makeSlider('cv-face','dl-face',function(ctx,pos){const sp=Math.round(pos*W);
+// BEFORE side — old yellowed damaged photo
+ctx.save();ctx.beginPath();ctx.rect(0,0,sp,H);ctx.clip();
+const gOld=ctx.createLinearGradient(0,0,W,H);gOld.addColorStop(0,'#c8a96e');gOld.addColorStop(0.5,'#b8935a');gOld.addColorStop(1,'#9a7a40');ctx.fillStyle=gOld;ctx.fillRect(0,0,W,H);
+// sepia overlay
+ctx.fillStyle='rgba(160,120,40,0.35)';ctx.fillRect(0,0,W,H);
+// face shape — oval
+ctx.fillStyle='#c4956a';ctx.beginPath();ctx.ellipse(W*.42,H*.42,W*.13,H*.3,0,0,Math.PI*2);ctx.fill();
+// hair
+ctx.fillStyle='#3a2000';ctx.beginPath();ctx.ellipse(W*.42,H*.18,W*.15,H*.15,0,0,Math.PI*2);ctx.fill();
+// eyes — blurry/damaged
+ctx.filter='blur(2px)';ctx.fillStyle='rgba(60,40,10,0.7)';ctx.beginPath();ctx.ellipse(W*.36,H*.38,W*.025,H*.02,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(W*.48,H*.38,W*.025,H*.02,0,0,Math.PI*2);ctx.fill();ctx.filter='none';
+// scratches
+ctx.strokeStyle='rgba(255,255,255,0.5)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(W*.1,H*.05);ctx.lineTo(W*.35,H*.7);ctx.stroke();ctx.beginPath();ctx.moveTo(W*.6,H*.1);ctx.lineTo(W*.45,H*.85);ctx.stroke();ctx.beginPath();ctx.moveTo(W*.05,H*.45);ctx.lineTo(W*.55,H*.55);ctx.stroke();
+// fading spots
+ctx.fillStyle='rgba(200,180,100,0.4)';ctx.beginPath();ctx.ellipse(W*.2,H*.6,W*.08,H*.08,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(W*.5,H*.2,W*.05,H*.05,0,0,Math.PI*2);ctx.fill();
+// grain
+for(let i=0;i<40;i++){ctx.fillStyle=`rgba(0,0,0,${Math.random()*0.15})`;ctx.fillRect(Math.random()*sp,Math.random()*H,1,1);}
+ctx.restore();
+// AFTER side — clean restored
+ctx.save();ctx.beginPath();ctx.rect(sp,0,W-sp,H);ctx.clip();
+const gNew=ctx.createLinearGradient(0,0,W,H);gNew.addColorStop(0,'#fdf6ee');gNew.addColorStop(1,'#f0e0cc');ctx.fillStyle=gNew;ctx.fillRect(0,0,W,H);
+// clean face
+ctx.fillStyle='#e8b896';ctx.beginPath();ctx.ellipse(W*.42,H*.42,W*.13,H*.3,0,0,Math.PI*2);ctx.fill();
+// hair clean
+ctx.fillStyle='#2a1800';ctx.beginPath();ctx.ellipse(W*.42,H*.18,W*.15,H*.15,0,0,Math.PI*2);ctx.fill();
+// eyes clean & sharp
+ctx.fillStyle='#1a1a1a';ctx.beginPath();ctx.ellipse(W*.36,H*.38,W*.028,H*.022,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(W*.48,H*.38,W*.028,H*.022,0,0,Math.PI*2);ctx.fill();
+// eye shine
+ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(W*.365,H*.375,W*.007,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(W*.485,H*.375,W*.007,0,Math.PI*2);ctx.fill();
+// smile
+ctx.strokeStyle='#c07050';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(W*.42,H*.5,W*.05,0.1,Math.PI-.1);ctx.stroke();
+// nose
+ctx.strokeStyle='#c07050';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(W*.42,H*.4);ctx.lineTo(W*.4,H*.48);ctx.lineTo(W*.44,H*.48);ctx.stroke();
+ctx.restore();
+// divider line
+ctx.strokeStyle='#f59e0b';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(sp,0);ctx.lineTo(sp,H);ctx.stroke();});}
+function initBG(){makeSlider('cv-bg','dl-bg',function(ctx,pos){const sp=Math.round(pos*W);
+// BEFORE — busy background with subjects
+ctx.save();ctx.beginPath();ctx.rect(0,0,sp,H);ctx.clip();
+const bgG=ctx.createLinearGradient(0,0,0,H);bgG.addColorStop(0,'#87CEEB');bgG.addColorStop(0.6,'#98D4A3');bgG.addColorStop(1,'#6aaa70');ctx.fillStyle=bgG;ctx.fillRect(0,0,W,H);
+// ground
+ctx.fillStyle='#5a9e60';ctx.fillRect(0,H*.65,W,H*.35);
+// tree
+ctx.fillStyle='#5a3a1a';ctx.fillRect(W*.08,H*.3,W*.04,H*.4);ctx.fillStyle='#2d7a3a';ctx.beginPath();ctx.arc(W*.1,H*.28,W*.07,0,Math.PI*2);ctx.fill();
+// car body
+ctx.fillStyle='#e74c3c';ctx.beginPath();ctx.roundRect(W*.18,H*.52,W*.22,H*.18,4);ctx.fill();ctx.fillStyle='#c0392b';ctx.beginPath();ctx.roundRect(W*.21,H*.44,W*.16,H*.12,4);ctx.fill();ctx.fillStyle='#85c1e9';ctx.fillRect(W*.225,H*.46,W*.055,H*.08);ctx.fillRect(W*.29,H*.46,W*.055,H*.08);ctx.fillStyle='#1a1a1a';ctx.beginPath();ctx.arc(W*.225,H*.7,W*.025,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(W*.36,H*.7,W*.025,0,Math.PI*2);ctx.fill();
+// cat
+ctx.fillStyle='#e8a87c';ctx.beginPath();ctx.ellipse(W*.52,H*.6,W*.04,W*.03,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(W*.52,H*.52,W*.025,W*.03,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#e8a87c';ctx.beginPath();ctx.moveTo(W*.505,H*.495);ctx.lineTo(W*.5,H*.46);ctx.lineTo(W*.515,H*.49);ctx.fill();ctx.beginPath();ctx.moveTo(W*.535,H*.495);ctx.lineTo(W*.54,H*.46);ctx.lineTo(W*.525,H*.49);ctx.fill();
+// person
+ctx.fillStyle='#f4c2a1';ctx.beginPath();ctx.ellipse(W*.68,H*.35,W*.03,W*.04,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#3498db';ctx.fillRect(W*.655,H*.43,W*.05,H*.2);ctx.fillStyle='#2c3e50';ctx.fillRect(W*.655,H*.63,W*.022,H*.15);ctx.fillRect(W*.683,H*.63,W*.022,H*.15);
+ctx.restore();
+// AFTER — checker bg, subjects remain
+ctx.save();ctx.beginPath();ctx.rect(sp,0,W-sp,H);ctx.clip();
+drawChecker(ctx,sp,0,W-sp,H,10);
+// tree (no bg)
+ctx.fillStyle='#5a3a1a';ctx.fillRect(W*.08,H*.3,W*.04,H*.4);ctx.fillStyle='#2d7a3a';ctx.beginPath();ctx.arc(W*.1,H*.28,W*.07,0,Math.PI*2);ctx.fill();
+// car
+ctx.fillStyle='#e74c3c';ctx.beginPath();ctx.roundRect(W*.18,H*.52,W*.22,H*.18,4);ctx.fill();ctx.fillStyle='#c0392b';ctx.beginPath();ctx.roundRect(W*.21,H*.44,W*.16,H*.12,4);ctx.fill();ctx.fillStyle='#85c1e9';ctx.fillRect(W*.225,H*.46,W*.055,H*.08);ctx.fillRect(W*.29,H*.46,W*.055,H*.08);ctx.fillStyle='#1a1a1a';ctx.beginPath();ctx.arc(W*.225,H*.7,W*.025,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(W*.36,H*.7,W*.025,0,Math.PI*2);ctx.fill();
+// cat
+ctx.fillStyle='#e8a87c';ctx.beginPath();ctx.ellipse(W*.52,H*.6,W*.04,W*.03,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(W*.52,H*.52,W*.025,W*.03,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#e8a87c';ctx.beginPath();ctx.moveTo(W*.505,H*.495);ctx.lineTo(W*.5,H*.46);ctx.lineTo(W*.515,H*.49);ctx.fill();ctx.beginPath();ctx.moveTo(W*.535,H*.495);ctx.lineTo(W*.54,H*.46);ctx.lineTo(W*.525,H*.49);ctx.fill();
+// person
+ctx.fillStyle='#f4c2a1';ctx.beginPath();ctx.ellipse(W*.68,H*.35,W*.03,W*.04,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#3498db';ctx.fillRect(W*.655,H*.43,W*.05,H*.2);ctx.fillStyle='#2c3e50';ctx.fillRect(W*.655,H*.63,W*.022,H*.15);ctx.fillRect(W*.683,H*.63,W*.022,H*.15);
+ctx.restore();
+ctx.strokeStyle='#10b981';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(sp,0);ctx.lineTo(sp,H);ctx.stroke();});}
+function initCompress(){const cv=document.getElementById('cv-compress');if(!cv)return;const ctx=cv.getContext('2d');cv.width=W;cv.height=H;let t=0;function draw(){ctx.clearRect(0,0,W,H);ctx.fillStyle='#111118';ctx.fillRect(0,0,W,H);const p=(Math.sin(t*.025)+1)/2;const orig=10.0,ns=+(Math.max(0.52,orig*(1-p*.948))).toFixed(1);ctx.fillStyle='#1e1e2e';ctx.beginPath();ctx.roundRect(W*.08,H*.12,W*.28,H*.75,8);ctx.fill();ctx.fillStyle='#ef4444';ctx.font='bold 11px system-ui';ctx.textAlign='center';ctx.fillText('JPG',W*.22,H*.48);ctx.fillStyle='#f87171';ctx.font='bold 12px system-ui';ctx.fillText(orig+'.0 MB',W*.22,H*.65);ctx.fillStyle='#a78bfa';ctx.font='18px system-ui';ctx.fillText('→',W*.5,H*.55);const sc=Math.max(0.45,ns/orig);const rw=W*.28*sc,rh=H*.75*sc,rx=W*.65-rw/2,ry=H/2-rh/2;ctx.fillStyle='#1a1a2e';ctx.beginPath();ctx.roundRect(rx,ry,rw,rh,8);ctx.fill();ctx.strokeStyle='#a78bfa';ctx.lineWidth=1.5;ctx.stroke();ctx.fillStyle='#a78bfa';ctx.font='bold '+Math.round(8+3*sc)+'px system-ui';ctx.textAlign='center';ctx.fillText('JPG',rx+rw/2,ry+rh*.48);ctx.fillStyle='#34d399';ctx.font='bold '+Math.round(9+3*sc)+'px system-ui';ctx.fillText(ns===0.52?'520 KB':ns+' MB',rx+rw/2,ry+rh*.68);const pct=Math.round(p*72);ctx.fillStyle='rgba(52,211,153,0.15)';ctx.beginPath();ctx.roundRect(W*.5-35,H*.04,70,18,9);ctx.fill();ctx.fillStyle='#34d399';ctx.font='bold 10px system-ui';ctx.fillText('-'+pct+'%',W*.5,H*.16);t++;anims['cv-compress']=requestAnimationFrame(draw);}draw();}
+function initResize(){const cv=document.getElementById('cv-resize');if(!cv)return;const ctx=cv.getContext('2d');cv.width=W;cv.height=H;let t=0;const sizes=[{w:3840,l:'4K'},{w:1920,l:'Full HD'},{w:1280,l:'HD'},{w:640,l:'Small'}];function draw(){ctx.clearRect(0,0,W,H);ctx.fillStyle='#0a0a12';ctx.fillRect(0,0,W,H);const si=Math.floor(t/90)%sizes.length,pr=(t%90)/90;const nxt=(si+1)%sizes.length;const curS=Math.min(W*.65/3840,H*.8/2160),nxtS=Math.min(W*.65/sizes[nxt].w,H*.8/2160);const sc=curS+(nxtS-curS)*pr;const rw=3840*sc,rh=2160*sc,rx=(W-rw)/2,ry=(H-rh)/2;ctx.strokeStyle='#06b6d4';ctx.lineWidth=1.5;ctx.setLineDash([5,3]);ctx.strokeRect(rx,ry,rw,rh);ctx.setLineDash([]);ctx.fillStyle='rgba(6,182,212,0.07)';ctx.fillRect(rx,ry,rw,rh);[[rx,ry],[rx+rw,ry],[rx,ry+rh],[rx+rw,ry+rh]].forEach(([hx,hy])=>{ctx.fillStyle='#06b6d4';ctx.beginPath();ctx.arc(hx,hy,4,0,Math.PI*2);ctx.fill();});const lbl=pr<0.5?sizes[si].l:sizes[nxt].l,ww=pr<0.5?sizes[si].w:sizes[nxt].w;ctx.fillStyle='#06b6d4';ctx.font='bold 12px system-ui';ctx.textAlign='center';ctx.fillText(lbl+' — '+ww+'px',W/2,H*.92);t++;anims['cv-resize']=requestAnimationFrame(draw);}draw();}
+function initConvert(){const cv=document.getElementById('cv-convert');if(!cv)return;const ctx=cv.getContext('2d');cv.width=W;cv.height=H;let t=0;const fmts=['JPG','PNG','WEBP','BMP','GIF'],cols=['#ef4444','#3b82f6','#8b5cf6','#f59e0b','#10b981'];function draw(){ctx.clearRect(0,0,W,H);ctx.fillStyle='#0a0a12';ctx.fillRect(0,0,W,H);const idx=Math.floor(t/70)%fmts.length,pr=(t%70)/70;ctx.fillStyle='#1e1e2e';ctx.beginPath();ctx.roundRect(W*.08,H*.15,W*.22,H*.7,8);ctx.fill();ctx.fillStyle='#ef4444';ctx.font='bold 12px system-ui';ctx.textAlign='center';ctx.fillText('JPG',W*.19,H*.56);const ax=W*.38+pr*W*.08;ctx.fillStyle='#7070a0';ctx.font='18px system-ui';ctx.fillText('→',ax,H*.57);ctx.globalAlpha=Math.min(1,pr*3);ctx.fillStyle='#1a1a2e';ctx.beginPath();ctx.roundRect(W*.62,H*.15,W*.28,H*.7,8);ctx.fill();ctx.strokeStyle=cols[idx];ctx.lineWidth=2;ctx.stroke();ctx.fillStyle=cols[idx];ctx.font='bold 13px system-ui';ctx.textAlign='center';ctx.fillText(fmts[idx],W*.76,H*.56);ctx.globalAlpha=1;t++;anims['cv-convert']=requestAnimationFrame(draw);}draw();}
+function initPDF(){const cv=document.getElementById('cv-pdf');if(!cv)return;const ctx=cv.getContext('2d');cv.width=W;cv.height=H;let t=0;function draw(){ctx.clearRect(0,0,W,H);ctx.fillStyle='#0a0a12';ctx.fillRect(0,0,W,H);const pr=(t%120)/120;const imgs=[{x:W*.05,c:'#3b82f6'},{x:W*.28,c:'#10b981'},{x:W*.51,c:'#8b5cf6'}];imgs.forEach((img,i)=>{const delay=i*.15,p=Math.max(0,Math.min(1,(pr-delay)*2)),ty=H*.08+(1-p)*H*.3;ctx.globalAlpha=p;ctx.fillStyle=img.c+'33';ctx.beginPath();ctx.roundRect(img.x,ty,W*.2,H*.55,6);ctx.fill();ctx.strokeStyle=img.c;ctx.lineWidth=1;ctx.stroke();ctx.fillStyle=img.c;ctx.font='bold 9px system-ui';ctx.textAlign='center';ctx.fillText('IMG',img.x+W*.1,ty+H*.3);ctx.globalAlpha=1;});if(pr>.5){const ap=Math.min(1,(pr-.5)*4);ctx.globalAlpha=ap;ctx.fillStyle='#eab308';ctx.font='18px system-ui';ctx.textAlign='center';ctx.fillText('↓',W*.84,H*.38);ctx.fillStyle='#1a1200';ctx.beginPath();ctx.roundRect(W*.74,H*.48,W*.2,H*.44,8);ctx.fill();ctx.strokeStyle='#eab308';ctx.lineWidth=2;ctx.stroke();ctx.fillStyle='#eab308';ctx.font='bold 11px system-ui';ctx.fillText('PDF',W*.84,H*.74);ctx.globalAlpha=1;}t++;anims['cv-pdf']=requestAnimationFrame(draw);}draw();}
+function initCrop(){const cv=document.getElementById('cv-crop');if(!cv)return;const ctx=cv.getContext('2d');cv.width=W;cv.height=H;let t=0;function draw(){ctx.clearRect(0,0,W,H);const bg=ctx.createLinearGradient(0,0,W,H);bg.addColorStop(0,'#1a0a2e');bg.addColorStop(1,'#0a1a2e');ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);ctx.fillStyle='rgba(0,0,0,0.55)';ctx.fillRect(0,0,W,H);const p=(Math.sin(t*.018)+1)/2;const cw=W*.3+p*W*.35,ch=H*.3+p*H*.45,cx=(W-cw)/2,cy=(H-ch)/2;ctx.clearRect(cx,cy,cw,ch);const gi=ctx.createLinearGradient(cx,cy,cx+cw,cy+ch);gi.addColorStop(0,'#2d1b69');gi.addColorStop(1,'#1a3a6a');ctx.fillStyle=gi;ctx.fillRect(cx,cy,cw,ch);ctx.strokeStyle='#c084fc';ctx.lineWidth=2;ctx.strokeRect(cx,cy,cw,ch);const hs=7;[[cx,cy],[cx+cw,cy],[cx,cy+ch],[cx+cw,cy+ch]].forEach(([hx,hy])=>{ctx.fillStyle='#c084fc';ctx.fillRect(hx-hs/2,hy-hs/2,hs,hs);});ctx.strokeStyle='rgba(192,132,252,0.3)';ctx.lineWidth=1;ctx.setLineDash([3,3]);[1/3,2/3].forEach(f=>{ctx.beginPath();ctx.moveTo(cx+cw*f,cy);ctx.lineTo(cx+cw*f,cy+ch);ctx.stroke();ctx.beginPath();ctx.moveTo(cx,cy+ch*f);ctx.lineTo(cx+cw,cy+ch*f);ctx.stroke();});ctx.setLineDash([]);ctx.fillStyle='rgba(192,132,252,0.9)';ctx.font='bold 11px system-ui';ctx.textAlign='center';ctx.fillText(Math.round(cw/W*1920)+' × '+Math.round(ch/H*1080),cx+cw/2,cy+ch/2+4);t++;anims['cv-crop']=requestAnimationFrame(draw);}draw();}
+function initFlip(){const cv=document.getElementById('cv-flip');if(!cv)return;const ctx=cv.getContext('2d');cv.width=W;cv.height=H;let t=0;const steps=['Flip Horizontal','Flip Vertical','Rotate 90°','Rotate 180°'];function draw(){ctx.clearRect(0,0,W,H);ctx.fillStyle='#0a1218';ctx.fillRect(0,0,W,H);const si=Math.floor(t/80)%steps.length,pr=(t%80)/80;ctx.save();ctx.translate(W/2,H/2);if(si===0)ctx.scale(1-2*pr,1);else if(si===1)ctx.scale(1,1-2*pr);else if(si===2)ctx.rotate(pr*Math.PI/2);else ctx.rotate(pr*Math.PI);const rw=W*.42,rh=H*.72;const bg2=ctx.createLinearGradient(-rw/2,-rh/2,rw/2,rh/2);bg2.addColorStop(0,'#0d4a6e');bg2.addColorStop(1,'#0a2a4a');ctx.fillStyle=bg2;ctx.beginPath();ctx.roundRect(-rw/2,-rh/2,rw,rh,10);ctx.fill();ctx.strokeStyle='#14b8a6';ctx.lineWidth=2;ctx.stroke();ctx.fillStyle='#14b8a6';ctx.beginPath();ctx.arc(0,-rh*.22,rh*.1,0,Math.PI*2);ctx.fill();ctx.fillRect(-rh*.06,-rh*.12,rh*.12,rh*.22);ctx.fillRect(-rh*.15,-rh*.12,rh*.09,rh*.16);ctx.fillRect(rh*.06,-rh*.12,rh*.09,rh*.16);ctx.restore();ctx.fillStyle='rgba(20,184,166,0.9)';ctx.font='bold 11px system-ui';ctx.textAlign='center';ctx.fillText(steps[si],W/2,H*.93);t++;anims['cv-flip']=requestAnimationFrame(draw);}draw();}
+function initColor(){const cv=document.getElementById('cv-color');if(!cv)return;const ctx=cv.getContext('2d');cv.width=W;cv.height=H;let t=0;const palette=['#e63946','#2a9d8f','#e9c46a','#f4a261','#264653','#6366f1','#ec4899','#10b981'];function draw(){ctx.clearRect(0,0,W,H);ctx.fillStyle='#111118';ctx.fillRect(0,0,W,H);const cols=4,rows=2,sw=W*.55,bw=sw/cols,bh=H*.85/rows;palette.forEach((c,i)=>{const row=Math.floor(i/cols),col=i%cols;ctx.fillStyle=c;ctx.beginPath();ctx.roundRect(W*.02+col*bw,H*.08+row*bh,bw-4,bh-4,5);ctx.fill();});const ci=Math.floor(t/50)%palette.length,row=Math.floor(ci/cols),col=ci%cols;const mx=W*.02+col*bw+bw/2,my=H*.08+row*bh+bh/2;ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.beginPath();ctx.arc(mx,my,11,0,Math.PI*2);ctx.stroke();ctx.fillStyle='#1a1a2e';ctx.beginPath();ctx.roundRect(W*.6,H*.05,W*.38,H*.9,10);ctx.fill();ctx.strokeStyle='#333';ctx.lineWidth=1;ctx.stroke();ctx.fillStyle=palette[ci];ctx.beginPath();ctx.roundRect(W*.63,H*.1,W*.32,H*.38,8);ctx.fill();ctx.fillStyle='#fff';ctx.font='bold 10px monospace';ctx.textAlign='center';ctx.fillText(palette[ci].toUpperCase(),W*.79,H*.58);ctx.fillStyle='#7070a0';ctx.font='9px system-ui';ctx.fillText('HEX · RGB · HSL',W*.79,H*.7);t++;anims['cv-color']=requestAnimationFrame(draw);}draw();}
+
+window.addEventListener('load',function(){
+  initFace();initBG();initCompress();initResize();initConvert();initPDF();initCrop();initFlip();initColor();
+  // initRealSlider removed - not used
+  // ✅ Page load pe Upscale tab active hai toh slider show karo
+  const _sl=document.getElementById('slider-upscale');if(_sl)_sl.style.display='block';
+});
+})();
+
+function initRealSlider(wrapperId,afterId,lineId){
+  const wrap=document.getElementById(wrapperId);const after=document.getElementById(afterId);const line=document.getElementById(lineId);
+  if(!wrap||!after||!line)return;
+  let dragging=false,animPos=10,animDir=1;
+  function setPos(pct){after.style.clipPath=`inset(0 ${100-pct}% 0 0)`;line.style.left=pct+'%';}
+  function setPosMouse(x){const rect=wrap.getBoundingClientRect();setPos(Math.max(2,Math.min(98,((x-rect.left)/rect.width)*100)));}
+  function autoAnim(){if(!dragging){animPos+=animDir*0.5;if(animPos>90)animDir=-1;if(animPos<10)animDir=1;setPos(animPos);}requestAnimationFrame(autoAnim);}
+  autoAnim();
+  wrap.addEventListener('mousedown',e=>{dragging=true;setPosMouse(e.clientX);});
+  document.addEventListener('mouseup',()=>dragging=false);
+  document.addEventListener('mousemove',e=>{if(dragging)setPosMouse(e.clientX);});
+  wrap.addEventListener('touchstart',e=>{dragging=true;setPosMouse(e.touches[0].clientX);},{passive:true});
+  document.addEventListener('touchend',()=>dragging=false);
+  document.addEventListener('touchmove',e=>{if(dragging)setPosMouse(e.touches[0].clientX);},{passive:true});
+}
+
+(function(){let p=10,d=1;function a(){p+=d*0.4;if(p>90)d=-1;if(p<10)d=1;['tab-sl-after','tab-sl-after-face','tab-sl-after-bg','tab-sl-after-compress'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.clipPath=`inset(0 ${100-p}% 0 0)`;});['tab-sl-line','tab-sl-line-face','tab-sl-line-bg','tab-sl-line-compress'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.left=p+'%';});requestAnimationFrame(a);}a();})();
+function toast(icon,msg){
+  const t=document.getElementById('toast');document.getElementById('ti').textContent=icon+' ';document.getElementById('tm').textContent=msg;
+  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500);
+}
+</script>
+</body>
+</html>
